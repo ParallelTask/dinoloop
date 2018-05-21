@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "msjsdiag.debugger-for-chrome",
+        "stevencl.adddoccomments",
+        "KnisterPeter.vscode-github",
+        "eamodio.gitlens",
+        "eg2.tslint"
+    ]
+}
