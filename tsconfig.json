@@ -1,0 +1,12 @@
+{
+    "extends": "./config/tsconfig.common",
+    "compilerOptions": {
+        "sourceMap": false,
+        "declaration": true,
+        "outDir": "./dist"
+    },
+    "exclude": [
+        "node_modules",
+        "tests/**/*.ts"
+    ]
+}

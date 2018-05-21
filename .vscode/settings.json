@@ -1,0 +1,15 @@
+{
+    "files.exclude": {
+        "coverage/": true,
+        "node_modules/": true,
+        "LICENSE": true,
+        "dist": true,
+        "public": true,
+        "**/*.js": {
+            "when": "$(basename).ts"
+        }
+    },
+    "editor.formatOnSave": true,
+    "git.ignoreLimitWarning": true,
+    "typescript.tsdk": "./node_modules/typescript/lib"
+}
