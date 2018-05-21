@@ -4,6 +4,7 @@
         "stevencl.adddoccomments",
         "KnisterPeter.vscode-github",
         "eamodio.gitlens",
-        "eg2.tslint"
+        "eg2.tslint",
+        "donjayamanne.githistory"
     ]
 }
