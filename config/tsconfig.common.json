@@ -1,24 +1,24 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "lib": [
-            "es2017",
-            "es2015"
-        ],
-        "typeRoots": [
-            "node_modules/@types",
-            "../node_modules/@types"
-        ]
-    },
-    "compileOnSave": false,
-    "exclude": [
-        "dist",
-        "../dist",
-        "public",
-        "../public"
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "es2017",
+      "es2015"
+    ],
+    "typeRoots": [
+      "node_modules/@types",
+      "../node_modules/@types"
     ]
+  },
+  "compileOnSave": false,
+  "exclude": [
+    "dist",
+    "../dist",
+    "public",
+    "../public"
+  ]
 }

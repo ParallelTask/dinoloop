@@ -7,9 +7,9 @@ import { UserIdentity } from '../providers/user.identity';
  * If enabled this would be the second built-in requeststart middleware to register
  */
 export class TaskContextMiddleware extends RequestStartMiddleWare {
-    invoke(req, res: IExpressResponse, next): void {
-        let userIdentity = new UserIdentity();
-        res.locals.dino.context = userIdentity;
-        next();
-    }
+  invoke(req, res: IExpressResponse, next): void {
+    let userIdentity = new UserIdentity();
+    res.locals.dino.context = userIdentity;
+    next();
+  }
 }
