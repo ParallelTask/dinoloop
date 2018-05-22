@@ -27,8 +27,9 @@
     "scripts": {
         "build": "npm run clean && tsc --p ./tsconfig.json",
         "clean": "rimraf dist",
-        "lint": "tslint -p ./tsconfig.json -c ./tslint.json \"./src/**/*.ts*\"",
         "lint:test": "tslint -p ./tsconfig.spec.json -c ./tslint.json \"./tests/**/*.ts*\"",
+        "test:locally": "karma start karma.chrome.conf.js",
+        "lint": "tslint -p ./tsconfig.json -c ./tslint.json \"./src/**/*.ts*\"",
         "test": "karma start karma.conf.js",
         "start": "npm run build"
     },
