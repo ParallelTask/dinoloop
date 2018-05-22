@@ -20,7 +20,13 @@ module.exports = function (config) {
             "**/*.ts": "karma-typescript"
         },
         reporters: ["kjhtml", "karma-typescript"],
-        browsers: ["Chrome"],
+        browsers: ["Chrome", "ChromeHeadless", "ChromeHeadlessNoSandbox"],
+        customLaunchers: {
+            ChromeHeadlessNoSandbox: {
+                base: 'ChromeHeadless',
+                flags: ['--no-sandbox']
+            }
+        },
         karmaTypescriptConfig: {
             tsconfig: "./tsconfig.spec.json"
         },
