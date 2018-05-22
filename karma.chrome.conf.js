@@ -4,9 +4,14 @@ module.exports = function (config) {
         frameworks: ["jasmine", "karma-typescript"],
         plugins: [
             "karma-jasmine",
+            "karma-chrome-launcher",
+            "karma-jasmine-html-reporter",
             "karma-spec-reporter",
             "karma-typescript"
         ],
+        mime: {
+            'text/x-typescript': ['ts']
+        },
         files: [
             "src/**/*.ts",
             "tests/**/*.ts"
@@ -14,7 +19,8 @@ module.exports = function (config) {
         preprocessors: {
             "**/*.ts": "karma-typescript"
         },
-        reporters: ["karma-typescript"],
+        reporters: ["kjhtml", "karma-typescript"],
+        browsers: ["Chrome"],
         karmaTypescriptConfig: {
             tsconfig: "./tsconfig.spec.json"
         },
