@@ -1,6 +1,7 @@
 {
     "files.exclude": {
         "coverage/": true,
+        ".vs": true,
         "node_modules/": true,
         "LICENSE": true,
         "dist": true,

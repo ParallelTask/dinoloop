@@ -20,6 +20,7 @@ import {
     RouteAttribute,
     IActionMethodAttributes
 } from '../../index';
+import { mkdir } from 'fs';
 
 describe('modules.core.dino.container.two.spec', () => {
     it('populateControllerMiddlewares.metadata_undefined', () => {
@@ -460,6 +461,69 @@ describe('modules.core.dino.container.two.spec', () => {
         expect(invoked).toBeTruthy();
         expect(fakeRouteTable.getRoutes().length).toBe(1);
     });
+    it('registerController.verify_register_middlewares_filters_etc_for_Apicontroller', () => {
+        let invokeOrder = 0;
+        let methodOrder: any = {};
+        let controllerType = Object;
+        let meta: IControllerAttributeProvider = { prefix: '/test', use: [Function] };
+        let router: any = { use: m => methodOrder.routerUse = ++invokeOrder };
+        let actionMeta: IActionMethodAttributes = {
+            isAsync: false,
+            httpVerb: 'get'
+        } as any;
+        let callback;
+        let fakeRouteTable = RouteTable.create();
+        router[actionMeta.httpVerb] = (route, cb) => {
+            methodOrder.routerAction = ++invokeOrder;
+            callback = cb;
+        };
+        let dinoRouter = {
+            expressRouter: () => router,
+            registerMiddlewares: m => methodOrder.middlewares = ++invokeOrder,
+            registerBeginActionFilters: m => methodOrder.beginFilters = ++invokeOrder,
+            registerAfterActionFilters: m => methodOrder.afterFilters = ++invokeOrder,
+            registerResultFilters: m => methodOrder.resultFilters = ++invokeOrder,
+            registerExceptionFilters: (app, uri, mware) => methodOrder.exceptionFilters = ++invokeOrder
+        };
+        let config: IDinoContainerConfig = {
+            app: { use: (uri, router) => methodOrder.appUse = ++invokeOrder }
+        } as any;
+
+        spyOn(DinoUtility, 'isApiController').and.callFake(obj => true);
+        spyOn(Reflector, 'hasMetadata').and.callFake(obj => true);
+        spyOn(ObjectUtility, 'keys').and.callFake(obj => ['post']);
+        spyOn(ObjectUtility, 'create').and.callFake(obj => {
+            // set some fake properties to loop through
+            return { get: () => undefined };
+        });
+        spyOn(DinoRouter, 'create').and.callFake(obj => dinoRouter);
+        spyOn(DIContainer, 'create').and.callFake(obj => undefined);
+        spyOn(RouteTable, 'create').and.callFake(() => fakeRouteTable);
+
+        let dinoContainer = new DinoContainer(config);
+        spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(obj => meta);
+        spyOn(dinoContainer, 'getActionMethodMetadata').and.callFake(obj => actionMeta);
+        spyOn(dinoContainer, 'setUpDinoController')
+            .and.callFake((type, sendsResponse, observableResp, bindsModel, res) => {
+
+                return {
+                    patch: (req, res, next) => undefined,
+                    invoke: (action, verb, route) => undefined
+                };
+            });
+
+        let obj = dinoContainer.registerController(controllerType);
+        callback({ req: true }, { dino: true }, () => 'invoke');
+
+        expect(methodOrder.routerUse).toBe(1);
+        expect(methodOrder.middlewares).toBe(2);
+        expect(methodOrder.beginFilters).toBe(3);
+        expect(methodOrder.routerAction).toBe(4);
+        expect(methodOrder.afterFilters).toBe(5);
+        expect(methodOrder.resultFilters).toBe(6);
+        expect(methodOrder.appUse).toBe(7);
+        expect(methodOrder.exceptionFilters).toBe(8);
+    });
     it('registerController.when_Apicontroller_metadata_defined_and_actionMethod_is_Async', async () => {
         let controllerType = Object;
         let meta: IControllerAttributeProvider = { prefix: '/test', use: [] };
@@ -573,7 +637,6 @@ describe('modules.core.dino.container.two.spec', () => {
         expect(obj.httpVerb).toBe(RouteAttribute.httpGetAttribute);
         expect(obj.bindsModel.options.raiseModelError).toBeTruthy();
     });
-
     it('getActionMethodMetadata.when_metadata_defined_and_raiseModelError_defined_on_action', async () => {
 
         let config: IDinoContainerConfig = { raiseModelError: true } as any;
