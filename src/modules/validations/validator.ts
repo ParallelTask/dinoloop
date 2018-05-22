@@ -51,7 +51,7 @@ export abstract class Validator {
                                 for (const err of errs) {
                                     validationErrors.push(err);
                                 }
-                                // if complete is not set then return if atleast one error is found
+                                // if complete is not set then return if at least one error is found
                                 if (skipOnFirstError) {
                                     return validationErrors;
                                 }

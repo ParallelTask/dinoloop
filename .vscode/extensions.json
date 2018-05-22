@@ -1,15 +1,15 @@
 {
-  "recommendations": [
-    "msjsdiag.debugger-for-chrome",
-    "stevencl.adddoccomments",
-    "KnisterPeter.vscode-github",
-    "eamodio.gitlens",
-    "eg2.tslint",
-    "donjayamanne.githistory",
-    "EditorConfig.editorconfig",
-    "streetsidesoftware.code-spell-checker",
-    "hnw.vscode-auto-open-markdown-preview",
-    "robertohuertasm.vscode-icons",
-    "formulahendry.code-runner"
-  ]
+    "recommendations": [
+        "msjsdiag.debugger-for-chrome",
+        "stevencl.adddoccomments",
+        "KnisterPeter.vscode-github",
+        "eamodio.gitlens",
+        "eg2.tslint",
+        "donjayamanne.githistory",
+        "EditorConfig.editorconfig",
+        "streetsidesoftware.code-spell-checker",
+        "hnw.vscode-auto-open-markdown-preview",
+        "robertohuertasm.vscode-icons",
+        "formulahendry.code-runner"
+    ]
 }

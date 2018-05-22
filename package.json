@@ -1,59 +1,59 @@
 {
-  "name": "dinoloop-src",
-  "version": "0.0.1",
-  "private": true,
-  "description": "open-source Nodejs framework, completely written in typescript project designed to build REST APIs",
-  "homepage": "https://github.com/ParallelTask/dinoloop",
-  "bugs": "https://github.com/ParallelTask/dinoloop/issues",
-  "author": "Dinoloop Team",
-  "license": "MIT",
-  "contributors": [
-    "Karthik Konkula <kkonkula1192@gmail.com>"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ParallelTask/dinoloop.git"
-  },
-  "keywords": [
-    "dinoloop",
-    "api",
-    "rest-api",
-    "express",
-    "framework",
-    "web",
-    "rest",
-    "restful"
-  ],
-  "scripts": {
-    "build": "npm run clean && tsc --p ./tsconfig.json",
-    "clean": "rimraf dist",
-    "lint": "tslint -p ./tsconfig.json -c ./tslint.json \"./src/**/*.ts*\"",
-    "lint:test": "tslint -p ./tsconfig.spec.json -c ./tslint.json \"./tests/**/*.ts*\"",
-    "test": "karma start karma.conf.js",
-    "start": "npm run build"
-  },
-  "dependencies": {
-    "moq.ts": "^2.6.1",
-    "reflect-metadata": "^0.1.12",
-    "url-pattern": "^1.0.3"
-  },
-  "devDependencies": {
-    "@types/jasmine": "^2.8.7",
-    "@types/node": "^7.0.22",
-    "@types/reflect-metadata": "^0.1.0",
-    "jasmine": "^3.1.0",
-    "karma": "^2.0.2",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-jasmine": "^1.1.2",
-    "karma-jasmine-html-reporter": "^1.1.0",
-    "karma-spec-reporter": "0.0.32",
-    "karma-typescript": "^3.0.12",
-    "rimraf": "^2.5.2",
-    "tslint": "^5.8.0",
-    "typescript": "~2.4.2"
-  },
-  "engines": {
-    "node": ">= 8.10.x",
-    "npm": ">= 5.6.0"
-  }
+    "name": "dinoloop-src",
+    "version": "0.0.1",
+    "private": true,
+    "description": "open-source Nodejs framework, completely written in typescript project designed to build REST APIs",
+    "homepage": "https://github.com/ParallelTask/dinoloop",
+    "bugs": "https://github.com/ParallelTask/dinoloop/issues",
+    "author": "Dinoloop Team",
+    "license": "MIT",
+    "contributors": [
+        "Karthik Konkula <kkonkula1192@gmail.com>"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ParallelTask/dinoloop.git"
+    },
+    "keywords": [
+        "dinoloop",
+        "api",
+        "rest-api",
+        "express",
+        "framework",
+        "web",
+        "rest",
+        "restful"
+    ],
+    "scripts": {
+        "build": "npm run clean && tsc --p ./tsconfig.json",
+        "clean": "rimraf dist",
+        "lint": "tslint -p ./tsconfig.json -c ./tslint.json \"./src/**/*.ts*\"",
+        "lint:test": "tslint -p ./tsconfig.spec.json -c ./tslint.json \"./tests/**/*.ts*\"",
+        "test": "karma start karma.conf.js",
+        "start": "npm run build"
+    },
+    "dependencies": {
+        "moq.ts": "^2.6.1",
+        "reflect-metadata": "^0.1.12",
+        "url-pattern": "^1.0.3"
+    },
+    "devDependencies": {
+        "@types/jasmine": "^2.8.7",
+        "@types/node": "^7.0.22",
+        "@types/reflect-metadata": "^0.1.0",
+        "jasmine": "^3.1.0",
+        "karma": "^2.0.2",
+        "karma-chrome-launcher": "^2.2.0",
+        "karma-jasmine": "^1.1.2",
+        "karma-jasmine-html-reporter": "^1.1.0",
+        "karma-spec-reporter": "0.0.32",
+        "karma-typescript": "^3.0.12",
+        "rimraf": "^2.5.2",
+        "tslint": "^5.8.0",
+        "typescript": "~2.4.2"
+    },
+    "engines": {
+        "node": ">= 8.10.x",
+        "npm": ">= 5.6.0"
+    }
 }

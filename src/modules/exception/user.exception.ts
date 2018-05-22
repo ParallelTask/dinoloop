@@ -1,7 +1,7 @@
 // All custom exceptions must extend UserException
-// It also supports innerexception where as native js error object does not support inner exceptions
+// It also supports inner-exception where as native js error object does not support inner exceptions
 /**
- * CustomExceptions must extend this Exception 
+ * CustomExceptions must extend this Exception
  */
 export abstract class UserException extends Error {
     innerException: Error;

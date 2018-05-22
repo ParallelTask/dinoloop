@@ -5,7 +5,7 @@ import { RouteAttribute } from '../constants/constants';
  */
 export abstract class HttpUtility {
 
-    /** 
+    /**
      * Tests if the given httpverb has support for request body
      */
     static hasBody(httpVerb: string): boolean {

@@ -21,24 +21,24 @@ describe('modules.utility.dino.parser.spec', () => {
         expect(result.data).toBeUndefined();
         expect(result.useClass).toBeUndefined();
     });
-    it('parseMiddlewareProvider.return_null_when_useclass_null', () => {
+    it('parseMiddlewareProvider.return_null_when_useClass_null', () => {
         let data: IMiddlewareProvider = { useClass: null };
         let result = DinoParser.parseMiddlewareProvider(data);
         expect(result.data).toBeUndefined();
         expect(result.useClass).toBeNull();
     });
-    it('parseMiddlewareProvider.return_undefined_when_useclass_undefined', () => {
+    it('parseMiddlewareProvider.return_undefined_when_useClass_undefined', () => {
         let data: IMiddlewareProvider = { useClass: undefined };
         let result = DinoParser.parseMiddlewareProvider(data);
         expect(result.data).toBeUndefined();
         expect(result.useClass).toBeUndefined();
     });
-    it('parseMiddlewareProvider.return_Func_when_useclass_Func_and_data_undefined', () => {
+    it('parseMiddlewareProvider.return_Func_when_useClass_Func_and_data_undefined', () => {
         let result = DinoParser.parseMiddlewareProvider({ useClass: String });
         expect(result.data).toBeUndefined();
         expect(result.useClass).toBe(String);
     });
-    it('parseMiddlewareProvider.return_String_when_has_useclass_and_data', () => {
+    it('parseMiddlewareProvider.return_String_when_has_useClass_and_data', () => {
         let result = DinoParser.parseMiddlewareProvider({
             useClass: String,
             data: 'test'
@@ -46,19 +46,19 @@ describe('modules.utility.dino.parser.spec', () => {
         expect(result.data).toBe('test');
         expect(result.useClass).toBe(String);
     });
-    it('parseMiddlewareProvider.return_null_when_has_data_but_useclass_null', () => {
+    it('parseMiddlewareProvider.return_null_when_has_data_but_useClass_null', () => {
         let data: IMiddlewareProvider = { useClass: null, data: 'test' };
         let result = DinoParser.parseMiddlewareProvider(data);
         expect(result.data).toBeUndefined();
         expect(result.useClass).toBeNull();
     });
-    it('parseMiddlewareProvider.return_same_when_has_data_but_useclass_undefined', () => {
+    it('parseMiddlewareProvider.return_same_when_has_data_but_useClass_undefined', () => {
         let data: IMiddlewareProvider = { useClass: undefined, data: 'test' };
         let result = DinoParser.parseMiddlewareProvider(data);
         expect(result.data).toBeUndefined();
         expect(result.useClass).toBeUndefined();
     });
-    it('parseMiddlewareProvider.return_same_when_has_data_useclass_NonFunc', () => {
+    it('parseMiddlewareProvider.return_same_when_has_data_useClass_NonFunc', () => {
         let data: IMiddlewareProvider = { useClass: Object(), data: 'test' };
         let result = DinoParser.parseMiddlewareProvider(data);
         expect(result.data).toBeUndefined();

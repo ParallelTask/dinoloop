@@ -11,7 +11,7 @@ import {
 
 export abstract class AttributeMetadata {
 
-    private static defineHttpverbMetadata(
+    private static defineHttpVerbMetadata(
         route: string | RegExp,
         verb: string,
         target: any,
@@ -48,43 +48,43 @@ export abstract class AttributeMetadata {
 
     static httpGet = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpverbMetadata(route, Attribute.httpGet, target, propertyKey);
+            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpGet, target, propertyKey);
         };
     }
 
     static httpPost = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpverbMetadata(route, Attribute.httpPost, target, propertyKey);
+            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpPost, target, propertyKey);
         };
     }
 
     static httpDelete = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpverbMetadata(route, Attribute.httpDelete, target, propertyKey);
+            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpDelete, target, propertyKey);
         };
     }
 
     static httpPatch = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpverbMetadata(route, Attribute.httpPatch, target, propertyKey);
+            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpPatch, target, propertyKey);
         };
     }
 
     static httpPut = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpverbMetadata(route, Attribute.httpPut, target, propertyKey);
+            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpPut, target, propertyKey);
         };
     }
 
     static httpHead = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpverbMetadata(route, Attribute.httpHead, target, propertyKey);
+            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpHead, target, propertyKey);
         };
     }
 
     static httpAll = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpverbMetadata(route, Attribute.httpAll, target, propertyKey);
+            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpAll, target, propertyKey);
         };
     }
 
@@ -121,8 +121,8 @@ export abstract class AttributeMetadata {
             }
 
             // Note: we are deliberately not initializing raiseModelError default value
-            // because these may override global raiseModelError property always, 
-            // assuming user has provided value, hence it is recommended the value to be undefined 
+            // because these may override global raiseModelError property always,
+            // assuming user has provided value, hence it is recommended the value to be undefined
             // However we are initializing stopOnError to false because we dont have global flag for this.
             let opts = DataUtility.isUndefinedOrNull(options) ? {} : options;
             let stop = DataUtility.isUndefinedOrNull(opts.stopOnError) ? false : opts.stopOnError;

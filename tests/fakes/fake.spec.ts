@@ -64,7 +64,7 @@ export class ResultFilterAsyncFake extends ResultFilterAsync {
         throw new Error('Method not implemented.');
     }
 }
-export class ErroControllerFake extends ErrorController {
+export class ErrorControllerFake extends ErrorController {
     write(): void { }
 }
 export class ErrorMiddlewareFake extends ErrorMiddleware {

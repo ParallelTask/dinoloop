@@ -9,7 +9,7 @@ import {
     ActionFilterAsyncFake,
     ResultFilterFake,
     ResultFilterAsyncFake,
-    ErroControllerFake,
+    ErrorControllerFake,
     ErrorMiddlewareFake,
     ErrorMiddlewareAsyncFake,
     ObservableMiddlewareFake,
@@ -114,8 +114,8 @@ describe('modules.utility.dino.utility.spec', () => {
         let result = DinoUtility.isAsyncResultFilter(MiddlewareFake);
         expect(result).toBeFalsy();
     });
-    it('isErrorController.return_true_when_ErroControllerFake', () => {
-        let result = DinoUtility.isErrorController(ErroControllerFake);
+    it('isErrorController.return_true_when_ErrorControllerFake', () => {
+        let result = DinoUtility.isErrorController(ErrorControllerFake);
         expect(result).toBeTruthy();
     });
     it('isErrorController.return_false_when_MiddlewareFake', () => {

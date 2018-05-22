@@ -61,6 +61,6 @@ describe('modules.router.route.table.spec', () => {
         expect(r.getRoutes().includes('/get_api/q')).toBeTruthy();
         expect(r.getRoutes().includes('/:verb_api/r')).toBeTruthy();
         expect(r.getRoutes().includes('/:verb_api/r/:id')).toBeTruthy();
-        expect(r.getRoutes().includes('/:verb_apii/r')).toBeFalsy();
+        expect(r.getRoutes().includes('/:verb_apiI/r')).toBeFalsy();
     });
 });

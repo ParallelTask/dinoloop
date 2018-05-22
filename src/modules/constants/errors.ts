@@ -1,4 +1,4 @@
 export const Errors = {
-    dinoAlreadyBinded: 'Dino is already binded',
-    routerNotRegistered: 'Express router is not registered with Dino'
+    dinoAlreadyBinded: 'dino.bind: Already invoked',
+    routerNotRegistered: 'Express router is not registered with dino'
 };

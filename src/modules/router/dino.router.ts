@@ -17,12 +17,12 @@ export class DinoRouter implements IDinoRouter {
 
     constructor(config: IRouterConfig) {
         this.diContainer = config.diContainer;
-        // Gets the new instance of express.router every time dinorouter is created
+        // Gets the new instance of express.router every time dino.router is created
         this.router = config.routerCb();
         this.enableTaskContext = config.enableTaskContext;
     }
 
-    // made public for unittest and not available on interface method
+    // made public for unit test and not available on interface method
     resolve<T>(middleware: Function, dino: IDinoResponse): T {
         let o = this.diContainer.resolve<T>(middleware);
 
@@ -30,7 +30,7 @@ export class DinoRouter implements IDinoRouter {
             ObjectUtility.replaceObjectReferences(o, dino.context, IUserIdentity) : o;
     }
 
-    // made public for unittest and not available on interface method
+    // made public for unit test and not available on interface method
     registerMiddleware(middleware: IMiddlewareProvider): void {
         let provider = DinoParser.parseMiddlewareProvider(middleware);
 
@@ -53,7 +53,7 @@ export class DinoRouter implements IDinoRouter {
         }
     }
 
-    // made public for unittest and not available on interface method
+    // made public for unit test and not available on interface method
     registerBeginActionFilter(filter: IMiddlewareProvider): void {
         let provider = DinoParser.parseMiddlewareProvider(filter);
 
@@ -76,7 +76,7 @@ export class DinoRouter implements IDinoRouter {
         }
     }
 
-    // made public for unittest and not available on interface method
+    // made public for unit test and not available on interface method
     registerAfterActionFilter(filter: IMiddlewareProvider): void {
         let provider = DinoParser.parseMiddlewareProvider(filter);
 
@@ -99,7 +99,7 @@ export class DinoRouter implements IDinoRouter {
         }
     }
 
-    // made public for unittest and not available on interface method
+    // made public for unit test and not available on interface method
     registerResultFilter(filter: IMiddlewareProvider): void {
         let provider = DinoParser.parseMiddlewareProvider(filter);
 
@@ -122,7 +122,7 @@ export class DinoRouter implements IDinoRouter {
         }
     }
 
-    // made public for unittest and not available on interface method
+    // made public for unit test and not available on interface method
     registerExceptionFilter(app: Express,
         uri: string | RegExp,
         middleware: IMiddlewareProvider): void {

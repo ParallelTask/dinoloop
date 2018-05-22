@@ -1,7 +1,7 @@
 import {
-  IControllerAttribute,
-  AttributeMetadata,
-  IBindModelAttribute
+    IControllerAttribute,
+    AttributeMetadata,
+    IBindModelAttribute
 } from './index';
 
 // if an API action wants to send response on its own, decorate it @SendsResponse()
@@ -12,7 +12,7 @@ import {
  *  Decorate on API actions that sends response using response object
  */
 export function SendsResponse(): (target: any, propertyKey: string) => void {
-  return AttributeMetadata.sendsResponse();
+    return AttributeMetadata.sendsResponse();
 }
 
 // if an API action has observable as return type then decorate it @Observable
@@ -21,7 +21,7 @@ export function SendsResponse(): (target: any, propertyKey: string) => void {
  * Decorate on API actions of return type RxJs Observable
  */
 export function Observable(): (target: any, propertyKey: string) => void {
-  return AttributeMetadata.observable();
+    return AttributeMetadata.observable();
 }
 
 // if an API action is async in nature, action should be decorated with @Async
@@ -30,63 +30,63 @@ export function Observable(): (target: any, propertyKey: string) => void {
  * Decorate on async API actions
  */
 export function Async(): (target: any, propertyKey: string) => void {
-  return AttributeMetadata.asyncAttr();
+    return AttributeMetadata.asyncAttr();
 }
 
 /**
  * Responds to HttpGet
  */
 export function HttpGet(route: string | RegExp): (target: any, propertyKey: string) => void {
-  return AttributeMetadata.httpGet(route);
+    return AttributeMetadata.httpGet(route);
 }
 
 /**
  * Responds to HttpPost
  */
 export function HttpPost(route: string | RegExp): (target: any, propertyKey: string) => void {
-  return AttributeMetadata.httpPost(route);
+    return AttributeMetadata.httpPost(route);
 }
 
 /**
  * Responds to HttpDelete
  */
 export function HttpDelete(route: string | RegExp): (target: any, propertyKey: string) => void {
-  return AttributeMetadata.httpDelete(route);
+    return AttributeMetadata.httpDelete(route);
 }
 
 /**
  * Responds to HttpPatch
  */
 export function HttpPatch(route: string | RegExp): (target: any, propertyKey: string) => void {
-  return AttributeMetadata.httpPatch(route);
+    return AttributeMetadata.httpPatch(route);
 }
 
 /**
  * Responds to HttpPut
  */
 export function HttpPut(route: string | RegExp): (target: any, propertyKey: string) => void {
-  return AttributeMetadata.httpPut(route);
+    return AttributeMetadata.httpPut(route);
 }
 
 /**
  * Responds to HttpHead
  */
 export function HttpHead(route: string | RegExp): (target: any, propertyKey: string) => void {
-  return AttributeMetadata.httpHead(route);
+    return AttributeMetadata.httpHead(route);
 }
 
 /**
  * Responds to HttpAll
  */
 export function HttpAll(route: string | RegExp): (target: any, propertyKey: string) => void {
-  return AttributeMetadata.httpAll(route);
+    return AttributeMetadata.httpAll(route);
 }
 
 /**
  * Decorate on API Controller
  */
 export function Controller(prefix: string, attr?: IControllerAttribute): any {
-  return AttributeMetadata.controller(prefix, attr);
+    return AttributeMetadata.controller(prefix, attr);
 }
 
 // Use this attribute on the action method that typically has http request body.
@@ -96,5 +96,5 @@ export function Controller(prefix: string, attr?: IControllerAttribute): any {
  * Decorate on API actions to bind HttpBody to the model
  */
 export function BindModel(type: Function, options?: IBindModelAttribute): any {
-  return AttributeMetadata.bindModel(type, options);
+    return AttributeMetadata.bindModel(type, options);
 }

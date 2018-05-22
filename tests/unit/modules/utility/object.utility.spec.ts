@@ -41,15 +41,15 @@ describe('modules.utility.object.utility.spec', () => {
     it('changeObjectReferences.return_Function_when_value_is_Function', () => {
         expect(ObjectUtility.replaceObjectReferences(Function, {}, String)).toBe(Function);
     });
-    it('changeObjectReferences.return_string_when_value_is_obj_and_classname_is_undefined', () => {
+    it('changeObjectReferences.return_string_when_value_is_obj_and_className_is_undefined', () => {
         let obj = {};
         expect(ObjectUtility.replaceObjectReferences(obj, {}, undefined)).toBe(obj);
     });
-    it('changeObjectReferences.return_string_when_value_is_obj_and_classname_is_null', () => {
+    it('changeObjectReferences.return_string_when_value_is_obj_and_className_is_null', () => {
         let obj = {};
         expect(ObjectUtility.replaceObjectReferences(obj, {}, null)).toBe(obj);
     });
-    it('changeObjectReferences.replaces_occurences_when_value_exists(null)_and_classname_is_TestFunc', () => {
+    it('changeObjectReferences.replaces_occurrences_when_value_exists(null)_and_className_is_TestFunc', () => {
         let o = {
             a: 1,
             b: true,
@@ -106,7 +106,7 @@ describe('modules.utility.object.utility.spec', () => {
         // should replace with null
         expect(obj.d).toBeNull();
     });
-    it('changeObjectReferences.replaces_occurences_when_value_exists(obj)_and_classname_is_TestFunc', () => {
+    it('changeObjectReferences.replaces_occurrences_when_value_exists(obj)_and_className_is_TestFunc', () => {
         let t = new TestFunc();
         t.a = 10;
         t.b = 'rainbow';

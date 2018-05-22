@@ -33,7 +33,7 @@ export class DinoContainer implements IDinoContainer {
     private enableTaskContext: boolean;
     private useRouterCb: IRouterCallBack;
 
-    // exposing this property only to unittest
+    // exposing this property only to unit test
     // should figure out the way to handle it by making this property as private
     observableMiddlewares: any[] = [];
 
@@ -47,19 +47,19 @@ export class DinoContainer implements IDinoContainer {
         this.routeTable = RouteTable.create();
     }
 
-    // made public for unittest and not available on interface method
+    // made public for unit test and not available on interface method
     resolve<T>(middleware: Function, dino: IDinoResponse): T {
         let o = this.diContainer.resolve<T>(middleware);
 
-        // walkthrough the entire object chain and replace IUserIdentity instance References
+        // walk-through the entire object chain and replace IUserIdentity instance References
         return this.enableTaskContext ?
             ObjectUtility.replaceObjectReferences(o, dino.context, IUserIdentity) : o;
     }
 
-    // registers routenotfound middleware
+    // registers RouteNotFound middleware
     routeNotFoundMiddleware(middleware: any): void {
         if (DinoUtility.isSyncRequestStartMiddleware(middleware)) {
-            // create routenotfound middleware as singleton object
+            // create singleton object
             let mw = new middleware(this.routeTable);
             this.app.use(this.baseUri, (req, res, next) => {
                 mw.invoke(req, res, next);
@@ -130,7 +130,7 @@ export class DinoContainer implements IDinoContainer {
     }
 
     // Register the error middlewares
-    // so that any error occured in dinoloop instance will be propogated to these middlewares
+    // so that any error occurred in dinoloop instance will be propagated to these middlewares
     registerErrorMiddleWare(middleware: Function): void {
         if (DinoUtility.isSyncErrorMiddleware(middleware)) {
             this.app.use(this.baseUri, (err, req, res, next) => {
@@ -165,7 +165,7 @@ export class DinoContainer implements IDinoContainer {
         }
     }
 
-    // made public for unittest and not available on interface method
+    // made public for unit test and not available on interface method
     setUpDinoController(type: any,
         sendsResponse: boolean,
         observableResponse: boolean,
@@ -182,7 +182,7 @@ export class DinoContainer implements IDinoContainer {
     }
 
     // Populates controller middlewares, filters etc by walking up through the inheritance chain
-    // made public for unittest and not available on interface method
+    // made public for unit test and not available on interface method
     populateControllerMiddlewares(obj: ApiController): IControllerAttributeProvider {
 
         let objProto = ObjectUtility.getPrototypeOf(obj);
@@ -238,7 +238,7 @@ export class DinoContainer implements IDinoContainer {
         };
     }
 
-    // made public for unittest and not available on interface method.
+    // made public for unit test and not available on interface method.
     // gets all the metadata/attributes that are attached to action method.
     getActionMethodMetadata(
         httpAttribute: string,
@@ -299,10 +299,10 @@ export class DinoContainer implements IDinoContainer {
             // this also includes the inherited base controllers action methods
             for (let actionName in controller) {
 
-                // loop through every httpverb key i.e. get, post ...
+                // loop through every HttpVerb key i.e. get, post ...
                 ObjectUtility.keys(RouteAttribute).forEach(httpAttribute => {
 
-                    // If the controller action has httpverb (get, post ...) attribute 
+                    // If the controller action has HttpVerb (get, post ...) attribute
                     if (Reflector.hasMetadata(httpAttribute, controller, actionName)) {
 
                         let action = this.getActionMethodMetadata(httpAttribute, actionName, controller);
@@ -334,7 +334,7 @@ export class DinoContainer implements IDinoContainer {
             // Register the router on the app instance
             this.app.use(this.baseUri + metadata.prefix, router);
 
-            // Note: router specific Error middlewares must be registered, 
+            // Note: router specific Error middlewares must be registered,
             // only after registering the router with the express.app instance.
             dinoRoute.registerExceptionFilters(this.app,
                 this.baseUri + metadata.prefix, metadata.exceptions);

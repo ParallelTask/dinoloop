@@ -9,10 +9,10 @@ describe('modules.core.dicontainer.spec', () => {
         expect(obj.toString()).toBe('');
     });
     it('static_create.invoke_constructor', () => {
-        let conntainer = DIContainer.create(undefined, undefined);
-        expect(conntainer instanceof DIContainer).toBeTruthy();
+        let container = DIContainer.create(undefined, undefined);
+        expect(container instanceof DIContainer).toBeTruthy();
     });
-    it('resolve.invoke_diresolve_when_di_framework_is_configured', () => {
+    it('resolve.invoke_diResolve_when_di_framework_is_configured', () => {
         // DI container should be invoked and verify properties are properly injected
         let container = new DIContainer({ injector: true }, (injector, type) => {
             expect(injector).toEqual({ injector: true });

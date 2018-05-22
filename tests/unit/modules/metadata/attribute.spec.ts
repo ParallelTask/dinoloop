@@ -201,14 +201,14 @@ describe('modules.metadata.attributes.spec', () => {
             .toThrowError(InvalidRouteException);
         expect(Reflector.defineMetadata).toHaveBeenCalledTimes(0);
     });
-    it('httpAll.throws_InvalidRouteException_when_route_undefined_veriy_expection_values', () => {
+    it('httpAll.throws_InvalidRouteException_when_route_undefined_verify_exception_values', () => {
         let e: InvalidRouteException;
         spyOn(Reflector, 'defineMetadata').and.callFake(() => null);
         try {
             AttributeMetadata.httpAll(undefined)(Function, 'test');
         } catch (err) {
-            // Following expect statements verify the InvalidRouteException values for all httpverbs
-            // Do not delete this test case 
+            // Following expect statements verify the InvalidRouteException values for all http verbs
+            // Do not delete this test case
             e = err;
         }
         expect(e instanceof InvalidRouteException).toBeTruthy();
@@ -232,8 +232,8 @@ describe('modules.metadata.attributes.spec', () => {
         try {
             AttributeMetadata.controller(null)(Function, 'test');
         } catch (err) {
-            // Following expects verify the exceptionvalues at controller level
-            // Do not delete this test case 
+            // Following expects verify the exception values at controller level
+            // Do not delete this test case
             e = err;
         }
         expect(e instanceof InvalidRouteException).toBeTruthy();

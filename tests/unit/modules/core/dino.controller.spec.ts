@@ -47,7 +47,7 @@ describe('modules.core.dino.controller.spec', () => {
         let ctrl = DinoController.create(obj, ca);
         expect(ctrl instanceof DinoController).toBeTruthy();
     });
-    it('attachResultToDino.sendsresponse_false_observable_undefined', () => {
+    it('attachResultToDino.sendsResponse_false_observable_undefined', () => {
         let obj: ApiController = {
             next: () => 45, dino: {}
         } as any;
@@ -59,7 +59,7 @@ describe('modules.core.dino.controller.spec', () => {
         expect(obj.next).toBeDefined();
         expect(obj.next()).toBe(45);
     });
-    it('attachResultToDino.sendsresponse_true_observable_undefined', () => {
+    it('attachResultToDino.sendsResponse_true_observable_undefined', () => {
         let invoked = false;
         let obj: ApiController = {
             next: () => invoked = true, dino: {}
@@ -71,7 +71,7 @@ describe('modules.core.dino.controller.spec', () => {
         expect(obj.dino.result).toBeUndefined();
         expect(invoked).toBeFalsy();
     });
-    it('attachResultToDino.sendsresponse_false_observable_defined', () => {
+    it('attachResultToDino.sendsResponse_false_observable_defined', () => {
         let obj: ApiController = {
             request: 1,
             response: 2,
@@ -96,7 +96,7 @@ describe('modules.core.dino.controller.spec', () => {
         expect(data.next()).toBe(45);
         expect(data.dino).toBe(obj.dino);
     });
-    it('attachResultToDino.when_sendsresponse_true_observable_defined', () => {
+    it('attachResultToDino.when_sendsResponse_true_observable_defined', () => {
         let obj: ApiController = {
             request: 1,
             response: 2,
@@ -227,7 +227,7 @@ describe('modules.core.dino.controller.spec', () => {
         expect(HttpUtility.hasBody).toHaveBeenCalledTimes(1);
         expect(Validator.tryValidateWithType).toHaveBeenCalledTimes(1);
     });
-    it('invoke.when_mappedsegments_[]', () => {
+    it('invoke.when_mappedSegments_[]', () => {
         let val = 'test';
         let ctx = {
             request: {},
@@ -253,7 +253,7 @@ describe('modules.core.dino.controller.spec', () => {
         // since default value of a is undefined
         expect(val).toBeUndefined();
     });
-    it('invoke.when_mappedsegments_[hello]', () => {
+    it('invoke.when_mappedSegments_[hello]', () => {
         let val = 'test';
         let ctx = {
             request: {},
@@ -278,7 +278,7 @@ describe('modules.core.dino.controller.spec', () => {
         expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(1);
         expect(val).toBe('hello');
     });
-    it('invokeAsync.when_mappedsegments_[]', async () => {
+    it('invokeAsync.when_mappedSegments_[]', async () => {
         let val = 'test';
         let ctx = {
             request: {},
@@ -304,7 +304,7 @@ describe('modules.core.dino.controller.spec', () => {
         // since default value of a is undefined
         expect(val).toBeUndefined();
     });
-    it('invokeAsync.when_mappedsegments_[hello]', async () => {
+    it('invokeAsync.when_mappedSegments_[hello]', async () => {
         let val = 'test';
         let ctx = {
             request: {},

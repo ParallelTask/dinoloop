@@ -50,11 +50,11 @@ describe('modules.router.dino.router.spec', () => {
         } as any;
 
         spyOn(ObjectUtility, 'replaceObjectReferences')
-            .and.callFake((a, b, c) => 'referencechanged');
+            .and.callFake((a, b, c) => 'reference_changed');
         let dinoRouter = new DinoRouter(config);
         let o = dinoRouter.resolve(String, { context: 'test' });
 
-        expect(o).toBe('referencechanged');
+        expect(o).toBe('reference_changed');
         expect(middleware).toBe(String);
         expect(ObjectUtility.replaceObjectReferences).toHaveBeenCalledTimes(1);
     });
@@ -333,7 +333,7 @@ describe('modules.router.dino.router.spec', () => {
         expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(err).toEqual(new Error('TestError'));
     });
-    it('registerBeginActionFilter.when_not_an_actionfilter', () => {
+    it('registerBeginActionFilter.when_not_an_actionFilter', () => {
         let callback;
         let config: IRouterConfig = {
             routerCb: () => {
@@ -478,7 +478,7 @@ describe('modules.router.dino.router.spec', () => {
         expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(err).toEqual(new Error('TestError'));
     });
-    it('registerAfterActionFilter.when_not_an_actionfilter', () => {
+    it('registerAfterActionFilter.when_not_an_actionFilter', () => {
         let callback;
         let config: IRouterConfig = {
             routerCb: () => {
@@ -623,7 +623,7 @@ describe('modules.router.dino.router.spec', () => {
         expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(err).toEqual(new Error('TestError'));
     });
-    it('registerResultFilter.when_not_an_resultfilter', () => {
+    it('registerResultFilter.when_not_an_resultFilter', () => {
         let callback;
         let config: IRouterConfig = {
             routerCb: () => {
@@ -793,7 +793,7 @@ describe('modules.router.dino.router.spec', () => {
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
         expect(callback).toBeUndefined();
     });
-    it('registerExceptionFilters.verify_exceptionfilters', () => {
+    it('registerExceptionFilters.verify_exceptionFilters', () => {
         let config: IRouterConfig = { routerCb: () => null } as any;
         let dinoRouter = new DinoRouter(config);
         let app = { express: true };
@@ -833,7 +833,7 @@ describe('modules.router.dino.router.spec', () => {
         expect(arr.includes(Number)).toBeTruthy();
         expect(arr.includes(String)).toBeTruthy();
     });
-    it('registerBeginActionFilters.verify_beginactionfilters', () => {
+    it('registerBeginActionFilters.verify_beginActionFilters', () => {
         let config: IRouterConfig = { routerCb: () => null } as any;
         let dinoRouter = new DinoRouter(config);
         let app = { express: true };
@@ -852,7 +852,7 @@ describe('modules.router.dino.router.spec', () => {
         expect(arr.includes(Object)).toBeTruthy();
         expect(arr.includes(String)).toBeTruthy();
     });
-    it('registerAfterActionFilters.verify_afteractionfilters', () => {
+    it('registerAfterActionFilters.verify_afterActionFilters', () => {
         let config: IRouterConfig = { routerCb: () => null } as any;
         let dinoRouter = new DinoRouter(config);
         let app = { express: true };
@@ -871,7 +871,7 @@ describe('modules.router.dino.router.spec', () => {
         expect(arr.includes(Object)).toBeTruthy();
         expect(arr.includes(Array)).toBeTruthy();
     });
-    it('registerResultFilters.verify_resultfilters', () => {
+    it('registerResultFilters.verify_resultFilters', () => {
         let config: IRouterConfig = { routerCb: () => null } as any;
         let dinoRouter = new DinoRouter(config);
         let app = { express: true };

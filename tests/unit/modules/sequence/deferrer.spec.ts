@@ -16,7 +16,7 @@ describe('modules.sequence.deferrer.spec', () => {
                     rej(new Error('test_error'));
                 }, 20);
             });
-            // If code does not throw error, 
+            // If code does not throw error,
             // following line will make sure to fail the test case
             expect(false).toBeTruthy();
         } catch (err) {

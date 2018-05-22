@@ -1,10 +1,10 @@
 {
-  "extends": "./config/tsconfig.common",
-  "compilerOptions": {
-    "sourceMap": true,
-    "outDir": "./specs/unit"
-  },
-  "exclude": [
-    "node_modules"
-  ]
+    "extends": "./config/tsconfig.common",
+    "compilerOptions": {
+        "sourceMap": true,
+        "outDir": "./specs/unit"
+    },
+    "exclude": [
+        "node_modules"
+    ]
 }

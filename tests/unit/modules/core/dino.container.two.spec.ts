@@ -186,7 +186,7 @@ describe('modules.core.dino.container.two.spec', () => {
         expect(obj.afterActionFilters[1]).toBe(Boolean);
         expect(obj.afterActionFilters[2]).toBe(Array);
         expect(obj.afterActionFilters[3]).toBe(String);
-        // for resultfilters, child => base
+        // for resultFilters, child => base
         expect(obj.result[0]).toBe(String);
         expect(obj.result[1]).toBe(Number);
         expect(obj.result[2]).toBe(Object);
@@ -271,7 +271,7 @@ describe('modules.core.dino.container.two.spec', () => {
         expect(obj.afterActionFilters[2]).toBe(Array);
         expect(obj.afterActionFilters[3]).toBe(Function);
         expect(obj.afterActionFilters[4]).toBe(Object);
-        // for resultfilters, child => base => superbase
+        // for resultFilters, child => base => superbase
         expect(obj.result[0]).toBe(String);
         expect(obj.result[1]).toBe(Number);
         expect(obj.result[2]).toBe(Object);
@@ -308,8 +308,8 @@ describe('modules.core.dino.container.two.spec', () => {
             .registerController({} as any);
         expect(Reflector.hasMetadata).toHaveBeenCalledTimes(1);
     });
-    it('registerController.when_Apicontroller_metadata_defined_and_no_actionmethods', () => {
-        // Following test case validates middlewares, filters etc which is repetative 
+    it('registerController.when_Apicontroller_metadata_defined_and_no_actionMethods', () => {
+        // Following test case validates middlewares, filters etc which is repetitive
         // and removed from other tests
         // do not delete this test case easily.
         let bindedRouterToApp = false;
@@ -377,7 +377,7 @@ describe('modules.core.dino.container.two.spec', () => {
         expect(exwares).toBe(meta.exceptions);
         expect(bindedRouterToApp).toBeTruthy();
     });
-    it('registerController.when_Apicontroller_metadata_defined_and_actionmethod_is_sync', () => {
+    it('registerController.when_Apicontroller_metadata_defined_and_actionMethod_is_sync', () => {
         let controllerType = Object;
         let meta: IControllerAttributeProvider = { prefix: '/test', use: [] };
         let routeAttr;
@@ -417,7 +417,7 @@ describe('modules.core.dino.container.two.spec', () => {
             return ['post'];
         });
         spyOn(ObjectUtility, 'create').and.callFake(obj => {
-            // set some fake properties to loopthrought
+            // set some fake properties to loop through
             return { get: () => undefined };
         });
         spyOn(Reflector, 'hasMetadata').and.callFake(obj => true);
@@ -460,7 +460,7 @@ describe('modules.core.dino.container.two.spec', () => {
         expect(invoked).toBeTruthy();
         expect(fakeRouteTable.getRoutes().length).toBe(1);
     });
-    it('registerController.when_Apicontroller_metadata_defined_and_actionmethod_is_Async', async () => {
+    it('registerController.when_Apicontroller_metadata_defined_and_actionMethod_is_Async', async () => {
         let controllerType = Object;
         let meta: IControllerAttributeProvider = { prefix: '/test', use: [] };
         let routeAttr;
@@ -502,7 +502,7 @@ describe('modules.core.dino.container.two.spec', () => {
         spyOn(DIContainer, 'create').and.callFake(obj => undefined);
         spyOn(RouteTable, 'create').and.callFake(() => fakeRouteTable);
         spyOn(ObjectUtility, 'create').and.callFake(obj => {
-            // set some fake properties to loopthrought
+            // set some fake properties to loop through
             return { get: () => undefined };
         });
         spyOn(Reflector, 'hasMetadata').and.callFake(obj => true);

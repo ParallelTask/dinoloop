@@ -20,12 +20,12 @@ describe('api.dino.spec', () => {
         app.registerController(Boolean);
         expect(obj.controllers[0]).toBe(Function);
         expect(obj.controllers[1]).toBe(Boolean);
-        // Following expects are common for most of the tests should not be deleted easily
+        // Following expects are common for most of the tests, should not be deleted easily
         expect(express).toEqual({ expressInstance: true });
         expect(obj.baseUri).toBe('/test');
         expect(obj.routeNotFoundMiddleware).toBe(RouteNotFoundMiddleware);
     });
-    it('requestStart.verify_requeststart_middlewares', () => {
+    it('requestStart.verify_requestStart_middlewares', () => {
         let obj: IAppContainer = { startMiddleware: [] } as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
         let app = new Dino({ expressInstance: true }, '/test');

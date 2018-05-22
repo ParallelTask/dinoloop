@@ -63,7 +63,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
             .invoke({
                 method: 'get',
                 baseUrl: '/api/parse',
-                path: '/45styu'
+                path: '/45'
             }, null, err => expect(err).toBeUndefined());
     });
     it('invoke.route_found_for_/api/parse/(:route)_when_optional_segment_not_provided', () => {

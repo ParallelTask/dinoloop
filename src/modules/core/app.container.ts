@@ -41,12 +41,12 @@ export class AppContainer implements IAppContainer {
         // attach dino property to response object on every request start
         dinoContainer.builtInRequestStartMiddleWare(DinoStartMiddleware);
 
-        // Register the task/userprincipal context middleware on request start
+        // Register the task/user context middleware on request start
         if (this.enableTaskContext) {
             dinoContainer.builtInRequestStartMiddleWare(TaskContextMiddleware);
         }
 
-        // Register routenotfound middleware, which handles the routing issues
+        // Register RouteNotFound middleware, which handles the routing issues
         if (!DataUtility.isUndefinedOrNull(this.routeNotFoundMiddleware)) {
             dinoContainer.routeNotFoundMiddleware(this.routeNotFoundMiddleware);
         }
