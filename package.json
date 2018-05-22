@@ -1,6 +1,29 @@
 {
-    "name": "dinoloop",
+    "name": "dinoloop-src",
     "version": "0.0.1",
+    "private": true,
+    "description": "open-source Nodejs framework, completely written in typescript project designed to build REST APIs",
+    "homepage": "https://github.com/ParallelTask/dinoloop",
+    "bugs": "https://github.com/ParallelTask/dinoloop/issues",
+    "author": "Dinoloop Team",
+    "license": "MIT",
+    "contributors": [
+        "Karthik Konkula <kkonkula1192@gmail.com>"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ParallelTask/dinoloop.git"
+    },
+    "keywords": [
+        "dinoloop",
+        "api",
+        "rest-api",
+        "express",
+        "framework",
+        "web",
+        "rest",
+        "restful"
+    ],
     "scripts": {
         "build": "npm run clean && tsc --p ./tsconfig.json",
         "clean": "rimraf dist",

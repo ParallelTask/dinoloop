@@ -24,7 +24,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
   * Make the required updates.
   * Rebase your branch on `dinoloop:development@latest` and force push to GitHub repository (this will update your Pull Request)
 7. Once changes are approved
-* Go ahead and merge your changes:
+* Go ahead and merge your changes to `dinoloop:development`:
   * git checkout `development`
   * git pull `development`
   * Rebase your branch on `development@latest` (solve conflicts if any) 
@@ -33,7 +33,8 @@ Before you submit your Pull Request (PR) consider the following guidelines:
   * check out `development`
   * git merge --squash `your_branch_name`
   * Re-run the test suites to ensure tests are still passing.
-  * and commit to `development`
+  * commit to local `development`
+  * git push `development`
   
 That's it! Thank you for your contribution!
 
