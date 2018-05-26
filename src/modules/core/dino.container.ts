@@ -253,9 +253,11 @@ export class DinoContainer implements IDinoContainer {
         let sendsResponse = Reflector.hasMetadata(Attribute.sendsResponse, controller, actionName);
         let observableResponse = Reflector.hasMetadata(Attribute.observable, controller, actionName);
 
-        bindsModel.options.raiseModelError =
-            DataUtility.isUndefinedOrNull(bindsModel.options.raiseModelError)
-                ? this.raiseModelError : bindsModel.options.raiseModelError;
+        if (!DataUtility.isUndefinedOrNull(bindsModel)) {
+            bindsModel.options.raiseModelError =
+                DataUtility.isUndefinedOrNull(bindsModel.options.raiseModelError)
+                    ? this.raiseModelError : bindsModel.options.raiseModelError;
+        }
 
         return {
             route: route,

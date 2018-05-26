@@ -21,7 +21,7 @@ export abstract class AttributeMetadata {
             throw new InvalidRouteException(route, verb,
                 property, target.constructor.name);
         }
-        Reflector.defineMetadata(Attribute.httpGet,
+        Reflector.defineMetadata(verb,
             route, target.constructor.prototype, property);
     }
 

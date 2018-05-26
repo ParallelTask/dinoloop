@@ -1,0 +1,38 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Example.HttpVerb Launch",
+            "program": "${workspaceFolder}/examples\\http_verb\\src\\app\\app.ts",
+            "preLaunchTask": "debugger_httpverb",
+            "outFiles": [
+                "${workspaceFolder}/examples/http_verb/dist/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Example.DinoApi Launch",
+            "program": "${workspaceFolder}/examples\\dino_api\\src\\app\\app.ts",
+            "preLaunchTask": "debugger_dinoapi",
+            "outFiles": [
+                "${workspaceFolder}/examples/dino_api/dist/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Example.InversifyBasic Launch",
+            "program": "${workspaceFolder}/examples\\inversify_basic\\src\\app\\app.ts",
+            "preLaunchTask": "debugger_inversifybasic",
+            "outFiles": [
+                "${workspaceFolder}/examples/inversify_basic/dist/**/*.js"
+            ]
+        }
+    ]
+}
