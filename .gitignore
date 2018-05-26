@@ -60,6 +60,8 @@ typings/
 # next.js build output
 .next
 
+# ignore mocha html reports
+mochawesome-report
 .vs
 
 public
