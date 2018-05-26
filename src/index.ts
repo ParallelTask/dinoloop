@@ -11,6 +11,7 @@ export { IDino } from './modules/interfaces/idino';
 export * from './modules/sequence/deferrer';
 export * from './modules/providers/providers';
 export * from './modules/types/attribute';
+export * from './modules/types/express';
 export * from './modules/validations/types/ivalidator';
 export * from './modules/validations/attributes';
 export * from './modules/validations/validator';

@@ -107,6 +107,9 @@ export class DinoController implements IDinoController {
         let cta = this.controllerAction;
         let values = this.mapSegments(ctx[actionName], requestUrl);
         ctx.model = this.getModelFromBody(httpVerb);
+        // If http-request has body, the first parameter in action argument
+        // gets request-body injected
+        if (HttpUtility.hasBody(httpVerb)) values[0] = ctx.request.body;
         let result = values.length > 0 ? ctx[actionName].apply(ctx, values) : ctx[actionName]();
         this.attachResultToDino(cta.sendsResponse, cta.observableResponse, result);
     }
@@ -123,6 +126,9 @@ export class DinoController implements IDinoController {
         try {
             let values = this.mapSegments(ctx[actionName], requestUrl);
             ctx.model = this.getModelFromBody(httpVerb);
+            // If http-request has body, the first parameter in action argument
+            // gets request-body injected
+            if (HttpUtility.hasBody(httpVerb)) values[0] = ctx.request.body;
             let result = values.length > 0 ?
                 await ctx[actionName].apply(ctx, values)
                 : await ctx[actionName]();

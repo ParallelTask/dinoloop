@@ -7,18 +7,17 @@
         "experimentalDecorators": true,
         "lib": [
             "es2017",
-            "es2015",
-            "dom"
+            "es2015"
         ],
         "typeRoots": [
-            "node_modules/@types",
-            "../node_modules/@types"
-        ]
+            "node_modules/@types"
+        ],
+        "sourceMap": true,
+        "outDir": "./dist"
     },
     "compileOnSave": false,
     "exclude": [
         "dist",
-        "public",
-        "npm"
+        "node_modules"
     ]
 }
