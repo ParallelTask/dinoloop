@@ -3,9 +3,9 @@ import {
     RouteNotFoundMiddleware,
     IExpressRequest,
     DataUtility,
-    RouteNotFoundException
+    RouteNotFoundException,
+    Mock
 } from '../../../index';
-import { Mock } from 'moq.ts';
 
 describe('modules.builtin.route.notfound.middleware.spec', () => {
     let routes = [

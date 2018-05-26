@@ -1,12 +1,25 @@
 {
-    "extends": "./config/tsconfig.common",
     "compilerOptions": {
-        "sourceMap": false,
-        "declaration": true,
-        "outDir": "./dist"
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": [
+            "es2017",
+            "es2015",
+            "dom"
+        ],
+        "typeRoots": [
+            "node_modules/@types",
+            "../node_modules/@types"
+        ]
     },
+    "compileOnSave": false,
     "exclude": [
-        "node_modules",
-        "tests/**/*.ts"
+        "dist",
+        "../dist",
+        "public",
+        "../public"
     ]
 }

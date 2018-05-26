@@ -1,5 +1,5 @@
 import { ControllerAction } from '../../index';
-import { ObservableMiddlewareFake } from '../../../fakes/fake.spec';
+import { ObservableMiddlewareFake } from '../../../fakes/index';
 
 describe('modules.controller.controller.action.spec', () => {
     it('constructor.verify_properties', () => {

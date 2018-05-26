@@ -16,7 +16,7 @@ import {
     ExceptionFilterFake,
     ExceptionFilterAsyncFake,
     ApiControllerFake
-} from '../../../fakes/fake.spec';
+} from '../../../fakes/index';
 
 describe('modules.utility.dino.utility.spec', () => {
     it('isSyncMiddleWare.throws_TypeError_when_undefined', () => {

@@ -1,6 +1,7 @@
 {
     "files.exclude": {
         "coverage/": true,
+        "mochawesome-report/": true,
         ".vs": true,
         "node_modules/": true,
         "LICENSE": true,
@@ -42,6 +43,7 @@
         "kkonkula",
         "middlewares",
         "middlwares",
+        "mochawesome",
         "multiline",
         "mware",
         "mwares",
@@ -59,6 +61,7 @@
         "setall",
         "singleline",
         "superbase",
+        "testcontroller",
         "testerror",
         "testuri",
         "typeof",

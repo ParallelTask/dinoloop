@@ -20,7 +20,6 @@ import {
     RouteAttribute,
     IActionMethodAttributes
 } from '../../index';
-import { mkdir } from 'fs';
 
 describe('modules.core.dino.container.two.spec', () => {
     it('populateControllerMiddlewares.metadata_undefined', () => {
@@ -329,6 +328,16 @@ describe('modules.core.dino.container.two.spec', () => {
             exceptions: [Boolean],
             prefix: '/test'
         };
+        let config: IDinoContainerConfig = {
+            baseUri: '/api',
+            app: {
+                use: (uri, router) => {
+                    expect(uri).toBe(`${config.baseUri}${meta.prefix}`);
+                    // expect(router).toBe(dinoRouter.expressRouter);
+                    bindedRouterToApp = true;
+                }
+            }
+        } as any;
         let dinoRouter = {
             expressRouter: () => {
                 return {
@@ -345,16 +354,6 @@ describe('modules.core.dino.container.two.spec', () => {
                 exwares = mware;
             }
         };
-        let config: IDinoContainerConfig = {
-            baseUri: '/api',
-            app: {
-                use: (uri, router) => {
-                    expect(uri).toBe(`${config.baseUri}${meta.prefix}`);
-                    // expect(router).toBe(dinoRouter.expressRouter);
-                    bindedRouterToApp = true;
-                }
-            }
-        } as any;
 
         spyOn(DinoUtility, 'isApiController').and.callFake(obj => true);
         spyOn(DIContainer, 'create').and.callFake(obj => undefined);
