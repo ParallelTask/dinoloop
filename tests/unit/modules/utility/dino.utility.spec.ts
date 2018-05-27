@@ -12,7 +12,6 @@ import {
     ErrorControllerFake,
     ErrorMiddlewareFake,
     ErrorMiddlewareAsyncFake,
-    ObservableMiddlewareFake,
     ExceptionFilterFake,
     ExceptionFilterAsyncFake,
     ApiControllerFake
@@ -136,14 +135,6 @@ describe('modules.utility.dino.utility.spec', () => {
     });
     it('isAsyncErrorMiddleware.return_false_when_MiddlewareFake', () => {
         let result = DinoUtility.isAsyncErrorMiddleware(MiddlewareFake);
-        expect(result).toBeFalsy();
-    });
-    it('isObservableMiddleware.return_true_when_ObservableMiddlewareFake', () => {
-        let result = DinoUtility.isObservableMiddleware(ObservableMiddlewareFake);
-        expect(result).toBeTruthy();
-    });
-    it('isObservableMiddleware.return_false_when_MiddlewareFake', () => {
-        let result = DinoUtility.isObservableMiddleware(MiddlewareFake);
         expect(result).toBeFalsy();
     });
     it('isSyncExceptionFilter.return_true_when_ExceptionFilterFake', () => {

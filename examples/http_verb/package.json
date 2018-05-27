@@ -1,6 +1,7 @@
 {
     "name": "dinoloop-http-verb-example",
     "version": "1.0.0",
+    "private": true,
     "scripts": {
         "build": "npm run clean && tsc --p ./tsconfig.json",
         "clean": "rimraf dist",

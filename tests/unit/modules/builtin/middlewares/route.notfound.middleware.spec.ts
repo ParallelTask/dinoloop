@@ -25,20 +25,20 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
 
     it('invoke.route_found_for_get_/api/route/_when_verb_is_get', () => {
         let invoked = false;
-        let e;
+        let err = 'test';
         new RouteNotFoundMiddleware(table.object())
             .invoke({
                 method: 'geT',
                 baseUrl: '/api/route',
                 path: '/'
-            }, null, err => {
+            }, null, e => {
                 invoked = true;
-                e = err;
+                err = e;
             });
         // Following expect statements are common and makes sure next handler is invoked properly,
         // Highly recommended not to remove this statements
         expect(invoked).toBeTruthy();
-        expect(e).toBeUndefined();
+        expect(err).toBeUndefined();
     });
     it('invoke.route_not_found_for_post_/api/route/_when_verb_is_get', () => {
         let req = {
@@ -53,7 +53,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
         expect(err instanceof RouteNotFoundException).toBeTruthy();
         // Same expect statements needs to be executed for every invalid route exception.
         // when any code related to exception is changed, following lines fails the test case.
-        // Highly advised not to remove these set of lines or this test case
+        // Highly advised not to remove these set of lines
         expect(err.type).toBe(RouteNotFoundException.name);
         expect(err.httpVerb).toBe(req.method);
         expect(err.requestUrl).toBe(`${req.baseUrl}${req.path}`);
@@ -89,7 +89,6 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 baseUrl: '/api/apple',
                 path: '/'
             }, null, err => {
-                expect(err).toBeDefined();
                 expect(err instanceof RouteNotFoundException).toBeTruthy();
             });
     });
@@ -124,7 +123,6 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 baseUrl: '//',
                 path: '/'
             }, null, err => {
-                expect(err).toBeDefined();
                 expect(err instanceof RouteNotFoundException).toBeTruthy();
             });
     });
@@ -135,7 +133,6 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 baseUrl: '/fake/v1',
                 path: '/index'
             }, null, err => {
-                expect(err).toBeDefined();
                 expect(err instanceof RouteNotFoundException).toBeTruthy();
             });
     });

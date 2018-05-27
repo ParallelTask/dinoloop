@@ -1,20 +1,20 @@
 import { Injectable } from 'injection-js';
 import {
-    RequestStartMiddleWare,
+    RequestStartMiddleware,
     Request,
     Response,
     NextFunction,
-    RequestStartMiddleWareAsync,
+    RequestStartMiddlewareAsync,
     Deferrer,
-    RequestEndMiddleWare,
-    RequestEndMiddleWareAsync,
+    RequestEndMiddleware,
+    RequestEndMiddlewareAsync,
     ErrorMiddleware,
     RouteNotFoundException,
     ErrorMiddlewareAsync
 } from '../../../../index';
 
 @Injectable()
-export class StartMiddlewareOne extends RequestStartMiddleWare {
+export class StartMiddlewareOne extends RequestStartMiddleware {
     invoke(request: Request, response: Response, next: NextFunction): void {
         response.locals.data = [];
         response.locals.data.push('This is StartMiddleWareOne');
@@ -23,7 +23,7 @@ export class StartMiddlewareOne extends RequestStartMiddleWare {
 }
 
 @Injectable()
-export class StartMiddlewareOneAsync extends RequestStartMiddleWareAsync {
+export class StartMiddlewareOneAsync extends RequestStartMiddlewareAsync {
     async invoke(request: Request, response: Response, next: NextFunction): Promise<void> {
         let data = await Deferrer.run((resolve, reject) => {
             setTimeout(() => resolve('This is StartMiddleWareOneAsync'), 10);
@@ -34,7 +34,7 @@ export class StartMiddlewareOneAsync extends RequestStartMiddleWareAsync {
 }
 
 @Injectable()
-export class StartMiddlewareTwo extends RequestStartMiddleWare {
+export class StartMiddlewareTwo extends RequestStartMiddleware {
     invoke(request: Request, response: Response, next: NextFunction): void {
         response.locals.data.push('This is StartMiddleWareTwo');
         next();
@@ -42,7 +42,7 @@ export class StartMiddlewareTwo extends RequestStartMiddleWare {
 }
 
 @Injectable()
-export class StartMiddlewareTwoAsync extends RequestStartMiddleWareAsync {
+export class StartMiddlewareTwoAsync extends RequestStartMiddlewareAsync {
     async invoke(request: Request, response: Response, next: NextFunction): Promise<void> {
         let data = await Deferrer.run((resolve, reject) => {
             setTimeout(() => resolve('This is StartMiddleWareTwoAsync'), 10);
@@ -53,7 +53,7 @@ export class StartMiddlewareTwoAsync extends RequestStartMiddleWareAsync {
 }
 
 @Injectable()
-export class ResponseMiddleware extends RequestEndMiddleWare {
+export class ResponseMiddleware extends RequestEndMiddleware {
     invoke(request: Request, response: Response, next: NextFunction, result: any): void {
         response.json(result);
     }

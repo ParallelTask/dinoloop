@@ -1,10 +1,10 @@
-import { RequestStartMiddleWare } from '../../filter/filter';
+import { RequestStartMiddleware } from '../../filter/filter';
 
 /**
- * Sets/initializes dino property on express's response.locals for every request start.
- * Must always be registered as first builtin requestStart middleware
+ * initializes dino property on express response.locals for every request start.
+ * Must be registered as first builtin RequestStart middleware
  */
-export class DinoStartMiddleware extends RequestStartMiddleWare {
+export class DinoStartMiddleware extends RequestStartMiddleware {
     invoke(req, res, next): void {
         // initialize the dino object, this is critical for other middlewares to work
         res.locals.dino = {};

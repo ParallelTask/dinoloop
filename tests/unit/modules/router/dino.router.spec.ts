@@ -28,7 +28,7 @@ describe('modules.router.dino.router.spec', () => {
         } as any;
 
         spyOn(ObjectUtility, 'replaceObjectReferences')
-            .and.callFake((a, b, c) => null);
+            .and.callFake(() => 'replaced');
         let dinoRouter = new DinoRouter(config);
         let o = dinoRouter.resolve(String, { context: 'test' });
 
@@ -50,13 +50,12 @@ describe('modules.router.dino.router.spec', () => {
         } as any;
 
         spyOn(ObjectUtility, 'replaceObjectReferences')
-            .and.callFake((a, b, c) => 'reference_changed');
+            .and.callFake(() => 'replaced');
         let dinoRouter = new DinoRouter(config);
         let o = dinoRouter.resolve(String, { context: 'test' });
 
-        expect(o).toBe('reference_changed');
+        expect(o).toBe('replaced');
         expect(middleware).toBe(String);
-        expect(ObjectUtility.replaceObjectReferences).toHaveBeenCalledTimes(1);
     });
     it('expressRouter.return_this.router', () => {
         let middleware;
@@ -78,7 +77,7 @@ describe('modules.router.dino.router.spec', () => {
         let provider = { useClass: Function, data: 'sampledata' };
         let res = { locals: { dino: 45 } };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncMiddleWare').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncMiddleWare').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -119,8 +118,8 @@ describe('modules.router.dino.router.spec', () => {
         let provider = { useClass: Function, data: 'sampledata' };
         let res = { locals: { dino: 45 } };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncMiddleWare').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncMiddleWare').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncMiddleWare').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncMiddleWare').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -162,8 +161,8 @@ describe('modules.router.dino.router.spec', () => {
         let provider = { useClass: Function, data: 'sampledata' };
         let res = { locals: { dino: 45 } };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncMiddleWare').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncMiddleWare').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncMiddleWare').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncMiddleWare').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -199,8 +198,8 @@ describe('modules.router.dino.router.spec', () => {
             }
         } as any;
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncMiddleWare').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncMiddleWare').and.callFake(a => false);
+        spyOn(DinoUtility, 'isSyncMiddleWare').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncMiddleWare').and.callFake(() => false);
 
         let dinoRouter = new DinoRouter(config);
         dinoRouter.registerMiddleware(String);
@@ -221,7 +220,7 @@ describe('modules.router.dino.router.spec', () => {
         let provider = { useClass: Function, data: 'sampledata' };
         let res = { locals: { dino: 45 } };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -246,7 +245,6 @@ describe('modules.router.dino.router.spec', () => {
         callback(request, res, () => 'invoked');
         expect(DinoUtility.isSyncActionFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
-        expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(invoked).toBeTruthy();
     });
     it('registerBeginActionFilter.when_isAsyncActionFilter', async () => {
@@ -261,8 +259,8 @@ describe('modules.router.dino.router.spec', () => {
         let provider = { useClass: Function, data: 'sampledata' };
         let res = { locals: { dino: 45 } };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncActionFilter').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncActionFilter').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -288,7 +286,6 @@ describe('modules.router.dino.router.spec', () => {
         expect(DinoUtility.isSyncActionFilter).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncActionFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
-        expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(invoked).toBeTruthy();
     });
     it('registerBeginActionFilter.throwsError_when_isAsyncActionFilter', async () => {
@@ -303,8 +300,8 @@ describe('modules.router.dino.router.spec', () => {
         let provider = { useClass: Function, data: 'sampledata' };
         let res = { locals: { dino: 45 } };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncActionFilter').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncActionFilter').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -330,7 +327,6 @@ describe('modules.router.dino.router.spec', () => {
         expect(DinoUtility.isSyncActionFilter).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncActionFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
-        expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(err).toEqual(new Error('TestError'));
     });
     it('registerBeginActionFilter.when_not_an_actionFilter', () => {
@@ -341,8 +337,8 @@ describe('modules.router.dino.router.spec', () => {
             }
         } as any;
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncActionFilter').and.callFake(a => false);
+        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncActionFilter').and.callFake(() => false);
 
         let dinoRouter = new DinoRouter(config);
         dinoRouter.registerBeginActionFilter(String);
@@ -363,7 +359,7 @@ describe('modules.router.dino.router.spec', () => {
         let res = { locals: { dino: { result: 45 } } };
         let provider = { useClass: Function, data: 'sampledata' };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -389,7 +385,6 @@ describe('modules.router.dino.router.spec', () => {
         callback(request, res, () => 'invoked');
         expect(DinoUtility.isSyncActionFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
-        expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(invoked).toBeTruthy();
     });
     it('registerAfterActionFilter.when_isAsyncActionFilter', async () => {
@@ -404,8 +399,8 @@ describe('modules.router.dino.router.spec', () => {
         let provider = { useClass: Function, data: 'sampledata' };
         let res = { locals: { dino: { result: 45 } } };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncActionFilter').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncActionFilter').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -432,7 +427,6 @@ describe('modules.router.dino.router.spec', () => {
         expect(DinoUtility.isSyncActionFilter).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncActionFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
-        expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(invoked).toBeTruthy();
     });
     it('registerAfterActionFilter.throwsError_when_isAsyncActionFilter', async () => {
@@ -447,8 +441,8 @@ describe('modules.router.dino.router.spec', () => {
         let provider = { useClass: Function, data: 'sampledata' };
         let res = { locals: { dino: { result: 45 } } };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncActionFilter').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncActionFilter').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -475,7 +469,6 @@ describe('modules.router.dino.router.spec', () => {
         expect(DinoUtility.isSyncActionFilter).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncActionFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
-        expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(err).toEqual(new Error('TestError'));
     });
     it('registerAfterActionFilter.when_not_an_actionFilter', () => {
@@ -486,8 +479,8 @@ describe('modules.router.dino.router.spec', () => {
             }
         } as any;
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncActionFilter').and.callFake(a => false);
+        spyOn(DinoUtility, 'isSyncActionFilter').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncActionFilter').and.callFake(() => false);
 
         let dinoRouter = new DinoRouter(config);
         dinoRouter.registerAfterActionFilter(String);
@@ -508,7 +501,7 @@ describe('modules.router.dino.router.spec', () => {
         let res = { locals: { dino: { result: 45 } } };
         let provider = { useClass: Function, data: 'sampledata' };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncResultFilter').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncResultFilter').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -534,7 +527,6 @@ describe('modules.router.dino.router.spec', () => {
         callback(request, res, () => 'invoked');
         expect(DinoUtility.isSyncResultFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
-        expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(invoked).toBeTruthy();
     });
     it('registerResultFilter.when_isAsyncResultFilter', async () => {
@@ -549,8 +541,8 @@ describe('modules.router.dino.router.spec', () => {
         let provider = { useClass: Function, data: 'sampledata' };
         let res = { locals: { dino: { result: 45 } } };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncResultFilter').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncResultFilter').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncResultFilter').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncResultFilter').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -577,7 +569,6 @@ describe('modules.router.dino.router.spec', () => {
         expect(DinoUtility.isSyncResultFilter).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncResultFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
-        expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(invoked).toBeTruthy();
     });
     it('registerResultFilter.throwsError_when_isAsyncResultFilter', async () => {
@@ -592,8 +583,8 @@ describe('modules.router.dino.router.spec', () => {
         let provider = { useClass: Function, data: 'sampledata' };
         let res = { locals: { dino: { result: 45 } } };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncResultFilter').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncResultFilter').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncResultFilter').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncResultFilter').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -620,7 +611,6 @@ describe('modules.router.dino.router.spec', () => {
         expect(DinoUtility.isSyncResultFilter).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncResultFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
-        expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(err).toEqual(new Error('TestError'));
     });
     it('registerResultFilter.when_not_an_resultFilter', () => {
@@ -631,8 +621,8 @@ describe('modules.router.dino.router.spec', () => {
             }
         } as any;
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncResultFilter').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncResultFilter').and.callFake(a => false);
+        spyOn(DinoUtility, 'isSyncResultFilter').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncResultFilter').and.callFake(() => false);
 
         let dinoRouter = new DinoRouter(config);
         dinoRouter.registerResultFilter(String);
@@ -656,7 +646,7 @@ describe('modules.router.dino.router.spec', () => {
         let res = { locals: { dino: 45 } };
         let provider = { useClass: Function, data: 'sampledata' };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncExceptionFilter').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncExceptionFilter').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -681,7 +671,6 @@ describe('modules.router.dino.router.spec', () => {
         callback(new Error('TestError'), request, res, () => 'invoked');
         expect(DinoUtility.isSyncExceptionFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
-        expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(invoked).toBeTruthy();
     });
     it('registerExceptionFilter.when_isAsyncExceptionFilter', async () => {
@@ -699,8 +688,8 @@ describe('modules.router.dino.router.spec', () => {
         let res = { locals: { dino: 45 } };
         let provider = { useClass: Function, data: 'sampledata' };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncExceptionFilter').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncExceptionFilter').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncExceptionFilter').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncExceptionFilter').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -726,7 +715,6 @@ describe('modules.router.dino.router.spec', () => {
         expect(DinoUtility.isSyncExceptionFilter).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncExceptionFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
-        expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(invoked).toBeTruthy();
     });
     it('registerExceptionFilter.throwsError_when_isAsyncExceptionFilter', async () => {
@@ -745,8 +733,8 @@ describe('modules.router.dino.router.spec', () => {
         let res = { locals: { dino: 45 } };
         let provider = { useClass: Function, data: 'sampledata' };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncExceptionFilter').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncExceptionFilter').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncExceptionFilter').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncExceptionFilter').and.callFake(() => true);
 
         let dinoRouter = new DinoRouter(config);
 
@@ -771,7 +759,6 @@ describe('modules.router.dino.router.spec', () => {
         expect(DinoUtility.isSyncExceptionFilter).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncExceptionFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
-        expect(dinoRouter.resolve).toHaveBeenCalledTimes(1);
         expect(err).toEqual(new Error('TestErrorThrown'));
     });
     it('registerExceptionFilter.when_not_an_exceptionfilter', () => {
@@ -783,8 +770,8 @@ describe('modules.router.dino.router.spec', () => {
             }
         };
         spyOn(DinoParser, 'parseMiddlewareProvider').and.callFake(a => a);
-        spyOn(DinoUtility, 'isSyncExceptionFilter').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncExceptionFilter').and.callFake(a => false);
+        spyOn(DinoUtility, 'isSyncExceptionFilter').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncExceptionFilter').and.callFake(() => false);
 
         let dinoRouter = new DinoRouter(config);
         dinoRouter.registerExceptionFilter(app, 'test', String);

@@ -2,13 +2,13 @@ import { ApiController } from '../controller/api.controller';
 import { Request, Response, NextFunction } from '../types/express';
 import { RouteUtility } from '../utility/route.utility';
 import { HttpUtility } from '../utility/http.utility';
-import { ObservableMiddleware } from '../filter/filter';
 import { DataUtility } from '../utility/data.utility';
 import { ControllerAction } from '../controller/controller.action';
 import { Validator } from '../validations/validator';
 import { DinoModel } from '../entities/dino.model';
 import { InvalidModelException } from '../builtin/exceptions/exceptions';
 import { IDinoController } from '../interfaces/idino';
+import { IDinoResponse } from '../../../tests';
 
 export class DinoController implements IDinoController {
     private controller: ApiController;
@@ -28,27 +28,24 @@ export class DinoController implements IDinoController {
         this.controllerAction = controllerAction;
     }
 
-    // made public for unit test and not available on interface method
-    // result returned by an action method, makes it available to next middleware functions
-    attachResultToDino(sendsResponse: boolean, observable: ObservableMiddleware, result: any): void {
+    // made public for unit test and not available on interface contract
+    // result returned by an action method, makes it available to next middleware function
+    attachResultToDino(sendsResponse: boolean, result: any): void {
 
-        // if action is not decorated with SendsResponse/observable response
+        // if action is not decorated with SendsResponse
         // just capture and attach the result to dino property and invoke the next() handler
-        if (sendsResponse === false && DataUtility.isUndefinedOrNull(observable)) {
-            this.controller.dino.result = result;
+        if (sendsResponse === false) {
+            // conversion required to access result property
+            // which does actually exists on DinoResponse
+            let dino = this.controller.dino as IDinoResponse;
+            dino.result = result;
             this.controller.next();
-
-            // if action is decorated with observable, invoke the registered observable middleware
-        } else if (!DataUtility.isUndefinedOrNull(observable)) {
-            this.controller.dino.result = result;
-            observable.invoke(this.controller.request, this.controller.response,
-                this.controller.next, this.controller.dino);
         }
     }
 
-    // made public for unit test and not available on interface method
-    // reads http request body and parses the body as per the model in BindModel attribute
-    // validates the object and writes back the validation errors and value to ctx.model property
+    // made public for unit test and not available on interface contract
+    // reads http-request body and parses the body as per the model in BindModel attribute
+    // validates the object and writes back the validation errors and values to ctx.model property
     getModelFromBody(httpVerb: string): DinoModel {
         let ctx = this.controller;
         let bModel = this.controllerAction.bindsModel;
@@ -80,18 +77,22 @@ export class DinoController implements IDinoController {
 
         // typically when action is decorated with @SendsResponse
         // and if any error occurred inside the callback processing handler,
-        // its better to invoke "this.dino.throw(ex)" to bubble the error to next error middleware
-        // user can also perform next(err), both does the same and it just provides consistent dino api
+        // its better to invoke "this.dino.throw(ex)" in action methods to bubble the error
+        // onto next error middleware. user can also perform next(err),
+        // both does the same and .throw() just provides consistent dino api
         this.controller.dino.throw = (err: Error) => {
             this.controller.next(err);
         };
 
         // typically when action is decorated with @SendsResponse
-        // but user still wants the result to be available for the next middlewares in the chain.
+        // and user still wants the result to be available for the next middlewares in the chain.
         // invoke "this.dino.proceed(result)" which adds result to dino property,
-        // which is then used by result and after-action filters.
+        // which is then used by result filters.
         this.controller.dino.proceed = (result: any) => {
-            this.controller.dino.result = result;
+            // conversion required to access result property
+            // which does actually exists on DinoResponse
+            let dino = this.controller.dino as IDinoResponse;
+            dino.result = result;
             this.controller.next();
         };
     }
@@ -107,11 +108,11 @@ export class DinoController implements IDinoController {
         let cta = this.controllerAction;
         let values = this.mapSegments(ctx[actionName], requestUrl);
         ctx.model = this.getModelFromBody(httpVerb);
-        // If http-request has body, the first parameter in action argument
+        // If http-request has body, first parameter in action argument list
         // gets request-body injected
         if (HttpUtility.hasBody(httpVerb)) values[0] = ctx.request.body;
         let result = values.length > 0 ? ctx[actionName].apply(ctx, values) : ctx[actionName]();
-        this.attachResultToDino(cta.sendsResponse, cta.observableResponse, result);
+        this.attachResultToDino(cta.sendsResponse, result);
     }
 
     // if controller action is async - invoke this
@@ -126,13 +127,13 @@ export class DinoController implements IDinoController {
         try {
             let values = this.mapSegments(ctx[actionName], requestUrl);
             ctx.model = this.getModelFromBody(httpVerb);
-            // If http-request has body, the first parameter in action argument
+            // If http-request has body, first parameter in action argument list
             // gets request-body injected
             if (HttpUtility.hasBody(httpVerb)) values[0] = ctx.request.body;
             let result = values.length > 0 ?
                 await ctx[actionName].apply(ctx, values)
                 : await ctx[actionName]();
-            this.attachResultToDino(cta.sendsResponse, cta.observableResponse, result);
+            this.attachResultToDino(cta.sendsResponse, result);
         } catch (ex) {
             ctx.next(ex);
         }

@@ -5,7 +5,7 @@ import {
     RouteTable,
     ObjectUtility,
     DinoUtility,
-    RequestStartMiddleWare,
+    RequestStartMiddleware,
     IRouteTable,
     DinoErrorController,
     Attribute,
@@ -16,7 +16,7 @@ import {
 describe('modules.core.dino.container.spec', () => {
     it('resolve.enableTaskContext_false', () => {
         let config: IDinoContainerConfig = { enableTaskContext: false } as any;
-        spyOn(DIContainer, 'create').and.callFake((a, b) => {
+        spyOn(DIContainer, 'create').and.callFake(() => {
             return {
                 resolve: m => {
                     expect(m).toBe(String);
@@ -26,22 +26,22 @@ describe('modules.core.dino.container.spec', () => {
             };
         });
         spyOn(RouteTable, 'create').and.callFake(() => null);
-        spyOn(ObjectUtility, 'replaceObjectReferences').and.callFake((a, b, c) => null);
+        spyOn(ObjectUtility, 'replaceObjectReferences').and.callFake(() => 'replaced');
 
         let dinoContainer = new DinoContainer(config);
-        let o = dinoContainer.resolve(String, { context: 'test' });
+        let obj = dinoContainer.resolve(String, { context: 'test' });
 
         // following expects are common for every constructor execution
         // do not delete these test case
         expect(RouteTable.create).toHaveBeenCalledTimes(1);
         expect(DIContainer.create).toHaveBeenCalledTimes(1);
 
-        expect(o).toBe('resolved');
+        expect(obj).toBe('resolved');
         expect(ObjectUtility.replaceObjectReferences).toHaveBeenCalledTimes(0);
     });
     it('resolve.enableTaskContext_true', () => {
         let config: IDinoContainerConfig = { enableTaskContext: true } as any;
-        spyOn(DIContainer, 'create').and.callFake((a, b) => {
+        spyOn(DIContainer, 'create').and.callFake(() => {
             return {
                 resolve: m => {
                     expect(m).toBe(String);
@@ -51,17 +51,16 @@ describe('modules.core.dino.container.spec', () => {
             };
         });
         spyOn(RouteTable, 'create').and.callFake(() => null);
-        spyOn(ObjectUtility, 'replaceObjectReferences').and.callFake((a, b, c) => 'replaced');
+        spyOn(ObjectUtility, 'replaceObjectReferences').and.callFake(() => 'replaced');
 
         let dinoContainer = new DinoContainer(config);
-        let o = dinoContainer.resolve(String, { context: 'test' });
+        let obj = dinoContainer.resolve(String, { context: 'test' });
 
-        expect(o).toBe('replaced');
-        expect(ObjectUtility.replaceObjectReferences).toHaveBeenCalledTimes(1);
+        expect(obj).toBe('replaced');
     });
     it('static_create.invoke_constructor', () => {
         let config: IDinoContainerConfig = {} as any;
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
 
         let dinoContainer = DinoContainer.create(config);
@@ -72,14 +71,14 @@ describe('modules.core.dino.container.spec', () => {
         const _res = { res: 'express' };
         const _next = () => null;
 
-        class RoutNotFoundMiddlewareFake extends RequestStartMiddleWare {
+        class RoutNotFoundMiddlewareFake extends RequestStartMiddleware {
             constructor(route: IRouteTable) {
                 super();
                 expect(route).toBeNull();
             }
-            invoke(request: any, response: any, next: any): void {
-                expect(request).toBe(_req);
-                expect(response).toBe(_res);
+            invoke(req, res, next): void {
+                expect(req).toBe(_req);
+                expect(res).toBe(_res);
                 expect(next()).toBeNull();
             }
         }
@@ -94,7 +93,7 @@ describe('modules.core.dino.container.spec', () => {
                 }
             }
         } as any;
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
         spyOn(DinoUtility, 'isSyncRequestStartMiddleware')
             .and.callFake(m => {
@@ -111,7 +110,7 @@ describe('modules.core.dino.container.spec', () => {
     it('routeNotFoundMiddleware.when_isSyncRequestStartMiddleware_false', () => {
         let callback;
         let config: IDinoContainerConfig = {} as any;
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
         spyOn(DinoUtility, 'isSyncRequestStartMiddleware')
             .and.callFake(m => {
@@ -130,10 +129,10 @@ describe('modules.core.dino.container.spec', () => {
         const _res = { res: 'express' };
         const _next = () => null;
 
-        class RequestStartFake extends RequestStartMiddleWare {
-            invoke(request: any, response: any, next: any): void {
-                expect(request).toBe(_req);
-                expect(response).toBe(_res);
+        class RequestStartFake extends RequestStartMiddleware {
+            invoke(req, res, next): void {
+                expect(req).toBe(_req);
+                expect(res).toBe(_res);
                 expect(next()).toBeNull();
             }
         }
@@ -148,7 +147,7 @@ describe('modules.core.dino.container.spec', () => {
                 }
             }
         } as any;
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
         spyOn(DinoUtility, 'isSyncRequestStartMiddleware')
             .and.callFake(m => {
@@ -158,14 +157,14 @@ describe('modules.core.dino.container.spec', () => {
             });
 
         let dinoContainer = new DinoContainer(config);
-        dinoContainer.builtInRequestStartMiddleWare(RequestStartFake);
+        dinoContainer.builtInRequestStartMiddleware(RequestStartFake);
         expect(DinoUtility.isSyncRequestStartMiddleware).toHaveBeenCalledTimes(1);
         callback(_req, _res, _next);
     });
     it('builtInRequestStartMiddleWare.when_isSyncRequestStartMiddleware_false', () => {
         let callback;
         let config: IDinoContainerConfig = {} as any;
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
         spyOn(DinoUtility, 'isSyncRequestStartMiddleware')
             .and.callFake(m => {
@@ -175,7 +174,7 @@ describe('modules.core.dino.container.spec', () => {
             });
 
         let dinoContainer = new DinoContainer(config);
-        dinoContainer.builtInRequestStartMiddleWare(Function);
+        dinoContainer.builtInRequestStartMiddleware(Function);
         expect(callback).toBeUndefined();
         expect(DinoUtility.isSyncRequestStartMiddleware).toHaveBeenCalledTimes(1);
     });
@@ -193,9 +192,9 @@ describe('modules.core.dino.container.spec', () => {
             }
         } as any;
         let res = { locals: { dino: 45 } };
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
-        spyOn(DinoUtility, 'isSyncRequestStartMiddleware').and.callFake(a => true);
+        spyOn(DinoUtility, 'isSyncRequestStartMiddleware').and.callFake(() => true);
 
         let dinoContainer = new DinoContainer(config);
 
@@ -215,7 +214,7 @@ describe('modules.core.dino.container.spec', () => {
                 };
             });
 
-        dinoContainer.requestStartMiddleWare(String);
+        dinoContainer.requestStartMiddleware(String);
         callback(request, res, () => 'invoked');
         expect(DinoUtility.isSyncRequestStartMiddleware).toHaveBeenCalledTimes(1);
         expect(dinoContainer.resolve).toHaveBeenCalledTimes(1);
@@ -235,9 +234,9 @@ describe('modules.core.dino.container.spec', () => {
             }
         } as any;
         let res = { locals: { dino: 45 } };
-        spyOn(DinoUtility, 'isSyncRequestStartMiddleware').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncRequestStartMiddleware').and.callFake(a => true);
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DinoUtility, 'isSyncRequestStartMiddleware').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncRequestStartMiddleware').and.callFake(() => true);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
         let dinoContainer = new DinoContainer(config);
 
@@ -257,7 +256,7 @@ describe('modules.core.dino.container.spec', () => {
                 };
             });
 
-        dinoContainer.requestStartMiddleWare(String);
+        dinoContainer.requestStartMiddleware(String);
         await callback(request, res, () => 'invoked');
         expect(DinoUtility.isSyncRequestStartMiddleware).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncRequestStartMiddleware).toHaveBeenCalledTimes(1);
@@ -278,9 +277,9 @@ describe('modules.core.dino.container.spec', () => {
             }
         } as any;
         let res = { locals: { dino: 45 } };
-        spyOn(DinoUtility, 'isSyncRequestStartMiddleware').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncRequestStartMiddleware').and.callFake(a => true);
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DinoUtility, 'isSyncRequestStartMiddleware').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncRequestStartMiddleware').and.callFake(() => true);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
 
         let dinoContainer = new DinoContainer(config);
@@ -300,11 +299,10 @@ describe('modules.core.dino.container.spec', () => {
                 };
             });
 
-        dinoContainer.requestStartMiddleWare(String);
+        dinoContainer.requestStartMiddleware(String);
         await callback(request, res, e => err = e);
         expect(DinoUtility.isSyncRequestStartMiddleware).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncRequestStartMiddleware).toHaveBeenCalledTimes(1);
-        expect(dinoContainer.resolve).toHaveBeenCalledTimes(1);
         expect(err).toEqual(new Error('TestError'));
     });
     it('requestStartMiddleWare.when_not_a_RequestStartMiddleware', () => {
@@ -318,13 +316,13 @@ describe('modules.core.dino.container.spec', () => {
                 }
             }
         } as any;
-        spyOn(DinoUtility, 'isSyncRequestStartMiddleware').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncRequestStartMiddleware').and.callFake(a => false);
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DinoUtility, 'isSyncRequestStartMiddleware').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncRequestStartMiddleware').and.callFake(() => false);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
 
         let dinoContainer = new DinoContainer(config);
-        dinoContainer.requestStartMiddleWare(String);
+        dinoContainer.requestStartMiddleware(String);
         expect(callback).toBeUndefined();
         expect(DinoUtility.isSyncRequestStartMiddleware).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncRequestStartMiddleware).toHaveBeenCalledTimes(1);
@@ -343,8 +341,8 @@ describe('modules.core.dino.container.spec', () => {
             }
         } as any;
         let res = { locals: { dino: 45 } };
-        spyOn(DinoUtility, 'isSyncRequestEndMiddleware').and.callFake(a => true);
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DinoUtility, 'isSyncRequestEndMiddleware').and.callFake(() => true);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
 
         let dinoContainer = new DinoContainer(config);
@@ -365,10 +363,9 @@ describe('modules.core.dino.container.spec', () => {
                 };
             });
 
-        dinoContainer.requestEndMiddleWare(String);
+        dinoContainer.requestEndMiddleware(String);
         callback(request, res, () => 'invoked');
         expect(DinoUtility.isSyncRequestEndMiddleware).toHaveBeenCalledTimes(1);
-        expect(dinoContainer.resolve).toHaveBeenCalledTimes(1);
         expect(invoked).toBeTruthy();
     });
     it('requestEndMiddleWare.when_isAsyncRequestEndMiddleware', async () => {
@@ -385,9 +382,9 @@ describe('modules.core.dino.container.spec', () => {
             }
         } as any;
         let res = { locals: { dino: 45 } };
-        spyOn(DinoUtility, 'isSyncRequestEndMiddleware').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncRequestEndMiddleware').and.callFake(a => true);
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DinoUtility, 'isSyncRequestEndMiddleware').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncRequestEndMiddleware').and.callFake(() => true);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
 
         let dinoContainer = new DinoContainer(config);
@@ -408,11 +405,10 @@ describe('modules.core.dino.container.spec', () => {
                 };
             });
 
-        dinoContainer.requestEndMiddleWare(String);
+        dinoContainer.requestEndMiddleware(String);
         await callback(request, res, () => 'invoked');
         expect(DinoUtility.isSyncRequestEndMiddleware).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncRequestEndMiddleware).toHaveBeenCalledTimes(1);
-        expect(dinoContainer.resolve).toHaveBeenCalledTimes(1);
         expect(invoked).toBeTruthy();
     });
     it('requestEndMiddleWare.throwsError_when_isAsyncRequestEndMiddleware', async () => {
@@ -429,9 +425,9 @@ describe('modules.core.dino.container.spec', () => {
             }
         } as any;
         let res = { locals: { dino: 45 } };
-        spyOn(DinoUtility, 'isSyncRequestEndMiddleware').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncRequestEndMiddleware').and.callFake(a => true);
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DinoUtility, 'isSyncRequestEndMiddleware').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncRequestEndMiddleware').and.callFake(() => true);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
 
         let dinoContainer = new DinoContainer(config);
@@ -451,11 +447,10 @@ describe('modules.core.dino.container.spec', () => {
                 };
             });
 
-        dinoContainer.requestEndMiddleWare(String);
+        dinoContainer.requestEndMiddleware(String);
         await callback(request, res, e => err = e);
         expect(DinoUtility.isSyncRequestEndMiddleware).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncRequestEndMiddleware).toHaveBeenCalledTimes(1);
-        expect(dinoContainer.resolve).toHaveBeenCalledTimes(1);
         expect(err).toEqual(new Error('TestError'));
     });
     it('requestEndMiddleWare.when_not_a_RequestEndMiddleware', () => {
@@ -469,36 +464,16 @@ describe('modules.core.dino.container.spec', () => {
                 }
             }
         } as any;
-        spyOn(DinoUtility, 'isSyncRequestEndMiddleware').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncRequestEndMiddleware').and.callFake(a => false);
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DinoUtility, 'isSyncRequestEndMiddleware').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncRequestEndMiddleware').and.callFake(() => false);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
 
         let dinoContainer = new DinoContainer(config);
-        dinoContainer.requestEndMiddleWare(String);
+        dinoContainer.requestEndMiddleware(String);
         expect(callback).toBeUndefined();
         expect(DinoUtility.isSyncRequestEndMiddleware).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncRequestEndMiddleware).toHaveBeenCalledTimes(1);
-    });
-    it('registerObservables.when_isObservableMiddleware', () => {
-        let config: IDinoContainerConfig = {} as any;
-        spyOn(DinoUtility, 'isObservableMiddleware').and.callFake(a => true);
-
-        let dinoContainer = new DinoContainer(config);
-        dinoContainer.registerObservables(String);
-        dinoContainer.registerObservables(Boolean);
-        expect(DinoUtility.isObservableMiddleware).toHaveBeenCalledTimes(2);
-        expect(dinoContainer.observableMiddlewares.includes(String)).toBeTruthy();
-        expect(dinoContainer.observableMiddlewares.includes(Boolean)).toBeTruthy();
-    });
-    it('registerObservables.when_not_anObservableMiddleware', () => {
-        let config: IDinoContainerConfig = {} as any;
-        spyOn(DinoUtility, 'isObservableMiddleware').and.callFake(a => false);
-
-        let dinoContainer = new DinoContainer(config);
-        dinoContainer.registerObservables(String);
-        expect(DinoUtility.isObservableMiddleware).toHaveBeenCalledTimes(1);
-        expect(dinoContainer.observableMiddlewares.includes(String)).toBeFalsy();
     });
     it('registerErrorMiddleWare.when_isSyncErrorMiddleware', () => {
         let invoked = false;
@@ -514,8 +489,8 @@ describe('modules.core.dino.container.spec', () => {
             }
         } as any;
         let res = { locals: { dino: 45 } };
-        spyOn(DinoUtility, 'isSyncErrorMiddleware').and.callFake(a => true);
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DinoUtility, 'isSyncErrorMiddleware').and.callFake(() => true);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
 
         let dinoContainer = new DinoContainer(config);
@@ -537,10 +512,9 @@ describe('modules.core.dino.container.spec', () => {
                 };
             });
 
-        dinoContainer.registerErrorMiddleWare(String);
+        dinoContainer.registerErrorMiddleware(String);
         callback(new Error('TestError'), request, res, () => 'invoked');
         expect(DinoUtility.isSyncErrorMiddleware).toHaveBeenCalledTimes(1);
-        expect(dinoContainer.resolve).toHaveBeenCalledTimes(1);
         expect(invoked).toBeTruthy();
     });
     it('registerErrorMiddleWare.when_isAsyncErrorMiddleware', async () => {
@@ -557,9 +531,9 @@ describe('modules.core.dino.container.spec', () => {
             }
         } as any;
         let res = { locals: { dino: 45 } };
-        spyOn(DinoUtility, 'isSyncErrorMiddleware').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncErrorMiddleware').and.callFake(a => true);
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DinoUtility, 'isSyncErrorMiddleware').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncErrorMiddleware').and.callFake(() => true);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
 
         let dinoContainer = new DinoContainer(config);
@@ -581,11 +555,10 @@ describe('modules.core.dino.container.spec', () => {
                 };
             });
 
-        dinoContainer.registerErrorMiddleWare(String);
+        dinoContainer.registerErrorMiddleware(String);
         await callback(new Error('TestError'), request, res, () => 'invoked');
         expect(DinoUtility.isAsyncErrorMiddleware).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isSyncErrorMiddleware).toHaveBeenCalledTimes(1);
-        expect(dinoContainer.resolve).toHaveBeenCalledTimes(1);
         expect(invoked).toBeTruthy();
     });
     it('registerErrorMiddleWare.throwsError_when_isAsyncErrorMiddleware', async () => {
@@ -602,9 +575,9 @@ describe('modules.core.dino.container.spec', () => {
             }
         } as any;
         let res = { locals: { dino: 45 } };
-        spyOn(DinoUtility, 'isSyncErrorMiddleware').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncErrorMiddleware').and.callFake(a => true);
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DinoUtility, 'isSyncErrorMiddleware').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncErrorMiddleware').and.callFake(() => true);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
 
         let dinoContainer = new DinoContainer(config);
@@ -625,11 +598,10 @@ describe('modules.core.dino.container.spec', () => {
                 };
             });
 
-        dinoContainer.registerErrorMiddleWare(String);
+        dinoContainer.registerErrorMiddleware(String);
         await callback(new Error('TestError'), request, res, e => err = e);
         expect(DinoUtility.isAsyncErrorMiddleware).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isSyncErrorMiddleware).toHaveBeenCalledTimes(1);
-        expect(dinoContainer.resolve).toHaveBeenCalledTimes(1);
         expect(err).toEqual(new Error('TestErrorThrown'));
     });
     it('registerErrorMiddleWare.when_not_a_ErrorMiddleware', () => {
@@ -643,13 +615,13 @@ describe('modules.core.dino.container.spec', () => {
                 }
             }
         } as any;
-        spyOn(DinoUtility, 'isSyncErrorMiddleware').and.callFake(a => false);
-        spyOn(DinoUtility, 'isAsyncErrorMiddleware').and.callFake(a => false);
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DinoUtility, 'isSyncErrorMiddleware').and.callFake(() => false);
+        spyOn(DinoUtility, 'isAsyncErrorMiddleware').and.callFake(() => false);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
 
         let dinoContainer = new DinoContainer(config);
-        dinoContainer.registerErrorMiddleWare(String);
+        dinoContainer.registerErrorMiddleware(String);
         expect(callback).toBeUndefined();
         expect(DinoUtility.isSyncErrorMiddleware).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncErrorMiddleware).toHaveBeenCalledTimes(1);
@@ -670,9 +642,9 @@ describe('modules.core.dino.container.spec', () => {
         } as any;
         let res = { locals: { dino: 45 } };
 
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
-        spyOn(DinoUtility, 'isErrorController').and.callFake(a => true);
+        spyOn(DinoUtility, 'isErrorController').and.callFake(() => true);
         spyOn(DinoErrorController, 'create').and.callFake(a => {
             expect(a).toEqual({ api: true });
 
@@ -704,8 +676,6 @@ describe('modules.core.dino.container.spec', () => {
         dinoContainer.registerErrorController(String);
         callback(new Error('TestError'), request, res, () => 'invoked');
         expect(DinoUtility.isErrorController).toHaveBeenCalledTimes(1);
-        expect(DinoErrorController.create).toHaveBeenCalledTimes(1);
-        expect(dinoContainer.resolve).toHaveBeenCalledTimes(1);
         expect(patch).toBeTruthy();
         expect(invoked).toBeTruthy();
     });
@@ -720,8 +690,8 @@ describe('modules.core.dino.container.spec', () => {
                 }
             }
         } as any;
-        spyOn(DinoUtility, 'isErrorController').and.callFake(a => false);
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
+        spyOn(DinoUtility, 'isErrorController').and.callFake(() => false);
+        spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
         let dinoContainer = new DinoContainer(config);
 
@@ -729,18 +699,16 @@ describe('modules.core.dino.container.spec', () => {
         expect(callback).toBeUndefined();
         expect(DinoUtility.isErrorController).toHaveBeenCalledTimes(1);
     });
-    it('setUpDinoController.when_observableResponse_is_false', () => {
+    it('setUpDinoController.verify_values', () => {
         let config: IDinoContainerConfig = {} as any;
         let res: any = { locals: { dino: 45 } };
         let dinoController: DinoController = { ctx: true } as any;
         let _sendsResponse = false;
-        let _observable = false;
         let _bindmodel = {};
 
         spyOn(ControllerAction, 'create')
-            .and.callFake((sendsResponse, observable, bindsModel) => {
+            .and.callFake((sendsResponse, bindsModel) => {
                 expect(sendsResponse).toBe(_sendsResponse);
-                expect(observable).toBeUndefined();
                 expect(bindsModel).toBe(_bindmodel);
 
                 return 'testAction';
@@ -767,59 +735,10 @@ describe('modules.core.dino.container.spec', () => {
             });
 
         let obj = dinoContainer
-            .setUpDinoController(String, _sendsResponse, _observable, _bindmodel, res);
+            .setUpDinoController(String, _sendsResponse, _bindmodel, res);
         expect(ControllerAction.create).toHaveBeenCalledTimes(1);
         expect(DinoController.create).toHaveBeenCalledTimes(1);
         expect(dinoContainer.resolve).toHaveBeenCalledTimes(1);
-        expect(obj).toBe(dinoController);
-    });
-    it('setUpDinoController.when_observableResponse_is_true', () => {
-        let config: IDinoContainerConfig = {} as any;
-        let res: any = { locals: { dino: 45 } };
-        let dinoController: DinoController = { ctx: true } as any;
-        let _sendsResponse = false;
-        let _observable = true;
-        let _bindmodel = {};
-        let middlewares = [];
-
-        spyOn(DIContainer, 'create').and.callFake((a, b) => null);
-        spyOn(RouteTable, 'create').and.callFake(() => null);
-        spyOn(ControllerAction, 'create')
-            .and.callFake((sendsResponse, observable, bindsModel) => {
-                expect(sendsResponse).toBe(_sendsResponse);
-                expect(observable).toBeDefined();
-                expect(bindsModel).toBe(_bindmodel);
-
-                return 'testAction';
-            });
-        spyOn(DinoController, 'create').and.callFake(
-            (api, action) => {
-                expect(action).toBe('testAction');
-                expect(api).toBe('resolved');
-
-                return dinoController;
-            });
-
-        let dinoContainer = new DinoContainer(config);
-        // observable middleware will be the first element, no matter how many we add
-        dinoContainer.observableMiddlewares.push(Function);
-        dinoContainer.observableMiddlewares.push(Object);
-        // Spy on the same object itself
-        spyOn(dinoContainer, 'resolve')
-            .and.callFake((middleware, dino) => {
-                middlewares.push(middleware);
-                expect(dino).toBe(res.locals.dino);
-
-                return 'resolved';
-            });
-
-        let obj = dinoContainer
-            .setUpDinoController(String, _sendsResponse, _observable, _bindmodel, res);
-        expect(ControllerAction.create).toHaveBeenCalledTimes(1);
-        expect(DinoController.create).toHaveBeenCalledTimes(1);
-        expect(dinoContainer.resolve).toHaveBeenCalledTimes(2);
-        expect(middlewares.includes(String)).toBeTruthy();
-        expect(middlewares.includes(Function)).toBeTruthy();
         expect(obj).toBe(dinoController);
     });
 });

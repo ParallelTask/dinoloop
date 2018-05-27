@@ -1,6 +1,5 @@
 import { IRouterCallBack, IMiddlewareProvider } from '../types/attribute';
 import { Express, Request, Response, NextFunction } from '../types/express';
-import { ObservableMiddleware } from '../filter/filter';
 
 export interface IDino {
     registerController<T>(controller: Function & { prototype: T }): void;
@@ -10,10 +9,9 @@ export interface IDino {
     requestStart<T>(middleware: Function & { prototype: T }): void;
     requestEnd<T>(middleware: Function & { prototype: T }): void;
     serverError<T>(middleware: Function & { prototype: T }): void;
-    observableMiddleware<T>(middleware: Function & { prototype: T }): void;
     raiseModelError(): void;
-    dependencyInjectionResolver<T>(injector: T,
-        cb: (injector: T, type: any) => any): void;
+    dependencyInjectionResolver<T>(
+        injector: T, cb: (injector: T, type: any) => any): void;
     bind(): void
     useRouter(cb: () => any): void;
 }
@@ -28,7 +26,6 @@ export interface IAppContainer {
     errorController: Function;
     errorMiddleware: Function[];
     routeNotFoundMiddleware: Function;
-    observableMiddlewares: Function[];
     raiseModelError: boolean;
     enableTaskContext: boolean;
     useRouter: IRouterCallBack;
@@ -40,13 +37,12 @@ export interface IDIContainer {
 }
 
 export interface IDinoContainer {
-    builtInRequestStartMiddleWare(middleware: Function): void;
+    builtInRequestStartMiddleware(middleware: Function): void;
     routeNotFoundMiddleware(middleware: Function): void;
-    requestStartMiddleWare(middleware: Function): void;
-    requestEndMiddleWare(middleware: Function): void;
-    registerErrorMiddleWare(middleware: Function): void;
+    requestStartMiddleware(middleware: Function): void;
+    requestEndMiddleware(middleware: Function): void;
+    registerErrorMiddleware(middleware: Function): void;
     registerErrorController(type: Function): void;
-    registerObservables(type: Function): void;
     registerController(type: Function): void;
 }
 
@@ -71,6 +67,6 @@ export interface IDinoRouter {
     registerBeginActionFilters(actionFilters: IMiddlewareProvider[]): void;
     registerAfterActionFilters(actionFilters: IMiddlewareProvider[]): void;
     registerResultFilters(resultFilters: IMiddlewareProvider[]): void;
-    registerExceptionFilters(app: Express, uri: string | RegExp,
-        filters: IMiddlewareProvider[]): void;
+    registerExceptionFilters(
+        app: Express, uri: string | RegExp, filters: IMiddlewareProvider[]): void;
 }

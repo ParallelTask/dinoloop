@@ -24,12 +24,3 @@ export interface IDinoContainerConfig {
     diContainer: any;
     diResolveCb: any;
 }
-
-export interface IActionMethodAttributes {
-    route: string;
-    httpVerb: string;
-    isAsync: boolean;
-    sendsResponse: boolean;
-    observableResponse: boolean;
-    bindsModel: IBindModelAttributeExtended;
-}

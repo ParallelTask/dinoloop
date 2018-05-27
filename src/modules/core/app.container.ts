@@ -17,7 +17,6 @@ export class AppContainer implements IAppContainer {
     errorController: Function;
     routeNotFoundMiddleware: Function;
     errorMiddleware: Function[] = [];
-    observableMiddlewares: Function[] = [];
     raiseModelError = false;
     enableTaskContext = false;
     useRouter: IRouterCallBack;
@@ -39,20 +38,18 @@ export class AppContainer implements IAppContainer {
         });
 
         // attach dino property to response object on every request start
-        dinoContainer.builtInRequestStartMiddleWare(DinoStartMiddleware);
+        dinoContainer.builtInRequestStartMiddleware(DinoStartMiddleware);
 
-        // Register the task/user context middleware on request start
         if (this.enableTaskContext) {
-            dinoContainer.builtInRequestStartMiddleWare(TaskContextMiddleware);
+            dinoContainer.builtInRequestStartMiddleware(TaskContextMiddleware);
         }
 
-        // Register RouteNotFound middleware, which handles the routing issues
         if (!DataUtility.isUndefinedOrNull(this.routeNotFoundMiddleware)) {
             dinoContainer.routeNotFoundMiddleware(this.routeNotFoundMiddleware);
         }
 
         for (const middleware of this.startMiddleware) {
-            dinoContainer.requestStartMiddleWare(middleware);
+            dinoContainer.requestStartMiddleware(middleware);
         }
 
         for (const controller of this.controllers) {
@@ -60,23 +57,18 @@ export class AppContainer implements IAppContainer {
         }
 
         for (const middleware of this.endMiddleware) {
-            dinoContainer.requestEndMiddleWare(middleware);
+            dinoContainer.requestEndMiddleware(middleware);
         }
 
         for (const middleware of this.errorMiddleware) {
-            dinoContainer.registerErrorMiddleWare(middleware);
+            dinoContainer.registerErrorMiddleware(middleware);
         }
 
         // Register the application error controller
-        // this would be the last error middleware to handle error object
+        // This would be the last error middleware to handle error object
         // make sure to register only after registering ErrorMiddleWares
         if (!DataUtility.isUndefinedOrNull(this.errorController)) {
             dinoContainer.registerErrorController(this.errorController);
-        }
-
-        // This can be registered at any line of statement but preferred at the end
-        for (const middleware of this.observableMiddlewares) {
-            dinoContainer.registerObservables(middleware);
         }
     }
 

@@ -1,7 +1,6 @@
 import {
     Reflector,
     SendsResponse,
-    Observable,
     Async,
     HttpGet,
     Attribute,
@@ -22,17 +21,6 @@ describe('modules.metadata.attributes.spec', () => {
                 expect(property).toBe('test');
             });
         AttributeMetadata.sendsResponse()(Function, 'test');
-        expect(Reflector.defineMetadata).toHaveBeenCalledTimes(1);
-    });
-    it('observable.verify_metadata', () => {
-        spyOn(Reflector, 'defineMetadata').and.callFake(
-            (key, value, target, property) => {
-                expect(key).toBe(Attribute.observable);
-                expect(value).toBe('observable');
-                expect(target).toBe(Function.constructor.prototype);
-                expect(property).toBe('test');
-            });
-        AttributeMetadata.observable()(Function, 'test');
         expect(Reflector.defineMetadata).toHaveBeenCalledTimes(1);
     });
     it('asyncAttr.verify_metadata', () => {
@@ -72,7 +60,7 @@ describe('modules.metadata.attributes.spec', () => {
     it('httpPost.verify_metadata', () => {
         spyOn(Reflector, 'defineMetadata').and.callFake(
             (key, value, target, property) => {
-                expect(key).toBe(Attribute.httpGet);
+                expect(key).toBe(Attribute.httpPost);
                 expect(value).toBe('route');
                 expect(target).toBe(Function.constructor.prototype);
                 expect(property).toBe('test');
@@ -95,7 +83,7 @@ describe('modules.metadata.attributes.spec', () => {
     it('httpPut.verify_metadata', () => {
         spyOn(Reflector, 'defineMetadata').and.callFake(
             (key, value, target, property) => {
-                expect(key).toBe(Attribute.httpGet);
+                expect(key).toBe(Attribute.httpPut);
                 expect(value).toBe('route');
                 expect(target).toBe(Function.constructor.prototype);
                 expect(property).toBe('test');
@@ -118,7 +106,7 @@ describe('modules.metadata.attributes.spec', () => {
     it('httpPatch.verify_metadata', () => {
         spyOn(Reflector, 'defineMetadata').and.callFake(
             (key, value, target, property) => {
-                expect(key).toBe(Attribute.httpGet);
+                expect(key).toBe(Attribute.httpPatch);
                 expect(value).toBe('route');
                 expect(target).toBe(Function.constructor.prototype);
                 expect(property).toBe('test');
@@ -141,7 +129,7 @@ describe('modules.metadata.attributes.spec', () => {
     it('httpDelete.verify_metadata', () => {
         spyOn(Reflector, 'defineMetadata').and.callFake(
             (key, value, target, property) => {
-                expect(key).toBe(Attribute.httpGet);
+                expect(key).toBe(Attribute.httpDelete);
                 expect(value).toBe('route');
                 expect(target).toBe(Function.constructor.prototype);
                 expect(property).toBe('test');
@@ -164,7 +152,7 @@ describe('modules.metadata.attributes.spec', () => {
     it('httpHead.verify_metadata', () => {
         spyOn(Reflector, 'defineMetadata').and.callFake(
             (key, value, target, property) => {
-                expect(key).toBe(Attribute.httpGet);
+                expect(key).toBe(Attribute.httpHead);
                 expect(value).toBe('route');
                 expect(target).toBe(Function.constructor.prototype);
                 expect(property).toBe('test');
@@ -187,7 +175,7 @@ describe('modules.metadata.attributes.spec', () => {
     it('httpAll.verify_metadata', () => {
         spyOn(Reflector, 'defineMetadata').and.callFake(
             (key, value, target, property) => {
-                expect(key).toBe(Attribute.httpGet);
+                expect(key).toBe(Attribute.httpAll);
                 expect(value).toBe('route');
                 expect(target).toBe(Function.constructor.prototype);
                 expect(property).toBe('test');

@@ -20,7 +20,6 @@ describe('modules.core.app.container.spec', () => {
         expect(app.errorController).toBeUndefined();
         expect(app.routeNotFoundMiddleware).toBeUndefined();
         expect(app.errorMiddleware).toEqual([]);
-        expect(app.observableMiddlewares).toEqual([]);
         expect(app.raiseModelError).toBeFalsy();
         expect(app.enableTaskContext).toBeFalsy();
         expect(app.useRouter).toBeUndefined();
@@ -33,11 +32,11 @@ describe('modules.core.app.container.spec', () => {
         let app = new AppContainer({});
         let obj: IDinoContainer = {} as IDinoContainer;
         let exists = false;
-        spyOn(DinoContainer, 'create').and.callFake(() => obj);
-        obj.builtInRequestStartMiddleWare = m => {
+        spyOn(DinoContainer, 'create').and.callFake(config => obj);
+        obj.builtInRequestStartMiddleware = m => {
             if (m.name === DinoStartMiddleware.name) exists = true;
         };
-        spyOn(obj, 'builtInRequestStartMiddleWare').and.callThrough();
+        spyOn(obj, 'builtInRequestStartMiddleware').and.callThrough();
         app.build();
         expect(exists).toBeTruthy();
     });
@@ -46,11 +45,11 @@ describe('modules.core.app.container.spec', () => {
         app.enableTaskContext = false;
         let obj: IDinoContainer = {} as IDinoContainer;
         let exists = false;
-        spyOn(DinoContainer, 'create').and.callFake(() => obj);
-        obj.builtInRequestStartMiddleWare = m => {
+        spyOn(DinoContainer, 'create').and.callFake(config => obj);
+        obj.builtInRequestStartMiddleware = m => {
             if (m.name === TaskContextMiddleware.name) exists = true;
         };
-        spyOn(obj, 'builtInRequestStartMiddleWare').and.callThrough();
+        spyOn(obj, 'builtInRequestStartMiddleware').and.callThrough();
         app.build();
         expect(exists).toBeFalsy();
     });
@@ -60,10 +59,10 @@ describe('modules.core.app.container.spec', () => {
         let obj: IDinoContainer = {} as IDinoContainer;
         let exists = false;
         spyOn(DinoContainer, 'create').and.callFake(() => obj);
-        obj.builtInRequestStartMiddleWare = m => {
+        obj.builtInRequestStartMiddleware = m => {
             if (m.name === TaskContextMiddleware.name) exists = true;
         };
-        spyOn(obj, 'builtInRequestStartMiddleWare').and.callThrough();
+        spyOn(obj, 'builtInRequestStartMiddleware').and.callThrough();
         app.build();
         expect(exists).toBeTruthy();
     });
@@ -71,7 +70,7 @@ describe('modules.core.app.container.spec', () => {
         let app = new AppContainer({});
         app.routeNotFoundMiddleware = RouteNotFoundMiddleware;
         let obj: IDinoContainer = {
-            builtInRequestStartMiddleWare: x => null
+            builtInRequestStartMiddleware: x => null
         } as IDinoContainer;
         let exists = false;
         spyOn(DinoContainer, 'create').and.callFake(() => obj);
@@ -86,7 +85,7 @@ describe('modules.core.app.container.spec', () => {
         let app = new AppContainer({});
         app.routeNotFoundMiddleware = undefined;
         let obj: IDinoContainer = {
-            builtInRequestStartMiddleWare: x => null
+            builtInRequestStartMiddleware: x => null
         } as IDinoContainer;
         let exists = false;
         spyOn(DinoContainer, 'create').and.callFake(() => obj);
@@ -101,7 +100,7 @@ describe('modules.core.app.container.spec', () => {
         let app = new AppContainer({});
         app.errorController = undefined;
         let obj: IDinoContainer = {
-            builtInRequestStartMiddleWare: x => null,
+            builtInRequestStartMiddleware: x => null,
             routeNotFoundMiddleware: x => null
         } as IDinoContainer;
         let exists = false;
@@ -117,7 +116,7 @@ describe('modules.core.app.container.spec', () => {
         let app = new AppContainer({});
         app.errorController = String;
         let obj: IDinoContainer = {
-            builtInRequestStartMiddleWare: x => null,
+            builtInRequestStartMiddleware: x => null,
             routeNotFoundMiddleware: x => null
         } as IDinoContainer;
         let exists = false;
@@ -139,7 +138,6 @@ describe('modules.core.app.container.spec', () => {
         app.controllers = [Function, Number];
         app.endMiddleware = [Array, Function];
         app.errorMiddleware = [Boolean, String];
-        app.observableMiddlewares = [Object, Array];
 
         let obj: IDinoContainer = {} as IDinoContainer;
         let builtIn = [];
@@ -147,13 +145,12 @@ describe('modules.core.app.container.spec', () => {
         let controllers = [];
         let requestEnd = [];
         let errorMiddleware = [];
-        let observables = [];
         let methodOrder: any = {};
         let i = 0;
 
         spyOn(DinoContainer, 'create').and.callFake(() => obj);
 
-        obj.builtInRequestStartMiddleWare = m => {
+        obj.builtInRequestStartMiddleware = m => {
             if (DataUtility.isUndefined(methodOrder.builtInRequestStartMiddleWare)) {
                 methodOrder.builtInRequestStartMiddleWare = ++i;
             }
@@ -165,7 +162,7 @@ describe('modules.core.app.container.spec', () => {
             }
             expect(m.name).toEqual(RouteNotFoundMiddleware.name);
         };
-        obj.requestStartMiddleWare = m => {
+        obj.requestStartMiddleware = m => {
             if (DataUtility.isUndefined(methodOrder.requestStartMiddleWare)) {
                 methodOrder.requestStartMiddleWare = ++i;
             }
@@ -177,13 +174,13 @@ describe('modules.core.app.container.spec', () => {
             }
             controllers.push(m.name);
         };
-        obj.requestEndMiddleWare = m => {
+        obj.requestEndMiddleware = m => {
             if (DataUtility.isUndefined(methodOrder.requestEndMiddleWare)) {
                 methodOrder.requestEndMiddleWare = ++i;
             }
             requestEnd.push(m.name);
         };
-        obj.registerErrorMiddleWare = m => {
+        obj.registerErrorMiddleware = m => {
             if (DataUtility.isUndefined(methodOrder.registerErrorMiddleWare)) {
                 methodOrder.registerErrorMiddleWare = ++i;
             }
@@ -195,21 +192,14 @@ describe('modules.core.app.container.spec', () => {
             }
             expect(m.name).toEqual(Number.name);
         };
-        obj.registerObservables = m => {
-            if (DataUtility.isUndefined(methodOrder.registerObservables)) {
-                methodOrder.registerObservables = ++i;
-            }
-            observables.push(m.name);
-        };
 
-        spyOn(obj, 'builtInRequestStartMiddleWare').and.callThrough();
+        spyOn(obj, 'builtInRequestStartMiddleware').and.callThrough();
         spyOn(obj, 'routeNotFoundMiddleware').and.callThrough();
-        spyOn(obj, 'requestStartMiddleWare').and.callThrough();
+        spyOn(obj, 'requestStartMiddleware').and.callThrough();
         spyOn(obj, 'registerController').and.callThrough();
-        spyOn(obj, 'requestEndMiddleWare').and.callThrough();
-        spyOn(obj, 'registerErrorMiddleWare').and.callThrough();
+        spyOn(obj, 'requestEndMiddleware').and.callThrough();
+        spyOn(obj, 'registerErrorMiddleware').and.callThrough();
         spyOn(obj, 'registerErrorController').and.callThrough();
-        spyOn(obj, 'registerObservables').and.callThrough();
         app.build();
 
         // Verifies the order of registration of middlewares
@@ -220,7 +210,6 @@ describe('modules.core.app.container.spec', () => {
         expect(methodOrder.requestEndMiddleWare).toBe(5);
         expect(methodOrder.registerErrorMiddleWare).toBe(6);
         expect(methodOrder.registerErrorController).toBe(7);
-        expect(methodOrder.registerObservables).toBe(8);
 
         // Verifies whether middlewares are registered exactly
         expect(builtIn.includes(DinoStartMiddleware.name)).toBeTruthy();
@@ -233,7 +222,5 @@ describe('modules.core.app.container.spec', () => {
         expect(requestEnd.includes(app.endMiddleware[1].name)).toBeTruthy();
         expect(errorMiddleware.includes(app.errorMiddleware[0].name)).toBeTruthy();
         expect(errorMiddleware.includes(app.errorMiddleware[1].name)).toBeTruthy();
-        expect(observables.includes(app.observableMiddlewares[0].name)).toBeTruthy();
-        expect(observables.includes(app.observableMiddlewares[1].name)).toBeTruthy();
     });
 });

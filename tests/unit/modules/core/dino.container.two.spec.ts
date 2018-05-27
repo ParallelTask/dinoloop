@@ -5,7 +5,7 @@ import {
     RouteTable,
     ObjectUtility,
     DinoUtility,
-    RequestStartMiddleWare,
+    RequestStartMiddleware,
     IRouteTable,
     DinoErrorController,
     Attribute,
@@ -18,18 +18,18 @@ import {
     DinoRouter,
     IControllerAttributeProvider,
     RouteAttribute,
-    IActionMethodAttributes
+    IActionMethodAttribute
 } from '../../index';
 
 describe('modules.core.dino.container.two.spec', () => {
     it('populateControllerMiddlewares.metadata_undefined', () => {
         let config: IDinoContainerConfig = {} as any;
 
-        spyOn(ObjectUtility, 'getPrototypeOf').and.callFake(obj => undefined);
-        spyOn(Reflector, 'getMetadata').and.callFake((ctrl, obj) => undefined);
-        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(metadata => true);
-        spyOn(DIContainer, 'create').and.callFake(obj => undefined);
-        spyOn(RouteTable, 'create').and.callFake(obj => undefined);
+        spyOn(ObjectUtility, 'getPrototypeOf').and.callFake(() => undefined);
+        spyOn(Reflector, 'getMetadata').and.callFake(() => undefined);
+        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(() => true);
+        spyOn(DIContainer, 'create').and.callFake(() => undefined);
+        spyOn(RouteTable, 'create').and.callFake(() => undefined);
 
         let dinoContainer = new DinoContainer(config);
         let obj = dinoContainer
@@ -54,12 +54,12 @@ describe('modules.core.dino.container.two.spec', () => {
             prefix: ''
         };
 
-        spyOn(ObjectUtility, 'getPrototypeOf').and.callFake(obj => undefined);
-        spyOn(DIContainer, 'create').and.callFake(obj => undefined);
-        spyOn(RouteTable, 'create').and.callFake(obj => undefined);
-        spyOn(Reflector, 'getMetadata').and.callFake((ctrl, obj) => meta);
-        spyOn(Reflector, 'getOwnMetadata').and.callFake((ctrl, obj) => undefined);
-        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(metadata => {
+        spyOn(ObjectUtility, 'getPrototypeOf').and.callFake(() => undefined);
+        spyOn(DIContainer, 'create').and.callFake(() => undefined);
+        spyOn(RouteTable, 'create').and.callFake(() => undefined);
+        spyOn(Reflector, 'getMetadata').and.callFake(() => meta);
+        spyOn(Reflector, 'getOwnMetadata').and.callFake(() => undefined);
+        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(() => {
             if (inheritanceOrder > 1) return true;
             inheritanceOrder++;
 
@@ -67,8 +67,8 @@ describe('modules.core.dino.container.two.spec', () => {
         });
 
         let dinoContainer = new DinoContainer(config);
-        let obj = dinoContainer
-            .populateControllerMiddlewares({} as any);
+        let obj = dinoContainer.populateControllerMiddlewares({} as any);
+
         expect(obj.prefix).toBe('');
 
         // order matters so we have to test for indices
@@ -97,12 +97,12 @@ describe('modules.core.dino.container.two.spec', () => {
             prefix: 'test'
         };
 
-        spyOn(ObjectUtility, 'getPrototypeOf').and.callFake(obj => undefined);
-        spyOn(DIContainer, 'create').and.callFake(obj => undefined);
-        spyOn(RouteTable, 'create').and.callFake(obj => undefined);
-        spyOn(Reflector, 'getMetadata').and.callFake((ctrl, obj) => meta);
-        spyOn(Reflector, 'getOwnMetadata').and.callFake((ctrl, obj) => meta);
-        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(metadata => {
+        spyOn(ObjectUtility, 'getPrototypeOf').and.callFake(() => undefined);
+        spyOn(DIContainer, 'create').and.callFake(() => undefined);
+        spyOn(RouteTable, 'create').and.callFake(() => undefined);
+        spyOn(Reflector, 'getMetadata').and.callFake(() => meta);
+        spyOn(Reflector, 'getOwnMetadata').and.callFake(() => meta);
+        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(() => {
             if (inheritanceOrder > 0) return true;
             inheritanceOrder++;
 
@@ -148,12 +148,12 @@ describe('modules.core.dino.container.two.spec', () => {
             prefix: '/tester/meta'
         };
 
-        spyOn(ObjectUtility, 'getPrototypeOf').and.callFake(obj => undefined);
-        spyOn(DIContainer, 'create').and.callFake(obj => undefined);
-        spyOn(RouteTable, 'create').and.callFake(obj => undefined);
-        spyOn(Reflector, 'getMetadata').and.callFake((ctrl, obj) => child);
-        spyOn(Reflector, 'getOwnMetadata').and.callFake((ctrl, obj) => base);
-        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(metadata => {
+        spyOn(ObjectUtility, 'getPrototypeOf').and.callFake(() => undefined);
+        spyOn(DIContainer, 'create').and.callFake(() => undefined);
+        spyOn(RouteTable, 'create').and.callFake(() => undefined);
+        spyOn(Reflector, 'getMetadata').and.callFake(() => child);
+        spyOn(Reflector, 'getOwnMetadata').and.callFake(() => base);
+        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(() => {
             if (inheritanceOrder > 1) return true;
             inheritanceOrder++;
 
@@ -161,8 +161,8 @@ describe('modules.core.dino.container.two.spec', () => {
         });
 
         let dinoContainer = new DinoContainer(config);
-        let obj = dinoContainer
-            .populateControllerMiddlewares({} as any);
+        let obj = dinoContainer.populateControllerMiddlewares({} as any);
+
         expect(obj.prefix).toBe(`${base.prefix}${child.prefix}`);
 
         // order matters so we have to test for indices
@@ -225,15 +225,15 @@ describe('modules.core.dino.container.two.spec', () => {
             prefix: ''
         };
 
-        spyOn(ObjectUtility, 'getPrototypeOf').and.callFake(obj => undefined);
-        spyOn(DIContainer, 'create').and.callFake(obj => undefined);
-        spyOn(RouteTable, 'create').and.callFake(obj => undefined);
-        spyOn(Reflector, 'getMetadata').and.callFake((ctrl, obj) => child);
-        spyOn(Reflector, 'getOwnMetadata').and.callFake((ctrl, obj) => {
+        spyOn(ObjectUtility, 'getPrototypeOf').and.callFake(() => undefined);
+        spyOn(DIContainer, 'create').and.callFake(() => undefined);
+        spyOn(RouteTable, 'create').and.callFake(() => undefined);
+        spyOn(Reflector, 'getMetadata').and.callFake(() => child);
+        spyOn(Reflector, 'getOwnMetadata').and.callFake(() => {
             if (inheritanceOrder === 1) return base;
             if (inheritanceOrder === 2) return superbase;
         });
-        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(metadata => {
+        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(() => {
             if (inheritanceOrder > 2) return true;
             inheritanceOrder++;
 
@@ -287,7 +287,7 @@ describe('modules.core.dino.container.two.spec', () => {
     it('registerController.when_not_Apicontroller', () => {
         let config: IDinoContainerConfig = {} as any;
 
-        spyOn(DinoUtility, 'isApiController').and.callFake(obj => false);
+        spyOn(DinoUtility, 'isApiController').and.callFake(() => false);
         let dinoContainer = new DinoContainer(config);
         let obj = dinoContainer
             .registerController({} as any);
@@ -296,11 +296,11 @@ describe('modules.core.dino.container.two.spec', () => {
     it('registerController.when_Apicontroller_but_metadata_undefined', () => {
         let config: IDinoContainerConfig = {} as any;
 
-        spyOn(DinoUtility, 'isApiController').and.callFake(obj => true);
-        spyOn(DIContainer, 'create').and.callFake(obj => undefined);
-        spyOn(RouteTable, 'create').and.callFake(obj => undefined);
-        spyOn(ObjectUtility, 'create').and.callFake(obj => undefined);
-        spyOn(Reflector, 'hasMetadata').and.callFake(obj => false);
+        spyOn(DinoUtility, 'isApiController').and.callFake(() => true);
+        spyOn(DIContainer, 'create').and.callFake(() => undefined);
+        spyOn(RouteTable, 'create').and.callFake(() => undefined);
+        spyOn(ObjectUtility, 'create').and.callFake(() => undefined);
+        spyOn(Reflector, 'hasMetadata').and.callFake(() => false);
 
         let dinoContainer = new DinoContainer(config);
 
@@ -333,7 +333,6 @@ describe('modules.core.dino.container.two.spec', () => {
             app: {
                 use: (uri, router) => {
                     expect(uri).toBe(`${config.baseUri}${meta.prefix}`);
-                    // expect(router).toBe(dinoRouter.expressRouter);
                     bindedRouterToApp = true;
                 }
             }
@@ -355,18 +354,16 @@ describe('modules.core.dino.container.two.spec', () => {
             }
         };
 
-        spyOn(DinoUtility, 'isApiController').and.callFake(obj => true);
-        spyOn(DIContainer, 'create').and.callFake(obj => undefined);
-        spyOn(RouteTable, 'create').and.callFake(obj => undefined);
-        spyOn(ObjectUtility, 'create').and.callFake(obj => { });
-        spyOn(Reflector, 'hasMetadata').and.callFake(obj => true);
-        spyOn(DinoRouter, 'create').and.callFake(obj => dinoRouter);
+        spyOn(DinoUtility, 'isApiController').and.callFake(() => true);
+        spyOn(DIContainer, 'create').and.callFake(() => undefined);
+        spyOn(RouteTable, 'create').and.callFake(() => undefined);
+        spyOn(ObjectUtility, 'create').and.callFake(() => { });
+        spyOn(Reflector, 'hasMetadata').and.callFake(() => true);
+        spyOn(DinoRouter, 'create').and.callFake(() => dinoRouter);
 
         let dinoContainer = new DinoContainer(config);
-        spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(obj => meta);
-
-        let obj = dinoContainer
-            .registerController({} as any);
+        spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(() => meta);
+        let obj = dinoContainer.registerController({} as any);
 
         expect(expressWares[0]).toBe(Function);
         expect(expressWares[1]).toBe(String);
@@ -385,12 +382,11 @@ describe('modules.core.dino.container.two.spec', () => {
         let router: any = { use: mware => undefined };
         let patch;
         let invoked;
-        let actionMeta: IActionMethodAttributes = {
+        let actionMeta: IActionMethodAttribute = {
             isAsync: false,
             httpVerb: 'get',
             route: 'test',
             sendsResponse: false,
-            observableResponse: false,
             bindsModel: undefined
         };
         let fakeRouteTable = RouteTable.create();
@@ -410,29 +406,28 @@ describe('modules.core.dino.container.two.spec', () => {
             app: { use: (uri, router) => undefined }
         } as any;
 
-        spyOn(DinoUtility, 'isApiController').and.callFake(obj => true);
-        spyOn(ObjectUtility, 'keys').and.callFake(obj => {
-            routeAttr = obj;
+        spyOn(DinoUtility, 'isApiController').and.callFake(() => true);
+        spyOn(ObjectUtility, 'keys').and.callFake(o => {
+            routeAttr = o;
 
             return ['post'];
         });
-        spyOn(ObjectUtility, 'create').and.callFake(obj => {
+        spyOn(ObjectUtility, 'create').and.callFake(() => {
             // set some fake properties to loop through
             return { get: () => undefined };
         });
-        spyOn(Reflector, 'hasMetadata').and.callFake(obj => true);
-        spyOn(DinoRouter, 'create').and.callFake(obj => dinoRouter);
-        spyOn(DIContainer, 'create').and.callFake(obj => undefined);
+        spyOn(Reflector, 'hasMetadata').and.callFake(() => true);
+        spyOn(DinoRouter, 'create').and.callFake(() => dinoRouter);
+        spyOn(DIContainer, 'create').and.callFake(() => undefined);
         spyOn(RouteTable, 'create').and.callFake(() => fakeRouteTable);
 
         let dinoContainer = new DinoContainer(config);
-        spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(obj => meta);
-        spyOn(dinoContainer, 'getActionMethodMetadata').and.callFake(obj => actionMeta);
+        spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(() => meta);
+        spyOn(dinoContainer, 'getActionMethodMetadata').and.callFake(() => actionMeta);
         spyOn(dinoContainer, 'setUpDinoController')
-            .and.callFake((type, sendsResponse, observableResp, bindsModel, res) => {
+            .and.callFake((type, sendsResponse, bindsModel, res) => {
                 expect(type).toBe(controllerType);
                 expect(sendsResponse).toBe(actionMeta.sendsResponse);
-                expect(observableResp).toBe(actionMeta.observableResponse);
                 expect(bindsModel).toBe(actionMeta.bindsModel);
                 expect(res).toEqual({ dino: true });
 
@@ -466,7 +461,7 @@ describe('modules.core.dino.container.two.spec', () => {
         let controllerType = Object;
         let meta: IControllerAttributeProvider = { prefix: '/test', use: [Function] };
         let router: any = { use: m => methodOrder.routerUse = ++invokeOrder };
-        let actionMeta: IActionMethodAttributes = {
+        let actionMeta: IActionMethodAttribute = {
             isAsync: false,
             httpVerb: 'get'
         } as any;
@@ -488,22 +483,22 @@ describe('modules.core.dino.container.two.spec', () => {
             app: { use: (uri, router) => methodOrder.appUse = ++invokeOrder }
         } as any;
 
-        spyOn(DinoUtility, 'isApiController').and.callFake(obj => true);
-        spyOn(Reflector, 'hasMetadata').and.callFake(obj => true);
-        spyOn(ObjectUtility, 'keys').and.callFake(obj => ['post']);
-        spyOn(ObjectUtility, 'create').and.callFake(obj => {
+        spyOn(DinoUtility, 'isApiController').and.callFake(() => true);
+        spyOn(Reflector, 'hasMetadata').and.callFake(() => true);
+        spyOn(ObjectUtility, 'keys').and.callFake(() => ['post']);
+        spyOn(ObjectUtility, 'create').and.callFake(() => {
             // set some fake properties to loop through
             return { get: () => undefined };
         });
-        spyOn(DinoRouter, 'create').and.callFake(obj => dinoRouter);
-        spyOn(DIContainer, 'create').and.callFake(obj => undefined);
+        spyOn(DinoRouter, 'create').and.callFake(() => dinoRouter);
+        spyOn(DIContainer, 'create').and.callFake(() => undefined);
         spyOn(RouteTable, 'create').and.callFake(() => fakeRouteTable);
 
         let dinoContainer = new DinoContainer(config);
-        spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(obj => meta);
-        spyOn(dinoContainer, 'getActionMethodMetadata').and.callFake(obj => actionMeta);
+        spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(() => meta);
+        spyOn(dinoContainer, 'getActionMethodMetadata').and.callFake(() => actionMeta);
         spyOn(dinoContainer, 'setUpDinoController')
-            .and.callFake((type, sendsResponse, observableResp, bindsModel, res) => {
+            .and.callFake((type, sendsResponse, bindsModel, res) => {
 
                 return {
                     patch: (req, res, next) => undefined,
@@ -531,12 +526,11 @@ describe('modules.core.dino.container.two.spec', () => {
         let router: any = { use: mware => undefined };
         let patch;
         let invoked;
-        let actionMeta: IActionMethodAttributes = {
+        let actionMeta: IActionMethodAttribute = {
             isAsync: true,
             httpVerb: 'get',
             route: 'test',
             sendsResponse: false,
-            observableResponse: false,
             bindsModel: undefined
         };
         let fakeRouteTable = RouteTable.create();
@@ -556,29 +550,27 @@ describe('modules.core.dino.container.two.spec', () => {
             app: { use: (uri, router) => undefined }
         } as any;
 
-        spyOn(DinoUtility, 'isApiController').and.callFake(obj => true);
-        spyOn(ObjectUtility, 'keys').and.callFake(obj => {
-            routeAttr = obj;
+        spyOn(DinoUtility, 'isApiController').and.callFake(() => true);
+        spyOn(ObjectUtility, 'keys').and.callFake(o => {
+            routeAttr = o;
 
             return ['post'];
         });
-        spyOn(DIContainer, 'create').and.callFake(obj => undefined);
+        spyOn(DIContainer, 'create').and.callFake(() => undefined);
         spyOn(RouteTable, 'create').and.callFake(() => fakeRouteTable);
-        spyOn(ObjectUtility, 'create').and.callFake(obj => {
-            // set some fake properties to loop through
+        spyOn(ObjectUtility, 'create').and.callFake(() => {
             return { get: () => undefined };
         });
-        spyOn(Reflector, 'hasMetadata').and.callFake(obj => true);
-        spyOn(DinoRouter, 'create').and.callFake(obj => dinoRouter);
+        spyOn(Reflector, 'hasMetadata').and.callFake(() => true);
+        spyOn(DinoRouter, 'create').and.callFake(() => dinoRouter);
 
         let dinoContainer = new DinoContainer(config);
-        spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(obj => meta);
-        spyOn(dinoContainer, 'getActionMethodMetadata').and.callFake(obj => actionMeta);
+        spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(() => meta);
+        spyOn(dinoContainer, 'getActionMethodMetadata').and.callFake(() => actionMeta);
         spyOn(dinoContainer, 'setUpDinoController')
-            .and.callFake((type, sendsResponse, observableResp, bindsModel, res) => {
+            .and.callFake((type, sendsResponse, bindsModel, res) => {
                 expect(type).toBe(controllerType);
                 expect(sendsResponse).toBe(actionMeta.sendsResponse);
-                expect(observableResp).toBe(actionMeta.observableResponse);
                 expect(bindsModel).toBe(actionMeta.bindsModel);
                 expect(res).toEqual({ dino: true });
 
@@ -610,20 +602,19 @@ describe('modules.core.dino.container.two.spec', () => {
 
         let config: IDinoContainerConfig = { raiseModelError: true } as any;
 
-        spyOn(Reflector, 'getMetadata').and.callFake(obj => {
-            if (obj === Attribute.httpGet) return '/route';
-            if (obj === Attribute.bindModel) {
+        spyOn(Reflector, 'getMetadata').and.callFake(ob => {
+            if (ob === Attribute.httpGet) return '/route';
+            if (ob === Attribute.bindModel) {
                 return { options: {} };
             }
         });
-        spyOn(Reflector, 'hasMetadata').and.callFake(obj => {
-            if (obj === Attribute.asyncAttr) return true;
-            if (obj === Attribute.sendsResponse) return false;
-            if (obj === Attribute.observable) return false;
+        spyOn(Reflector, 'hasMetadata').and.callFake(ob => {
+            if (ob === Attribute.asyncAttr) return true;
+            if (ob === Attribute.sendsResponse) return false;
         });
-        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(obj => true);
-        spyOn(DIContainer, 'create').and.callFake(obj => undefined);
-        spyOn(RouteTable, 'create').and.callFake(obj => undefined);
+        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(() => true);
+        spyOn(DIContainer, 'create').and.callFake(() => undefined);
+        spyOn(RouteTable, 'create').and.callFake(() => undefined);
 
         let dinoContainer = new DinoContainer(config);
         let obj = dinoContainer
@@ -631,29 +622,27 @@ describe('modules.core.dino.container.two.spec', () => {
 
         expect(obj.isAsync).toBeTruthy();
         expect(obj.sendsResponse).toBeFalsy();
-        expect(obj.observableResponse).toBeFalsy();
         expect(obj.route).toBe('/route');
         expect(obj.httpVerb).toBe(RouteAttribute.httpGetAttribute);
-        expect(obj.bindsModel.options.raiseModelError).toBeTruthy();
+        expect(obj.bindsModel.options.raiseModelError).toBeUndefined();
     });
     it('getActionMethodMetadata.when_metadata_defined_and_raiseModelError_defined_on_action', async () => {
 
         let config: IDinoContainerConfig = { raiseModelError: true } as any;
 
-        spyOn(Reflector, 'getMetadata').and.callFake(obj => {
-            if (obj === Attribute.httpGet) return '/route';
-            if (obj === Attribute.bindModel) {
+        spyOn(Reflector, 'getMetadata').and.callFake(ob => {
+            if (ob === Attribute.httpGet) return '/route';
+            if (ob === Attribute.bindModel) {
                 return { options: { raiseModelError: false } };
             }
         });
-        spyOn(Reflector, 'hasMetadata').and.callFake(obj => {
-            if (obj === Attribute.asyncAttr) return true;
-            if (obj === Attribute.sendsResponse) return false;
-            if (obj === Attribute.observable) return false;
+        spyOn(Reflector, 'hasMetadata').and.callFake(ob => {
+            if (ob === Attribute.asyncAttr) return true;
+            if (ob === Attribute.sendsResponse) return false;
         });
-        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(obj => false);
-        spyOn(DIContainer, 'create').and.callFake(obj => undefined);
-        spyOn(RouteTable, 'create').and.callFake(obj => undefined);
+        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(ob => false);
+        spyOn(DIContainer, 'create').and.callFake(ob => undefined);
+        spyOn(RouteTable, 'create').and.callFake(ob => undefined);
 
         let dinoContainer = new DinoContainer(config);
         let obj = dinoContainer
@@ -661,7 +650,6 @@ describe('modules.core.dino.container.two.spec', () => {
 
         expect(obj.isAsync).toBeTruthy();
         expect(obj.sendsResponse).toBeFalsy();
-        expect(obj.observableResponse).toBeFalsy();
         expect(obj.route).toBe('/route');
         expect(obj.httpVerb).toBe(RouteAttribute.httpGetAttribute);
         expect(obj.bindsModel.options.raiseModelError).toBeFalsy();
