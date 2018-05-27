@@ -4,6 +4,8 @@
         "mochawesome-report/": true,
         ".vs": true,
         "node_modules/": true,
+        "package-lock.json": true,
+        "**/*/package-lock.json": true,
         "**/*/node_modules/": true,
         "**/*/dist/": true,
         "LICENSE": true,

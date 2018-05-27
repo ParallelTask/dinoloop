@@ -11,25 +11,31 @@ import { IRouteTable } from '../../interfaces/idino';
  * Compares the requested route against the registered routes
  */
 export class RouteNotFoundMiddleware extends RequestStartMiddleware {
-    private routes: string[] = [];
+    private routes: UrlParser[] = [];
+    private isRouteTableLoaded = false;
 
     constructor(private routeTable: IRouteTable) {
         super();
-        this.routes = this.routeTable.getRoutes();
     }
 
     invoke(request: IExpressRequest, response: IExpressResponse, next): void {
 
-        let routes = this.routes;
+        if (this.isRouteTableLoaded === false) {
+            // load the routes and create UrlParser objects
+            let routes = this.routeTable.getRoutes();
+            for (const route of routes) {
+                this.routes.push(new UrlParser(route));
+            }
+            this.isRouteTableLoaded = true;
+        }
 
         // Note: Following format should match with the expression provided in "route.table.ts"
         // '/[httpVerb]_[route]'
         let requestUrl = `/${request.method}_${request.baseUrl}${request.path}`.toLowerCase();
         let isRouteMatched = false;
 
-        for (const route of routes) {
-            let urlParser = new UrlParser(route);
-            let values = urlParser.match(requestUrl);
+        for (const route of this.routes) {
+            let values = route.match(requestUrl);
             if (values !== null) {
                 isRouteMatched = true;
                 break;
