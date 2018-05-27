@@ -2,10 +2,10 @@ import { Container, decorate, injectable } from 'inversify';
 import {
     ApiController,
     ErrorController,
-    RequestStartMiddleWare,
-    RequestStartMiddleWareAsync,
-    RequestEndMiddleWare,
-    RequestEndMiddleWareAsync,
+    RequestStartMiddleware,
+    RequestStartMiddlewareAsync,
+    RequestEndMiddleware,
+    RequestEndMiddlewareAsync,
     Middleware,
     MiddlewareAsync,
     ActionFilter,
@@ -24,10 +24,10 @@ import { StartMiddleware, ResponseMiddleware } from '../services/middleware';
 // else inversify wont work because inversify expects the inherited members to have @injectable()
 decorate(injectable(), ApiController);
 decorate(injectable(), ErrorController);
-decorate(injectable(), RequestStartMiddleWare);
-decorate(injectable(), RequestStartMiddleWareAsync);
-decorate(injectable(), RequestEndMiddleWare);
-decorate(injectable(), RequestEndMiddleWareAsync);
+decorate(injectable(), RequestStartMiddleware);
+decorate(injectable(), RequestStartMiddlewareAsync);
+decorate(injectable(), RequestEndMiddleware);
+decorate(injectable(), RequestEndMiddlewareAsync);
 decorate(injectable(), Middleware);
 decorate(injectable(), MiddlewareAsync);
 decorate(injectable(), ActionFilter);

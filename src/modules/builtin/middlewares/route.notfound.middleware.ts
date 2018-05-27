@@ -1,6 +1,6 @@
 // tslint:disable-next-line:no-require-imports
 import UrlParser = require('url-pattern');
-import { RequestStartMiddleWare } from '../../filter/filter';
+import { RequestStartMiddleware } from '../../filter/filter';
 import { RouteNotFoundException } from '../exceptions/exceptions';
 import { IExpressResponse, IExpressRequest } from '../../types/express';
 import { IRouteTable } from '../../interfaces/idino';
@@ -10,8 +10,9 @@ import { IRouteTable } from '../../interfaces/idino';
 /**
  * Compares the requested route against the registered routes
  */
-export class RouteNotFoundMiddleware extends RequestStartMiddleWare {
+export class RouteNotFoundMiddleware extends RequestStartMiddleware {
     private routes: string[] = [];
+
     constructor(private routeTable: IRouteTable) {
         super();
         this.routes = this.routeTable.getRoutes();

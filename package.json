@@ -2,7 +2,7 @@
     "name": "dinoloop-src",
     "version": "0.0.1",
     "private": true,
-    "description": "open-source Nodejs framework, completely written in typescript project designed to build REST APIs",
+    "description": "open-source nodejs framework, completely written in typescript project designed to build REST APIs",
     "homepage": "https://github.com/ParallelTask/dinoloop",
     "bugs": "https://github.com/ParallelTask/dinoloop/issues",
     "author": "Dinoloop Team",

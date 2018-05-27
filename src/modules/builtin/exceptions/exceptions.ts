@@ -6,6 +6,7 @@ import { DataUtility } from '../../utility/data.utility';
  */
 export class InvalidArgumentException extends UserException {
     argumentValue: any;
+
     constructor(argumentValue: any, msg?: string) {
         super(msg);
         this.argumentValue = argumentValue;
@@ -23,7 +24,14 @@ export class InvalidRouteException extends UserException {
     action: string;
     controller: string;
     route: string | RegExp;
-    constructor(route: string | RegExp, httpVerb: string, action: string, controller: string, msg?: string) {
+
+    constructor(
+        route: string | RegExp,
+        httpVerb: string,
+        action: string,
+        controller: string,
+        msg?: string) {
+
         super(msg);
         this.route = route;
         this.httpVerb = httpVerb;
@@ -41,6 +49,7 @@ export class InvalidRouteException extends UserException {
 export class RouteNotFoundException extends UserException {
     httpVerb: string;
     requestUrl: string;
+
     constructor(httpVerb: string, requestUrl: string, msg?: string) {
         super(msg);
         this.httpVerb = httpVerb;
@@ -58,6 +67,7 @@ export class InvalidModelException extends UserException {
     value: any;
     errors: string[];
     model: any;
+
     constructor(value: any, errors: string[], model: any, msg?: any) {
         super(msg);
         this.value = value;

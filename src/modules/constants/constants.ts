@@ -2,7 +2,6 @@ export const Attribute = {
     sendsResponse: 'sendsResponseAttribute',
     asyncAttr: 'asyncAttribute',
     controller: 'controllerAttribute',
-    observable: 'observableAttribute',
     bindModel: 'bindModelAttribute',
     errorControllerDefaultMethod: 'write',
     httpGet: 'httpGetAttribute',

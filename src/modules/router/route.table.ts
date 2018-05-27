@@ -2,7 +2,7 @@ import { IRouteTable } from '../interfaces/idino';
 import { Attribute, RouteAttribute } from '../constants/constants';
 
 // RouteTable has the list of routes registered with dino
-// but these routes are only registered only after invoking ".bind()"" on dino instance.
+// but these routes are only registered only after invoking .bind() on dino instance.
 export class RouteTable implements IRouteTable {
     private routes: string[] = [];
 

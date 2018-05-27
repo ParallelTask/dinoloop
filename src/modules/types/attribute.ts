@@ -38,3 +38,11 @@ export interface IControllerAttributeProvider {
 }
 
 export declare type IRouterCallBack = () => any;
+
+export interface IActionMethodAttribute {
+    route: string;
+    httpVerb: string;
+    isAsync: boolean;
+    sendsResponse: boolean;
+    bindsModel: IBindModelAttributeExtended;
+}

@@ -26,7 +26,7 @@ export abstract class RouteUtility {
 
     // map the segmented values and query strings to action arguments
     // if action arguments matches named segment or query string of the url
-    // it simply returns the array of value indexed according to action arguments
+    // it simply returns the array of values indexed according to action arguments
     static mapSegmentsAndQueryToActionArguments(
         originalUri: string,
         requestedUri: string,

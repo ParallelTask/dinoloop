@@ -45,8 +45,6 @@ describe('modules.utility.route.utility.spec', () => {
         });
         let result = RouteUtility
             .mapSegmentsAndQueryToActionArguments(originalUrl, reqUrl, queryString, action);
-        expect(FunctionUtility.getParamNames).toHaveBeenCalledTimes(1);
-        expect(RouteUtility.getNamedSegmentKeyValues).toHaveBeenCalledTimes(1);
         expect(result[0]).toBe('console');
         expect(result[1]).toBe('5');
         expect(result[2]).toBe('45');
@@ -67,8 +65,6 @@ describe('modules.utility.route.utility.spec', () => {
             });
             let result = RouteUtility
                 .mapSegmentsAndQueryToActionArguments(originalUrl, reqUrl, queryString, action);
-            expect(FunctionUtility.getParamNames).toHaveBeenCalledTimes(1);
-            expect(RouteUtility.getNamedSegmentKeyValues).toHaveBeenCalledTimes(1);
             expect(result[0]).toBe('5');
             expect(result[1]).toBe('45');
             expect(result[2]).toBe('console');
@@ -85,8 +81,6 @@ describe('modules.utility.route.utility.spec', () => {
         });
         let result = RouteUtility
             .mapSegmentsAndQueryToActionArguments(originalUrl, reqUrl, queryString, action);
-        expect(FunctionUtility.getParamNames).toHaveBeenCalledTimes(1);
-        expect(RouteUtility.getNamedSegmentKeyValues).toHaveBeenCalledTimes(1);
         expect(result[0]).toBe(undefined);
         expect(result[1]).toBe('45');
         expect(result[2]).toBe(undefined);
@@ -106,8 +100,6 @@ describe('modules.utility.route.utility.spec', () => {
         });
         let result = RouteUtility
             .mapSegmentsAndQueryToActionArguments(originalUrl, reqUrl, queryString, action);
-        expect(FunctionUtility.getParamNames).toHaveBeenCalledTimes(1);
-        expect(RouteUtility.getNamedSegmentKeyValues).toHaveBeenCalledTimes(1);
         expect(result[0]).toBe('persistent');
         expect(result[1]).toBe(undefined);
         expect(result[2]).toBe('65');

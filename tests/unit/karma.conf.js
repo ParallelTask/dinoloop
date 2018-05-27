@@ -26,7 +26,7 @@ module.exports = function (config) {
         karmaTypescriptConfig: {
             tsconfig: "./tsconfig.spec.json",
             coverageOptions: {
-                exclude: [/index.ts/i, /\.(d|spec|test|fake)\.ts/i]
+                exclude: [/(index|fakes).ts/i, /\.(d|spec|test|fake)\.ts/i]
             }
         },
         client: {

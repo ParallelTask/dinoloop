@@ -1,5 +1,4 @@
 import {
-    ObservableMiddleware,
     ExceptionFilter,
     ErrorMiddleware,
     MiddlewareAsync,
@@ -8,10 +7,10 @@ import {
     ResultFilterAsync,
     ActionFilter,
     ActionFilterAsync,
-    RequestStartMiddleWare,
-    RequestEndMiddleWare,
-    RequestStartMiddleWareAsync,
-    RequestEndMiddleWareAsync,
+    RequestStartMiddleware,
+    RequestEndMiddleware,
+    RequestStartMiddlewareAsync,
+    RequestEndMiddlewareAsync,
     ExceptionFilterAsync,
     ErrorMiddlewareAsync
 } from '../filter/filter';
@@ -38,22 +37,22 @@ export abstract class DinoUtility {
 
     static isSyncRequestStartMiddleware(type: Function): boolean {
         return ObjectUtility.create(type.prototype)
-            instanceof RequestStartMiddleWare;
+            instanceof RequestStartMiddleware;
     }
 
     static isAsyncRequestStartMiddleware(type: Function): boolean {
         return ObjectUtility.create(type.prototype)
-            instanceof RequestStartMiddleWareAsync;
+            instanceof RequestStartMiddlewareAsync;
     }
 
     static isSyncRequestEndMiddleware(type: Function): boolean {
         return Object.create(type.prototype)
-            instanceof RequestEndMiddleWare;
+            instanceof RequestEndMiddleware;
     }
 
     static isAsyncRequestEndMiddleware(type: Function): boolean {
         return Object.create(type.prototype)
-            instanceof RequestEndMiddleWareAsync;
+            instanceof RequestEndMiddlewareAsync;
     }
 
     static isSyncActionFilter(type: Function): boolean {
@@ -94,10 +93,6 @@ export abstract class DinoUtility {
 
     static isErrorController(type: Function): boolean {
         return ObjectUtility.create(type.prototype) instanceof ErrorController;
-    }
-
-    static isObservableMiddleware(type: Function): boolean {
-        return ObjectUtility.create(type.prototype) instanceof ObservableMiddleware;
     }
 
     static isApiController(type: Function): boolean {

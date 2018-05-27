@@ -1,8 +1,8 @@
 import { injectable } from 'inversify';
-import { RequestStartMiddleWare, Request, Response, NextFunction, RequestEndMiddleWare } from '../../../../index';
+import { RequestStartMiddleware, Request, Response, NextFunction, RequestEndMiddleware } from '../../../../index';
 
 @injectable()
-export class StartMiddleware extends RequestStartMiddleWare {
+export class StartMiddleware extends RequestStartMiddleware {
     invoke(request: Request, response: Response, next: NextFunction): void {
         response.locals.data = [];
         response.locals.data.push('This is StartMiddleWareOne');
@@ -11,7 +11,7 @@ export class StartMiddleware extends RequestStartMiddleWare {
 }
 
 @injectable()
-export class ResponseMiddleware extends RequestEndMiddleWare {
+export class ResponseMiddleware extends RequestEndMiddleware {
     invoke(request: Request, response: Response, next: NextFunction, result: any): void {
         response.locals.data.push('This is ResponseMiddleWare');
         response.json({

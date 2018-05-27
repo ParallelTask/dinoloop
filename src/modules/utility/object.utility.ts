@@ -2,7 +2,7 @@ import { DataUtility } from './data.utility';
 
 /**
  * Wrapper methods for native js Object
- * Just to make sure not to inject native js functions into the api
+ * Just to make sure not to inject native js functions into the API
  * This increases to support older versions that dont support the latest Object api
  */
 export abstract class ObjectUtility {

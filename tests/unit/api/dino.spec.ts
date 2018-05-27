@@ -10,8 +10,8 @@ describe('api.dino.spec', () => {
     it('registerController.verify_registerControllers', () => {
         let obj: IAppContainer = { controllers: [] } as IAppContainer;
         let express;
-        spyOn(AppContainer, 'create').and.callFake(e => {
-            express = e;
+        spyOn(AppContainer, 'create').and.callFake(app => {
+            express = app;
 
             return obj;
         });
@@ -72,7 +72,6 @@ describe('api.dino.spec', () => {
         spyOn(AppContainer, 'create').and.callFake(() => obj);
         let app = new Dino({ expressInstance: true }, '/test');
         app.useRouter(() => 5);
-        expect(typeof obj.useRouter).toBe(typeof Function);
         expect(obj.useRouter()).toBe(5);
     });
     it('disableRouteNotFoundException.routeNotFoundMiddleware_must_be_undefined', () => {
@@ -97,15 +96,6 @@ describe('api.dino.spec', () => {
         app.raiseModelError();
         expect(obj.raiseModelError).toBeTruthy();
     });
-    it('observableMiddleware.verify_observable_middlewares', () => {
-        let obj: IAppContainer = { observableMiddlewares: [] } as IAppContainer;
-        spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
-        app.observableMiddleware(Function);
-        app.observableMiddleware(Boolean);
-        expect(obj.observableMiddlewares[0]).toBe(Function);
-        expect(obj.observableMiddlewares[1]).toBe(Boolean);
-    });
     it('dependencyInjectionResolver.verify_di_resolver', () => {
         let obj: IAppContainer = {
             diContainer: undefined,
@@ -121,7 +111,8 @@ describe('api.dino.spec', () => {
         let obj: IAppContainer = {} as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
         let app = new Dino({ expressInstance: true }, '/test');
-        expect(() => app.bind()).toThrow(new Error(Errors.routerNotRegistered));
+        expect(() => app.bind())
+            .toThrow(new Error(Errors.routerNotRegistered));
     });
     it('bind.throws_Error_when_bind_called_twice', () => {
         let obj: IAppContainer = {} as IAppContainer;
@@ -130,7 +121,8 @@ describe('api.dino.spec', () => {
         spyOn(AppContainer, 'create').and.callFake(() => obj);
         let app = new Dino({ expressInstance: true }, '/test');
         app.bind();
-        expect(() => app.bind()).toThrow(new Error(Errors.dinoAlreadyBinded));
+        expect(() => app.bind())
+            .toThrow(new Error(Errors.dinoAlreadyBinded));
     });
     it('bind.invoke_app.build_when_bind_called_once', () => {
         let obj: IAppContainer = {} as IAppContainer;

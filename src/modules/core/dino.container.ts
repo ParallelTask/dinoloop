@@ -1,6 +1,5 @@
 import { Express, IExpressResponse } from '../types/express';
 import { ApiController } from '../controller/api.controller';
-import { ObservableMiddleware } from '../filter/filter';
 import { DIContainer } from './dicontainer';
 import { ErrorController } from '../controller/error.controller';
 import { DinoUtility } from '../utility/dino.utility';
@@ -14,12 +13,13 @@ import { Reflector } from '../lib/reflector';
 import { ObjectUtility } from '../utility/object.utility';
 import { IRequestEndMiddleware, IRequestStartMiddleware, IErrorMiddleware } from '../interfaces/filter';
 import { IDinoContainer, IDIContainer, IRouteTable } from '../interfaces/idino';
-import { IDinoContainerConfig, IDinoResponse, IActionMethodAttributes } from '../types/dino.types';
+import { IDinoContainerConfig, IDinoResponse } from '../types/dino.types';
 import {
     IRouterCallBack,
     IControllerAttributeProvider,
     IControllerAttributeExtended,
-    IBindModelAttributeExtended
+    IBindModelAttributeExtended,
+    IActionMethodAttribute
 } from '../types/attribute';
 import { Attribute, RouteAttribute } from '../constants/constants';
 import { IUserIdentity } from '../providers/providers';
@@ -33,10 +33,6 @@ export class DinoContainer implements IDinoContainer {
     private enableTaskContext: boolean;
     private useRouterCb: IRouterCallBack;
 
-    // exposing this property only to unit test
-    // should figure out the way to handle it by making this property as private
-    observableMiddlewares: any[] = [];
-
     constructor(config: IDinoContainerConfig) {
         this.app = config.app;
         this.baseUri = config.baseUri;
@@ -47,7 +43,7 @@ export class DinoContainer implements IDinoContainer {
         this.routeTable = RouteTable.create();
     }
 
-    // made public for unit test and not available on interface method
+    // made public for unit test and not available on interface contract
     resolve<T>(middleware: Function, dino: IDinoResponse): T {
         let o = this.diContainer.resolve<T>(middleware);
 
@@ -56,10 +52,10 @@ export class DinoContainer implements IDinoContainer {
             ObjectUtility.replaceObjectReferences(o, dino.context, IUserIdentity) : o;
     }
 
-    // registers RouteNotFound middleware
+    // Register RouteNotFoundMiddleware
     routeNotFoundMiddleware(middleware: any): void {
         if (DinoUtility.isSyncRequestStartMiddleware(middleware)) {
-            // create singleton object
+            // singleton object
             let mw = new middleware(this.routeTable);
             this.app.use(this.baseUri, (req, res, next) => {
                 mw.invoke(req, res, next);
@@ -67,9 +63,9 @@ export class DinoContainer implements IDinoContainer {
         }
     }
 
-    // Register builtin middlewares which are to be registered on request start
+    // Register builtInRequestStartMiddlewares
     // ex: DinoStartMiddleware, TaskContextMiddleware
-    builtInRequestStartMiddleWare(middleware: any): void {
+    builtInRequestStartMiddleware(middleware: any): void {
         if (DinoUtility.isSyncRequestStartMiddleware(middleware)) {
             // create builtin middlewares as singleton object
             let mw = new middleware();
@@ -79,18 +75,20 @@ export class DinoContainer implements IDinoContainer {
         }
     }
 
-    // register request start middlewares, which runs for every request start
-    requestStartMiddleWare(middleware: Function): void {
+    // Register RequestStartMiddleware
+    requestStartMiddleware(middleware: Function): void {
         if (DinoUtility.isSyncRequestStartMiddleware(middleware)) {
             this.app.use(this.baseUri, (req, res, next) => {
-                let mw = this.resolve<IRequestStartMiddleware>(middleware,
+                let mw = this.resolve<IRequestStartMiddleware>(
+                    middleware,
                     res.locals.dino);
                 mw.invoke(req, res, next);
             });
         } else if (DinoUtility.isAsyncRequestStartMiddleware(middleware)) {
             this.app.use(this.baseUri, async (req, res, next) => {
                 try {
-                    let mw = this.resolve<IRequestStartMiddleware>(middleware,
+                    let mw = this.resolve<IRequestStartMiddleware>(
+                        middleware,
                         res.locals.dino);
                     await mw.invoke(req, res, next);
                 } catch (err) {
@@ -100,18 +98,20 @@ export class DinoContainer implements IDinoContainer {
         }
     }
 
-    // register request end middlewares, which will run for every request end
-    requestEndMiddleWare(middleware: Function): void {
+    // Register RequestEnd Middlewares
+    requestEndMiddleware(middleware: Function): void {
         if (DinoUtility.isSyncRequestEndMiddleware(middleware)) {
             this.app.use(this.baseUri, (req, res, next) => {
-                let mw = this.resolve<IRequestEndMiddleware>(middleware,
+                let mw = this.resolve<IRequestEndMiddleware>(
+                    middleware,
                     res.locals.dino);
                 mw.invoke(req, res, next, res.locals.dino.result);
             });
         } else if (DinoUtility.isAsyncRequestEndMiddleware(middleware)) {
             this.app.use(this.baseUri, async (req, res, next) => {
                 try {
-                    let mw = this.resolve<IRequestEndMiddleware>(middleware,
+                    let mw = this.resolve<IRequestEndMiddleware>(
+                        middleware,
                         res.locals.dino);
                     await mw.invoke(req, res, next, res.locals.dino.result);
                 } catch (err) {
@@ -121,17 +121,8 @@ export class DinoContainer implements IDinoContainer {
         }
     }
 
-    // TODO: Currently we consider only the first observable middleware
-    // The other registered observable middlewares are ignored
-    registerObservables(type: Function): void {
-        if (DinoUtility.isObservableMiddleware(type)) {
-            this.observableMiddlewares.push(type);
-        }
-    }
-
-    // Register the error middlewares
-    // so that any error occurred in dinoloop instance will be propagated to these middlewares
-    registerErrorMiddleWare(middleware: Function): void {
+    // Any error occurred in dinoloop instance will be propagated to these middlewares
+    registerErrorMiddleware(middleware: Function): void {
         if (DinoUtility.isSyncErrorMiddleware(middleware)) {
             this.app.use(this.baseUri, (err, req, res, next) => {
                 let mw = this.resolve<IErrorMiddleware>(middleware,
@@ -165,24 +156,21 @@ export class DinoContainer implements IDinoContainer {
         }
     }
 
-    // made public for unit test and not available on interface method
+    // made public for unit test and not available on interface contract
     setUpDinoController(type: any,
         sendsResponse: boolean,
-        observableResponse: boolean,
         bindsModel: IBindModelAttributeExtended,
         res: IExpressResponse): DinoController {
-        let o = observableResponse ?
-            this.resolve<ObservableMiddleware>(this.observableMiddlewares[0], res.locals.dino)
-            : undefined;
+
         let api = this.resolve<ApiController>(type, res.locals.dino);
-        let action = ControllerAction.create(sendsResponse, o, bindsModel);
+        let action = ControllerAction.create(sendsResponse, bindsModel);
         let ctx = DinoController.create(api, action);
 
         return ctx;
     }
 
-    // Populates controller middlewares, filters etc by walking up through the inheritance chain
-    // made public for unit test and not available on interface method
+    // Populates controller middlewares, filters etc by walking up the controllers inheritance chain
+    // made public for unit test and not available on interface contract
     populateControllerMiddlewares(obj: ApiController): IControllerAttributeProvider {
 
         let objProto = ObjectUtility.getPrototypeOf(obj);
@@ -238,12 +226,12 @@ export class DinoContainer implements IDinoContainer {
         };
     }
 
-    // made public for unit test and not available on interface method.
-    // gets all the metadata/attributes that are attached to action method.
+    // made public for unit test and not available on interface contract
+    // gets all the attributes that are attached to action method
     getActionMethodMetadata(
         httpAttribute: string,
         actionName: string,
-        controller: ApiController): IActionMethodAttributes {
+        controller: ApiController): IActionMethodAttribute {
 
         let route: string = Reflector.getMetadata(httpAttribute, controller, actionName);
         let bindsModel: IBindModelAttributeExtended =
@@ -251,7 +239,6 @@ export class DinoContainer implements IDinoContainer {
         let httpVerb: string = RouteAttribute[httpAttribute];
         let isAsync = Reflector.hasMetadata(Attribute.asyncAttr, controller, actionName);
         let sendsResponse = Reflector.hasMetadata(Attribute.sendsResponse, controller, actionName);
-        let observableResponse = Reflector.hasMetadata(Attribute.observable, controller, actionName);
 
         if (!DataUtility.isUndefinedOrNull(bindsModel)) {
             bindsModel.options.raiseModelError =
@@ -264,19 +251,18 @@ export class DinoContainer implements IDinoContainer {
             httpVerb: httpVerb,
             isAsync: isAsync,
             sendsResponse: sendsResponse,
-            observableResponse: observableResponse,
             bindsModel: bindsModel
         };
     }
 
-    // register and bind the controller with express router
+    // Registers and binds the controller with express router
     registerController(type: Function): void {
 
         if (!DinoUtility.isApiController(type)) return;
 
         let controller: ApiController = ObjectUtility.create(type.prototype);
 
-        // validate if the controller has @controller metadata
+        // validate if the controller has @Controller attribute
         if (Reflector.hasMetadata(Attribute.controller, controller)) {
 
             let metadata = this.populateControllerMiddlewares(controller);
@@ -304,7 +290,7 @@ export class DinoContainer implements IDinoContainer {
                 // loop through every HttpVerb key i.e. get, post ...
                 ObjectUtility.keys(RouteAttribute).forEach(httpAttribute => {
 
-                    // If the controller action has HttpVerb (get, post ...) attribute
+                    // Check if the controller action has HttpVerb (get, post ...) attribute
                     if (Reflector.hasMetadata(httpAttribute, controller, actionName)) {
 
                         let action = this.getActionMethodMetadata(httpAttribute, actionName, controller);
@@ -313,15 +299,21 @@ export class DinoContainer implements IDinoContainer {
 
                         if (action.isAsync) {
                             router[action.httpVerb](action.route, async (req, res, next) => {
-                                let ctx = this.setUpDinoController(type,
-                                    action.sendsResponse, action.observableResponse, action.bindsModel, res);
+                                let ctx = this.setUpDinoController(
+                                    type,
+                                    action.sendsResponse,
+                                    action.bindsModel,
+                                    res);
                                 ctx.patch(req, res, next);
                                 ctx.invokeAsync(actionName, action.httpVerb, action.route);
                             });
                         } else {
                             router[action.httpVerb](action.route, (req, res, next) => {
-                                let ctx = this.setUpDinoController(type,
-                                    action.sendsResponse, action.observableResponse, action.bindsModel, res);
+                                let ctx = this.setUpDinoController(
+                                    type,
+                                    action.sendsResponse,
+                                    action.bindsModel,
+                                    res);
                                 ctx.patch(req, res, next);
                                 ctx.invoke(actionName, action.httpVerb, action.route);
                             });

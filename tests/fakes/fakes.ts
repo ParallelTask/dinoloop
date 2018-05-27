@@ -1,8 +1,9 @@
 import {
     Middleware, MiddlewareAsync,
-    RequestEndMiddleWare, RequestStartMiddleWare,
-    RequestStartMiddleWareAsync,
-    RequestEndMiddleWareAsync,
+    RequestEndMiddleware,
+    RequestStartMiddleware,
+    RequestStartMiddlewareAsync,
+    RequestEndMiddlewareAsync,
     ActionFilter,
     ActionFilterAsync,
     ResultFilter,
@@ -10,7 +11,6 @@ import {
     ErrorController,
     ErrorMiddleware,
     ErrorMiddlewareAsync,
-    ObservableMiddleware,
     ExceptionFilter,
     ExceptionFilterAsync,
     ApiController
@@ -24,18 +24,18 @@ export class MiddlewareAsyncFake extends MiddlewareAsync {
         throw new Error('Method not implemented.');
     }
 }
-export class RequestStartMiddlewareFake extends RequestStartMiddleWare {
+export class RequestStartMiddlewareFake extends RequestStartMiddleware {
     invoke(request: any, response: any, next: any): void { }
 }
-export class RequestStartMiddlewareAsyncFake extends RequestStartMiddleWareAsync {
+export class RequestStartMiddlewareAsyncFake extends RequestStartMiddlewareAsync {
     async invoke(request: any, response: any, next: any): Promise<void> {
         throw new Error('Method not implemented.');
     }
 }
-export class RequestEndMiddlewareFake extends RequestEndMiddleWare {
+export class RequestEndMiddlewareFake extends RequestEndMiddleware {
     invoke(request: any, response: any, next: any, result: any): void { }
 }
-export class RequestEndMiddlewareAsyncFake extends RequestEndMiddleWareAsync {
+export class RequestEndMiddlewareAsyncFake extends RequestEndMiddlewareAsync {
     invoke(request: any, response: any, next: any, result: any): Promise<void> {
         throw new Error('Method not implemented.');
     }
@@ -74,9 +74,6 @@ export class ErrorMiddlewareAsyncFake extends ErrorMiddlewareAsync {
     async invoke(err: Error, request: any, response: any, next: any): Promise<void> {
         throw new Error('Method not implemented.');
     }
-}
-export class ObservableMiddlewareFake extends ObservableMiddleware {
-    invoke(request: any, response: any, next: any, dino: any): void { }
 }
 export class ExceptionFilterFake extends ExceptionFilter {
     invoke(err: Error, request: any, response: any, next: any): void { }

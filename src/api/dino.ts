@@ -92,16 +92,6 @@ export class Dino implements IDino {
         this.appContainer.enableTaskContext = true;
     }
 
-    // If action method's have observable return type, instead of spreading .subscribe()
-    // in all methods, you can have a common middleware solution to handle all observable types
-    // this removes lot of boiler plate code for actions that handle observable response in similar way.
-    /**
-     * Register Observable middleware
-     */
-    observableMiddleware<T>(middleware: Function & { prototype: T }): void {
-        this.appContainer.observableMiddlewares.push(middleware);
-    }
-
     // While binding the http request body to given model, if it is invalid model
     // following property decides whether to trigger InvalidModelException or continue silently.
     /**

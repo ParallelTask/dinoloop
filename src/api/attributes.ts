@@ -4,24 +4,15 @@ import {
     IBindModelAttribute
 } from './index';
 
-// if an API action wants to send response on its own, decorate it @SendsResponse()
-// these is used when action method directly sends response using response object.
-// ex: like read, download file contents actions must be decorated with @SendsResponse
-// actions having @SendsResponse is recommended to have return type as void since return value is ignored
+// if an API action wants to send response on its own, decorate @SendsResponse()
+// this is used when action method directly sends response using response object.
+// ex: like read, download file contents must be decorated with @SendsResponse
+// actions having @SendsResponse recommended to have void return type since return value is ignored
 /**
  *  Decorate on API actions that sends response using response object
  */
 export function SendsResponse(): (target: any, propertyKey: string) => void {
     return AttributeMetadata.sendsResponse();
-}
-
-// if an API action has observable as return type then decorate it @Observable
-// this helps to handle all the observable response in a global way via observable middleware
-/**
- * Decorate on API actions of return type RxJs Observable
- */
-export function Observable(): (target: any, propertyKey: string) => void {
-    return AttributeMetadata.observable();
 }
 
 // if an API action is async in nature, action should be decorated with @Async

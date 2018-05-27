@@ -8,6 +8,7 @@ import { ObjectUtility } from '../utility/object.utility';
 import { DinoParser } from '../utility/dino.parser';
 import { IUserIdentity } from '../providers/providers';
 
+// Each controller gets an instance of router
 // Register middlewares on the router level
 // so that the middlewares are available for all routes at router level
 export class DinoRouter implements IDinoRouter {
@@ -17,12 +18,12 @@ export class DinoRouter implements IDinoRouter {
 
     constructor(config: IRouterConfig) {
         this.diContainer = config.diContainer;
-        // Gets the new instance of express.router every time dino.router is created
+        // Gets the new instance of express.router
         this.router = config.routerCb();
         this.enableTaskContext = config.enableTaskContext;
     }
 
-    // made public for unit test and not available on interface method
+    // made public for unit test and not available on interface contract
     resolve<T>(middleware: Function, dino: IDinoResponse): T {
         let o = this.diContainer.resolve<T>(middleware);
 
@@ -30,20 +31,20 @@ export class DinoRouter implements IDinoRouter {
             ObjectUtility.replaceObjectReferences(o, dino.context, IUserIdentity) : o;
     }
 
-    // made public for unit test and not available on interface method
+    // made public for unit test and not available on interface contract
     registerMiddleware(middleware: IMiddlewareProvider): void {
         let provider = DinoParser.parseMiddlewareProvider(middleware);
 
         if (DinoUtility.isSyncMiddleWare(provider.useClass)) {
             this.router.use((req, res, next) => {
-                let mware = this.resolve<IMiddleware>(provider.useClass,
-                    res.locals.dino);
+                let mware = this.resolve<IMiddleware>(
+                    provider.useClass, res.locals.dino);
                 mware.invoke(req, res, next, provider.data);
             });
         } else if (DinoUtility.isAsyncMiddleWare(provider.useClass)) {
             this.router.use(async (req, res, next) => {
-                let mware = this.resolve<IMiddleware>(provider.useClass,
-                    res.locals.dino);
+                let mware = this.resolve<IMiddleware>(
+                    provider.useClass, res.locals.dino);
                 try {
                     await mware.invoke(req, res, next, provider.data);
                 } catch (err) {
@@ -53,20 +54,20 @@ export class DinoRouter implements IDinoRouter {
         }
     }
 
-    // made public for unit test and not available on interface method
+    // made public for unit test and not available on interface contract
     registerBeginActionFilter(filter: IMiddlewareProvider): void {
         let provider = DinoParser.parseMiddlewareProvider(filter);
 
         if (DinoUtility.isSyncActionFilter(provider.useClass)) {
             this.router.use((req, res, next) => {
-                let mware = this.resolve<IActionFilter>(provider.useClass,
-                    res.locals.dino);
+                let mware = this.resolve<IActionFilter>(
+                    provider.useClass, res.locals.dino);
                 mware.beforeExecution(req, res, next, provider.data);
             });
         } else if (DinoUtility.isAsyncActionFilter(provider.useClass)) {
             this.router.use(async (req, res, next) => {
-                let mware = this.resolve<IActionFilter>(provider.useClass,
-                    res.locals.dino);
+                let mware = this.resolve<IActionFilter>(
+                    provider.useClass, res.locals.dino);
                 try {
                     await mware.beforeExecution(req, res, next, provider.data);
                 } catch (err) {
@@ -76,20 +77,20 @@ export class DinoRouter implements IDinoRouter {
         }
     }
 
-    // made public for unit test and not available on interface method
+    // made public for unit test and not available on interface contract
     registerAfterActionFilter(filter: IMiddlewareProvider): void {
         let provider = DinoParser.parseMiddlewareProvider(filter);
 
         if (DinoUtility.isSyncActionFilter(provider.useClass)) {
             this.router.use((req, res, next) => {
-                let mware = this.resolve<IActionFilter>(provider.useClass,
-                    res.locals.dino);
+                let mware = this.resolve<IActionFilter>(
+                    provider.useClass, res.locals.dino);
                 mware.afterExecution(req, res, next, res.locals.dino.result, provider.data);
             });
         } else if (DinoUtility.isAsyncActionFilter(provider.useClass)) {
             this.router.use(async (req, res, next) => {
-                let mware = this.resolve<IActionFilter>(provider.useClass,
-                    res.locals.dino);
+                let mware = this.resolve<IActionFilter>(
+                    provider.useClass, res.locals.dino);
                 try {
                     await mware.afterExecution(req, res, next, res.locals.dino.result, provider.data);
                 } catch (err) {
@@ -99,20 +100,20 @@ export class DinoRouter implements IDinoRouter {
         }
     }
 
-    // made public for unit test and not available on interface method
+    // made public for unit test and not available on interface contract
     registerResultFilter(filter: IMiddlewareProvider): void {
         let provider = DinoParser.parseMiddlewareProvider(filter);
 
         if (DinoUtility.isSyncResultFilter(provider.useClass)) {
             this.router.use((req, res, next) => {
-                let mware = this.resolve<IResultFilter>(provider.useClass,
-                    res.locals.dino);
+                let mware = this.resolve<IResultFilter>(
+                    provider.useClass, res.locals.dino);
                 mware.invoke(req, res, next, res.locals.dino.result, provider.data);
             });
         } else if (DinoUtility.isAsyncResultFilter(provider.useClass)) {
             this.router.use(async (req, res, next) => {
-                let mware = this.resolve<IResultFilter>(provider.useClass,
-                    res.locals.dino);
+                let mware = this.resolve<IResultFilter>(
+                    provider.useClass, res.locals.dino);
                 try {
                     await mware.invoke(req, res, next, res.locals.dino.result, provider.data);
                 } catch (err) {
@@ -122,7 +123,7 @@ export class DinoRouter implements IDinoRouter {
         }
     }
 
-    // made public for unit test and not available on interface method
+    // made public for unit test and not available on interface contract
     registerExceptionFilter(app: Express,
         uri: string | RegExp,
         middleware: IMiddlewareProvider): void {
@@ -130,14 +131,14 @@ export class DinoRouter implements IDinoRouter {
 
         if (DinoUtility.isSyncExceptionFilter(provider.useClass)) {
             app.use(uri, (err, req, res, next) => {
-                let mware = this.resolve<IExceptionFilter>(provider.useClass,
-                    res.locals.dino);
+                let mware = this.resolve<IExceptionFilter>(
+                    provider.useClass, res.locals.dino);
                 mware.invoke(err, req, res, next);
             });
         } else if (DinoUtility.isAsyncExceptionFilter(provider.useClass)) {
             app.use(uri, async (err, req, res, next) => {
-                let mware = this.resolve<IExceptionFilter>(provider.useClass,
-                    res.locals.dino);
+                let mware = this.resolve<IExceptionFilter>(
+                    provider.useClass, res.locals.dino);
                 try {
                     await mware.invoke(err, req, res, next);
                 } catch (err) {

@@ -1,12 +1,12 @@
 import { DinoStartMiddleware } from '../../../index';
 
 describe('modules.builtin.dino.start.middleware.spec', () => {
-    it('invoke.defines_dino_property_and_invokes_next', () => {
+    it('invoke.sets_dino_property_to_{}_and_invokes_next', () => {
         let res: any = { locals: {} };
         let invoked = false;
         new DinoStartMiddleware()
             .invoke({}, res, () => invoked = true);
-        expect(res.locals.dino).toBeDefined();
+        expect(res.locals.dino).toEqual({});
         expect(invoked).toBeTruthy();
     });
 });

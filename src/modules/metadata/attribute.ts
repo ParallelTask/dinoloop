@@ -32,13 +32,6 @@ export abstract class AttributeMetadata {
         };
     }
 
-    static observable = (): (target: any, propertyKey: string) => void => {
-        return (target: any, propertyKey: string): void => {
-            Reflector.defineMetadata(Attribute.observable,
-                'observable', target.constructor.prototype, propertyKey);
-        };
-    }
-
     static asyncAttr = (): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
             Reflector.defineMetadata(Attribute.asyncAttr,
@@ -122,7 +115,7 @@ export abstract class AttributeMetadata {
 
             // Note: we are deliberately not initializing raiseModelError default value
             // because these may override global raiseModelError property always,
-            // assuming user has provided value, hence it is recommended the value to be undefined
+            // hence it is recommended the value to be undefined
             // However we are initializing stopOnError to false because we dont have global flag for this.
             let opts = DataUtility.isUndefinedOrNull(options) ? {} : options;
             let stop = DataUtility.isUndefinedOrNull(opts.stopOnError) ? false : opts.stopOnError;

@@ -16,6 +16,9 @@
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true,
     "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
     "git.ignoreLimitWarning": true,
     "typescript.tsdk": "./node_modules/typescript/lib",
     "cSpell.words": [
