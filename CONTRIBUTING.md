@@ -14,27 +14,15 @@ please submit an issue with a proposal, to be sure that we can use it.
 ### Submitting a Pull Request (PR)
 Before you submit your Pull Request (PR) consider the following guidelines:
 
-1. Create a new branch on development branch, **including feature/bugfix changes and appropriate test cases**.
-2. Follow our Coding Rules.
-3. Ensure that all tests pass.
-4. Commit your changes using a descriptive commit message.
-5. Push your branch to GitHub
-6. In GitHub, send a pull request to `dinoloop:development`.
+1. Create a new branch on master branch, **including feature/bugfix changes and appropriate test cases**.
+2. Follow our [CODING_RULES](https://github.com/ParallelTask/dinoloop/blob/master/CODING_RULES.md), ensure that all tests pass.
+3. Commit your changes using a descriptive commit message.
+4. Push your branch to GitHub
+5. In GitHub, send a pull request to `dinoloop:master`
 * If we suggest changes then:
   * Make the required updates.
-  * Rebase your branch on `dinoloop:development@latest` and force push to GitHub repository (this will update your Pull Request)
-7. Once changes are approved
-* Go ahead and merge your changes to `dinoloop:development`:
-  * git checkout `development`
-  * git pull `development`
-  * Rebase your branch on `development@latest` (solve conflicts if any) 
-  * git pull your branch (solve conflicts if any)
-  * git push your branch
-  * check out `development`
-  * git merge --squash `your_branch_name`
-  * Re-run the test suites to ensure tests are still passing.
-  * commit to local `development`
-  * git push `development`
+  * Rebase your branch on `master@latest` and force push to GitHub repository (this will update your Pull Request)
+6. Once changes are approved, we would merge your changes to master
   
 That's it! Thank you for your contribution!
 
