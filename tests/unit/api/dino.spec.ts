@@ -15,7 +15,7 @@ describe('api.dino.spec', () => {
 
             return obj;
         });
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         app.registerController(Function);
         app.registerController(Boolean);
         expect(obj.controllers[0]).toBe(Function);
@@ -28,7 +28,7 @@ describe('api.dino.spec', () => {
     it('requestStart.verify_requestStart_middlewares', () => {
         let obj: IAppContainer = { startMiddleware: [] } as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         app.requestStart(Function);
         app.requestStart(Boolean);
         expect(obj.startMiddleware[0]).toBe(Function);
@@ -37,7 +37,7 @@ describe('api.dino.spec', () => {
     it('requestEnd.verify_requestEnd_middlewares', () => {
         let obj: IAppContainer = { endMiddleware: [] } as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         app.requestEnd(Function);
         app.requestEnd(Boolean);
         expect(obj.endMiddleware[0]).toBe(Function);
@@ -46,7 +46,7 @@ describe('api.dino.spec', () => {
     it('serverError.verify_serverError_middlewares', () => {
         let obj: IAppContainer = { errorMiddleware: [] } as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         app.serverError(Function);
         app.serverError(Boolean);
         expect(obj.errorMiddleware[0]).toBe(Function);
@@ -55,14 +55,14 @@ describe('api.dino.spec', () => {
     it('registerApplicationError.verify_registerApplicationError', () => {
         let obj: IAppContainer = { errorController: undefined } as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         app.registerApplicationError(Function);
         expect(obj.errorController).toBe(Function);
     });
     it('registerApplicationError.should_have_last_registered_as_registerApplicationError', () => {
         let obj: IAppContainer = { errorController: undefined } as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         app.registerApplicationError(Function);
         app.registerApplicationError(String);
         expect(obj.errorController).toBe(String);
@@ -70,7 +70,7 @@ describe('api.dino.spec', () => {
     it('useRouter.verify_router_callback', () => {
         let obj: IAppContainer = { useRouter: undefined } as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         app.useRouter(() => 5);
         expect(obj.useRouter()).toBe(5);
     });
@@ -78,21 +78,21 @@ describe('api.dino.spec', () => {
         let obj: IAppContainer = {} as IAppContainer;
         obj.routeNotFoundMiddleware = String;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         app.disableRouteNotFoundException();
         expect(obj.routeNotFoundMiddleware).toBeUndefined();
     });
     it('enableTaskContext.enableTaskContext_must_be_true', () => {
         let obj: IAppContainer = { enableTaskContext: false } as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         app.enableUserIdentity();
         expect(obj.enableTaskContext).toBeTruthy();
     });
     it('raiseModelError.raiseModelError_must_be_true', () => {
         let obj: IAppContainer = { raiseModelError: false } as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         app.raiseModelError();
         expect(obj.raiseModelError).toBeTruthy();
     });
@@ -102,7 +102,7 @@ describe('api.dino.spec', () => {
             diResolveCallback: undefined
         } as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         app.dependencyInjectionResolver(String, () => 5);
         expect(obj.diContainer).toBe(String);
         expect(obj.diResolveCallback()).toBe(5);
@@ -110,7 +110,7 @@ describe('api.dino.spec', () => {
     it('bind.throws_Error_when_useRouter_not_registered', () => {
         let obj: IAppContainer = {} as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         expect(() => app.bind())
             .toThrow(new Error(Errors.routerNotRegistered));
     });
@@ -119,7 +119,7 @@ describe('api.dino.spec', () => {
         obj.useRouter = () => null;
         obj.build = () => null;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         app.bind();
         expect(() => app.bind())
             .toThrow(new Error(Errors.dinoAlreadyBinded));
@@ -130,7 +130,7 @@ describe('api.dino.spec', () => {
         obj.useRouter = () => null;
         obj.build = () => invoked = true;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true }, '/test');
+        let app = new Dino({ expressInstance: true } as any, '/test');
         app.bind();
         expect(invoked).toBeTruthy();
     });

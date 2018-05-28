@@ -1,7 +1,7 @@
 import {
     IRouteTable,
     RouteNotFoundMiddleware,
-    IExpressRequest,
+    Request,
     DataUtility,
     RouteNotFoundException,
     Mock
@@ -31,7 +31,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 method: 'geT',
                 baseUrl: '/api/route',
                 path: '/'
-            }, null, e => {
+            } as any, null, e => {
                 invoked = true;
                 err = e;
             });
@@ -48,7 +48,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
         };
         let err: RouteNotFoundException;
         new RouteNotFoundMiddleware(table.object())
-            .invoke(req, null, e => err = e);
+            .invoke(req as any, null, e => err = e);
         expect(err).toBeDefined();
         expect(err instanceof RouteNotFoundException).toBeTruthy();
         // Same expect statements needs to be executed for every invalid route exception.
@@ -64,7 +64,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 method: 'get',
                 baseUrl: '/api/parse',
                 path: '/45'
-            }, null, err => expect(err).toBeUndefined());
+            } as any, null, err => expect(err).toBeUndefined());
     });
     it('invoke.route_found_for_/api/parse/(:route)_when_optional_segment_not_provided', () => {
         new RouteNotFoundMiddleware(table.object())
@@ -72,7 +72,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 method: 'get',
                 baseUrl: '/api/parse',
                 path: '/'
-            }, null, err => expect(err).toBeUndefined());
+            } as any, null, err => expect(err).toBeUndefined());
     });
     it('invoke.route_found_for_/api/apple/:id_when_required_segment_:id_provided', () => {
         new RouteNotFoundMiddleware(table.object())
@@ -80,7 +80,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 method: 'get',
                 baseUrl: '/api/apple',
                 path: '/45'
-            }, null, err => expect(err).toBeUndefined());
+            } as any, null, err => expect(err).toBeUndefined());
     });
     it('invoke.route_not_found_for_get_/api/apple/:id_when_required_segment_:id_not_provided', () => {
         new RouteNotFoundMiddleware(table.object())
@@ -88,7 +88,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 method: 'gEt',
                 baseUrl: '/api/apple',
                 path: '/'
-            }, null, err => {
+            } as any, null, err => {
                 expect(err instanceof RouteNotFoundException).toBeTruthy();
             });
     });
@@ -98,7 +98,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 method: 'POST',
                 baseUrl: '/v3/ctrl/one',
                 path: '/xyz'
-            }, null, err => expect(err).toBeUndefined());
+            } as any, null, err => expect(err).toBeUndefined());
     });
     it('invoke.route_found_for_post_/v3/:id/one/:name', () => {
         new RouteNotFoundMiddleware(table.object())
@@ -106,7 +106,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 method: 'POST',
                 baseUrl: '/v3/ctrl/one',
                 path: '/get'
-            }, null, err => expect(err).toBeUndefined());
+            } as any, null, err => expect(err).toBeUndefined());
     });
     it('invoke.route_found_for_post_/', () => {
         new RouteNotFoundMiddleware(table.object())
@@ -114,7 +114,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 method: 'POST',
                 baseUrl: '//',
                 path: '/'
-            }, null, err => expect(err).toBeUndefined());
+            } as any, null, err => expect(err).toBeUndefined());
     });
     it('invoke.route_not_found_for_get_/', () => {
         new RouteNotFoundMiddleware(table.object())
@@ -122,7 +122,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 method: 'get',
                 baseUrl: '//',
                 path: '/'
-            }, null, err => {
+            } as any, null, err => {
                 expect(err instanceof RouteNotFoundException).toBeTruthy();
             });
     });
@@ -132,7 +132,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 method: 'get',
                 baseUrl: '/fake/v1',
                 path: '/index'
-            }, null, err => {
+            } as any, null, err => {
                 expect(err instanceof RouteNotFoundException).toBeTruthy();
             });
     });
@@ -142,7 +142,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 method: 'get',
                 baseUrl: '/api/v1',
                 path: '/abcd'
-            }, null, err => expect(err).toBeUndefined());
+            } as any, null, err => expect(err).toBeUndefined());
     });
     it('invoke.route_found_for_post_/:verb_/api/v1/:id', () => {
         new RouteNotFoundMiddleware(table.object())
@@ -150,6 +150,6 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 method: 'post',
                 baseUrl: '/api/v1',
                 path: '/abcd'
-            }, null, err => expect(err).toBeUndefined());
+            } as any, null, err => expect(err).toBeUndefined());
     });
 });

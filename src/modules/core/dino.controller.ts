@@ -8,7 +8,7 @@ import { Validator } from '../validations/validator';
 import { DinoModel } from '../entities/dino.model';
 import { InvalidModelException } from '../builtin/exceptions/exceptions';
 import { IDinoController } from '../interfaces/idino';
-import { IDinoResponse } from '../../../tests';
+import { IDinoProperties } from '../types/dino.types';
 
 export class DinoController implements IDinoController {
     private controller: ApiController;
@@ -37,7 +37,7 @@ export class DinoController implements IDinoController {
         if (sendsResponse === false) {
             // conversion required to access result property
             // which does actually exists on DinoResponse
-            let dino = this.controller.dino as IDinoResponse;
+            let dino = this.controller.dino as IDinoProperties;
             dino.result = result;
             this.controller.next();
         }
@@ -91,7 +91,7 @@ export class DinoController implements IDinoController {
         this.controller.dino.proceed = (result: any) => {
             // conversion required to access result property
             // which does actually exists on DinoResponse
-            let dino = this.controller.dino as IDinoResponse;
+            let dino = this.controller.dino as IDinoProperties;
             dino.result = result;
             this.controller.next();
         };

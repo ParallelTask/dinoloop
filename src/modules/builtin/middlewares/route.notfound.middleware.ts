@@ -2,7 +2,7 @@
 import UrlParser = require('url-pattern');
 import { RequestStartMiddleware } from '../../filter/filter';
 import { RouteNotFoundException } from '../exceptions/exceptions';
-import { IExpressResponse, IExpressRequest } from '../../types/express';
+import { Response, Request } from '../../types/express';
 import { IRouteTable } from '../../interfaces/idino';
 
 // it would proceed to next handler only if valid route is matched
@@ -18,7 +18,7 @@ export class RouteNotFoundMiddleware extends RequestStartMiddleware {
         super();
     }
 
-    invoke(request: IExpressRequest, response: IExpressResponse, next): void {
+    invoke(request: Request, response: Response, next): void {
 
         if (this.isRouteTableLoaded === false) {
             // load the routes and create UrlParser objects

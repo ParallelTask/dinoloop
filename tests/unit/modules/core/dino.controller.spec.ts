@@ -8,7 +8,7 @@ import {
     HttpUtility,
     Validator,
     InvalidModelException,
-    IDinoResponse
+    IDinoProperties
 } from '../../index';
 
 class Test { }
@@ -20,8 +20,8 @@ describe('modules.core.dino.controller.spec', () => {
         let obj = {} as ApiController;
         let ca = {} as ControllerAction;
         let ctrl = new DinoController(obj, ca);
-        let req = {};
-        let res = { locals: { dino: { id: 111 } } };
+        let req = {} as any;
+        let res = { locals: { dino: { id: 111 } } } as any;
         let next = x => {
             if (x instanceof Error) {
                 throwInvokedNext = true;
@@ -31,11 +31,11 @@ describe('modules.core.dino.controller.spec', () => {
         };
 
         ctrl.patch(req, res, next);
-        let dino = obj.dino as IDinoResponse;
+        let dino = obj.dino as IDinoProperties;
         expect(obj.request).toBe(req);
         expect(obj.response).toBe(res);
         expect(obj.next).toBe(next);
-        expect(obj.dino).toBe(res.locals.dino as DinoResponse);
+        expect(obj.dino).toBe(res.locals.dino as IDinoProperties);
         expect(obj.model instanceof DinoModel).toBeTruthy();
 
         dino.proceed(45);
@@ -59,9 +59,9 @@ describe('modules.core.dino.controller.spec', () => {
         let result = { a: 15 };
         let ctrl = new DinoController(obj, {});
         ctrl.attachResultToDino(false, result);
-        let dino = obj.dino as IDinoResponse;
+        let dino = obj.dino as IDinoProperties;
         expect(dino.result).toBe(result);
-        expect(obj.next()).toBe(45);
+        expect(obj.next() as any).toBe(45);
     });
     it('attachResultToDino.sendsResponse_true', () => {
         let obj: ApiController = {
@@ -70,7 +70,7 @@ describe('modules.core.dino.controller.spec', () => {
         let result = { a: 15 };
         let ctrl = new DinoController(obj, {});
         ctrl.attachResultToDino(true, result);
-        let dino = obj.dino as IDinoResponse;
+        let dino = obj.dino as IDinoProperties;
         expect(dino.result).toBeUndefined();
     });
     it('getModelFromBody.no_httpbody_and_bindmodel_undefined', () => {

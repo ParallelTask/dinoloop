@@ -1,21 +1,13 @@
-import { IDinoResponse } from './dino.types';
-// export { Express, Router, Request, Response, NextFunction } from 'express';
+import { Express, Router, Request, Response, NextFunction } from 'express';
 
-export type Express = any;
-export type Router = any;
-export type Request = any;
-export type Response = any;
-export type NextFunction = any;
+export type Express = Express;
+export type Router = Router;
+export type Request = Request;
+export type Response = Response;
+export type NextFunction = NextFunction;
 
-export interface IExpressResponse {
-    locals: {
-        dino: IDinoResponse
-    }
-}
-
-export interface IExpressRequest {
-    method?: string;
-    baseUrl?: string;
-    path?: string;
-    originalUrl?: string;
-}
+// export type Express = any;
+// export type Router = any;
+// export type Request = any;
+// export type Response = any;
+// export type NextFunction = any;

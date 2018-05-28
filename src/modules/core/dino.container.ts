@@ -1,4 +1,4 @@
-import { Express, IExpressResponse } from '../types/express';
+import { Express, Response } from '../types/express';
 import { ApiController } from '../controller/api.controller';
 import { DIContainer } from './dicontainer';
 import { ErrorController } from '../controller/error.controller';
@@ -11,9 +11,8 @@ import { DataUtility } from '../utility/data.utility';
 import { ControllerAction } from '../controller/controller.action';
 import { Reflector } from '../lib/reflector';
 import { ObjectUtility } from '../utility/object.utility';
-import { IRequestEndMiddleware, IRequestStartMiddleware, IErrorMiddleware } from '../interfaces/filter';
 import { IDinoContainer, IDIContainer, IRouteTable } from '../interfaces/idino';
-import { IDinoContainerConfig, IDinoResponse } from '../types/dino.types';
+import { IDinoContainerConfig, IDinoProperties } from '../types/dino.types';
 import {
     IRouterCallBack,
     IControllerAttributeProvider,
@@ -23,6 +22,14 @@ import {
 } from '../types/attribute';
 import { Attribute, RouteAttribute } from '../constants/constants';
 import { IUserIdentity } from '../providers/providers';
+import {
+    RequestStartMiddleware,
+    RequestStartMiddlewareAsync,
+    RequestEndMiddleware,
+    RequestEndMiddlewareAsync,
+    ErrorMiddleware,
+    ErrorMiddlewareAsync
+} from '../filter/filter';
 
 export class DinoContainer implements IDinoContainer {
     private diContainer: IDIContainer;
@@ -44,7 +51,7 @@ export class DinoContainer implements IDinoContainer {
     }
 
     // made public for unit test and not available on interface contract
-    resolve<T>(middleware: Function, dino: IDinoResponse): T {
+    resolve<T>(middleware: Function, dino: IDinoProperties): T {
         let o = this.diContainer.resolve<T>(middleware);
 
         // walk-through the entire object chain and replace IUserIdentity instance References
@@ -52,10 +59,9 @@ export class DinoContainer implements IDinoContainer {
             ObjectUtility.replaceObjectReferences(o, dino.context, IUserIdentity) : o;
     }
 
-    // Register RouteNotFoundMiddleware
     routeNotFoundMiddleware(middleware: any): void {
         if (DinoUtility.isSyncRequestStartMiddleware(middleware)) {
-            // singleton object
+            // created as singleton object
             let mw = new middleware(this.routeTable);
             this.app.use(this.baseUri, (req, res, next) => {
                 mw.invoke(req, res, next);
@@ -63,7 +69,6 @@ export class DinoContainer implements IDinoContainer {
         }
     }
 
-    // Register builtInRequestStartMiddlewares
     // ex: DinoStartMiddleware, TaskContextMiddleware
     builtInRequestStartMiddleware(middleware: any): void {
         if (DinoUtility.isSyncRequestStartMiddleware(middleware)) {
@@ -75,11 +80,10 @@ export class DinoContainer implements IDinoContainer {
         }
     }
 
-    // Register RequestStartMiddleware
     requestStartMiddleware(middleware: Function): void {
         if (DinoUtility.isSyncRequestStartMiddleware(middleware)) {
             this.app.use(this.baseUri, (req, res, next) => {
-                let mw = this.resolve<IRequestStartMiddleware>(
+                let mw = this.resolve<RequestStartMiddleware>(
                     middleware,
                     res.locals.dino);
                 mw.invoke(req, res, next);
@@ -87,7 +91,7 @@ export class DinoContainer implements IDinoContainer {
         } else if (DinoUtility.isAsyncRequestStartMiddleware(middleware)) {
             this.app.use(this.baseUri, async (req, res, next) => {
                 try {
-                    let mw = this.resolve<IRequestStartMiddleware>(
+                    let mw = this.resolve<RequestStartMiddlewareAsync>(
                         middleware,
                         res.locals.dino);
                     await mw.invoke(req, res, next);
@@ -98,11 +102,10 @@ export class DinoContainer implements IDinoContainer {
         }
     }
 
-    // Register RequestEnd Middlewares
     requestEndMiddleware(middleware: Function): void {
         if (DinoUtility.isSyncRequestEndMiddleware(middleware)) {
             this.app.use(this.baseUri, (req, res, next) => {
-                let mw = this.resolve<IRequestEndMiddleware>(
+                let mw = this.resolve<RequestEndMiddleware>(
                     middleware,
                     res.locals.dino);
                 mw.invoke(req, res, next, res.locals.dino.result);
@@ -110,7 +113,7 @@ export class DinoContainer implements IDinoContainer {
         } else if (DinoUtility.isAsyncRequestEndMiddleware(middleware)) {
             this.app.use(this.baseUri, async (req, res, next) => {
                 try {
-                    let mw = this.resolve<IRequestEndMiddleware>(
+                    let mw = this.resolve<RequestEndMiddlewareAsync>(
                         middleware,
                         res.locals.dino);
                     await mw.invoke(req, res, next, res.locals.dino.result);
@@ -125,13 +128,13 @@ export class DinoContainer implements IDinoContainer {
     registerErrorMiddleware(middleware: Function): void {
         if (DinoUtility.isSyncErrorMiddleware(middleware)) {
             this.app.use(this.baseUri, (err, req, res, next) => {
-                let mw = this.resolve<IErrorMiddleware>(middleware,
+                let mw = this.resolve<ErrorMiddleware>(middleware,
                     res.locals.dino);
                 mw.invoke(err, req, res, next);
             });
         } else if (DinoUtility.isAsyncErrorMiddleware(middleware)) {
             this.app.use(this.baseUri, async (err, req, res, next) => {
-                let mw = this.resolve<IErrorMiddleware>(middleware,
+                let mw = this.resolve<ErrorMiddlewareAsync>(middleware,
                     res.locals.dino);
                 try {
                     await mw.invoke(err, req, res, next);
@@ -160,7 +163,7 @@ export class DinoContainer implements IDinoContainer {
     setUpDinoController(type: any,
         sendsResponse: boolean,
         bindsModel: IBindModelAttributeExtended,
-        res: IExpressResponse): DinoController {
+        res: Response): DinoController {
 
         let api = this.resolve<ApiController>(type, res.locals.dino);
         let action = ControllerAction.create(sendsResponse, bindsModel);

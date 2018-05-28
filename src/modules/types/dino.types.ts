@@ -2,7 +2,7 @@ import { IRouterCallBack, IBindModelAttributeExtended } from './attribute';
 import { IDIContainer } from '../interfaces/idino';
 import { Express } from './express';
 
-export interface IDinoResponse {
+export interface IDinoProperties {
     context?: any;
     result?: any;
     proceed?(result: any): void;

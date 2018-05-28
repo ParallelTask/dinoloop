@@ -1,19 +1,10 @@
 import { Request, Response, NextFunction } from '../types/express';
 import { DinoResponse } from '../entities/dino.response';
-import {
-    IRequestStartMiddleware,
-    IErrorMiddleware,
-    IRequestEndMiddleware,
-    IMiddleware,
-    IActionFilter,
-    IResultFilter,
-    IExceptionFilter
-} from '../interfaces/filter';
 
 /**
  * Extend this class to create ErrorMiddleware
  */
-export abstract class ErrorMiddleware implements IErrorMiddleware {
+export abstract class ErrorMiddleware {
     abstract invoke(
         err: Error, request: Request, response: Response, next: NextFunction): void;
 }
@@ -21,7 +12,7 @@ export abstract class ErrorMiddleware implements IErrorMiddleware {
 /**
  * Extend this class to create ErrorMiddlewareAsync
  */
-export abstract class ErrorMiddlewareAsync implements IErrorMiddleware {
+export abstract class ErrorMiddlewareAsync {
     abstract async invoke(
         err: Error, request: Request, response: Response, next: NextFunction): Promise<void>;
 }
@@ -29,14 +20,14 @@ export abstract class ErrorMiddlewareAsync implements IErrorMiddleware {
 /**
  * Extend this class to create RequestStartMiddleware
  */
-export abstract class RequestStartMiddleware implements IRequestStartMiddleware {
+export abstract class RequestStartMiddleware {
     abstract invoke(request: Request, response: Response, next: NextFunction): void;
 }
 
 /**
  * Extend this class to create RequestStartMiddlewareAsync
  */
-export abstract class RequestStartMiddlewareAsync implements IRequestStartMiddleware {
+export abstract class RequestStartMiddlewareAsync {
     abstract async invoke(
         request: Request, response: Response, next: NextFunction): Promise<void>;
 }
@@ -44,7 +35,7 @@ export abstract class RequestStartMiddlewareAsync implements IRequestStartMiddle
 /**
  * Extend this class to create RequestEndMiddleware
  */
-export abstract class RequestEndMiddleware implements IRequestEndMiddleware {
+export abstract class RequestEndMiddleware {
     abstract invoke(
         request: Request, response: Response, next: NextFunction, result: any): void;
 }
@@ -52,7 +43,7 @@ export abstract class RequestEndMiddleware implements IRequestEndMiddleware {
 /**
  * Extend this class to create RequestEndMiddlewareAsync
  */
-export abstract class RequestEndMiddlewareAsync implements IRequestEndMiddleware {
+export abstract class RequestEndMiddlewareAsync {
     abstract async invoke(
         request: Request, response: Response, next: NextFunction, result: any): Promise<void>;
 }
@@ -60,7 +51,7 @@ export abstract class RequestEndMiddlewareAsync implements IRequestEndMiddleware
 /**
  * Extend this class to create Middleware
  */
-export abstract class Middleware implements IMiddleware {
+export abstract class Middleware {
     abstract invoke(
         request: Request, response: Response, next: NextFunction, data?: any): void;
 }
@@ -68,7 +59,7 @@ export abstract class Middleware implements IMiddleware {
 /**
  * Extend this class to create MiddlewareAsync
  */
-export abstract class MiddlewareAsync implements IMiddleware {
+export abstract class MiddlewareAsync {
     abstract async invoke(
         request: Request, response: Response, next: NextFunction, data?: any): Promise<void>;
 }
@@ -76,7 +67,7 @@ export abstract class MiddlewareAsync implements IMiddleware {
 /**
  * Extend this class to create ActionFilter
  */
-export abstract class ActionFilter implements IActionFilter {
+export abstract class ActionFilter {
     abstract beforeExecution(
         request: Request, response: Response, next: NextFunction, data?: any): void;
     abstract afterExecution(
@@ -86,7 +77,7 @@ export abstract class ActionFilter implements IActionFilter {
 /**
  * Extend this class to create ActionFilterAsync
  */
-export abstract class ActionFilterAsync implements IActionFilter {
+export abstract class ActionFilterAsync {
     abstract async beforeExecution(
         request: Request, response: Response, next: NextFunction, data?: any): Promise<void>;
     abstract async afterExecution(
@@ -96,7 +87,7 @@ export abstract class ActionFilterAsync implements IActionFilter {
 /**
  * Extend this class to create ExceptionFilter
  */
-export abstract class ExceptionFilter implements IExceptionFilter {
+export abstract class ExceptionFilter {
     abstract invoke(
         err: Error, request: Request, response: Response, next: NextFunction): void;
 }
@@ -104,7 +95,7 @@ export abstract class ExceptionFilter implements IExceptionFilter {
 /**
  * Extend this class to create ExceptionFilterAsync
  */
-export abstract class ExceptionFilterAsync implements IExceptionFilter {
+export abstract class ExceptionFilterAsync {
     abstract async invoke(
         err: Error, request: Request, response: Response, next: NextFunction): Promise<void>;
 }
@@ -112,7 +103,7 @@ export abstract class ExceptionFilterAsync implements IExceptionFilter {
 /**
  * Extend this class to create ResultFilter
  */
-export abstract class ResultFilter implements IResultFilter {
+export abstract class ResultFilter {
     abstract invoke(
         request: Request, response: Response, next: NextFunction, result: any, data?: any): void;
 }
@@ -120,7 +111,7 @@ export abstract class ResultFilter implements IResultFilter {
 /**
  * Extend this class to create ResultFilterAsync
  */
-export abstract class ResultFilterAsync implements IResultFilter {
+export abstract class ResultFilterAsync {
     abstract async invoke(
         request: Request, response: Response, next: NextFunction, result: any, data?: any): Promise<void>;
 }

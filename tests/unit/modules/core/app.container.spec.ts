@@ -10,7 +10,7 @@ import {
 
 describe('modules.core.app.container.spec', () => {
     it('constructor.verify_default_values', () => {
-        let app = new AppContainer({ use: undefined });
+        let app = new AppContainer({ use: undefined } as any);
         expect(app.controllers).toEqual([]);
         expect(app.baseUri).toEqual('');
         expect(app.startMiddleware).toEqual([]);
@@ -25,11 +25,11 @@ describe('modules.core.app.container.spec', () => {
         expect(app.useRouter).toBeUndefined();
     });
     it('static_create.invoke_constructor', () => {
-        let app = AppContainer.create({ use: undefined });
+        let app = AppContainer.create({ use: undefined } as any);
         expect(app instanceof AppContainer).toBeTruthy();
     });
     it('build.verify_DinoStartMiddleware_is_registered', () => {
-        let app = new AppContainer({});
+        let app = new AppContainer({} as any);
         let obj: IDinoContainer = {} as IDinoContainer;
         let exists = false;
         spyOn(DinoContainer, 'create').and.callFake(config => obj);
@@ -41,7 +41,7 @@ describe('modules.core.app.container.spec', () => {
         expect(exists).toBeTruthy();
     });
     it('build.verify_TaskContextMiddleware_not_registered_when_enableTaskContext_is_false', () => {
-        let app = new AppContainer({});
+        let app = new AppContainer({} as any);
         app.enableTaskContext = false;
         let obj: IDinoContainer = {} as IDinoContainer;
         let exists = false;
@@ -54,7 +54,7 @@ describe('modules.core.app.container.spec', () => {
         expect(exists).toBeFalsy();
     });
     it('build.verify_TaskContextMiddleware_is_registered_when_enableTaskContext_is_true', () => {
-        let app = new AppContainer({});
+        let app = new AppContainer({} as any);
         app.enableTaskContext = true;
         let obj: IDinoContainer = {} as IDinoContainer;
         let exists = false;
@@ -67,7 +67,7 @@ describe('modules.core.app.container.spec', () => {
         expect(exists).toBeTruthy();
     });
     it('build.verify_RouteNotFoundMiddleware_is_registered_when_routeNotFoundMiddleware_exists', () => {
-        let app = new AppContainer({});
+        let app = new AppContainer({} as any);
         app.routeNotFoundMiddleware = RouteNotFoundMiddleware;
         let obj: IDinoContainer = {
             builtInRequestStartMiddleware: x => null
@@ -82,7 +82,7 @@ describe('modules.core.app.container.spec', () => {
         expect(exists).toBeTruthy();
     });
     it('build.RouteNotFoundMiddleware_is_not_registered_when_routeNotFoundMiddleware_undefined', () => {
-        let app = new AppContainer({});
+        let app = new AppContainer({} as any);
         app.routeNotFoundMiddleware = undefined;
         let obj: IDinoContainer = {
             builtInRequestStartMiddleware: x => null
@@ -97,7 +97,7 @@ describe('modules.core.app.container.spec', () => {
         expect(exists).toBeFalsy();
     });
     it('build.ErrorController_is_not_registered_when_errorController_is_undefined', () => {
-        let app = new AppContainer({});
+        let app = new AppContainer({} as any);
         app.errorController = undefined;
         let obj: IDinoContainer = {
             builtInRequestStartMiddleware: x => null,
@@ -113,7 +113,7 @@ describe('modules.core.app.container.spec', () => {
         expect(exists).toBeFalsy();
     });
     it('build.ErrorController_is_registered_when_errorController_is_defined', () => {
-        let app = new AppContainer({});
+        let app = new AppContainer({} as any);
         app.errorController = String;
         let obj: IDinoContainer = {
             builtInRequestStartMiddleware: x => null,
@@ -129,7 +129,7 @@ describe('modules.core.app.container.spec', () => {
         expect(exists).toBeTruthy();
     });
     it('create.verify_method_invocation_order_and_values', () => {
-        let app = new AppContainer({});
+        let app = new AppContainer({} as any);
         app.enableTaskContext = true;
         app.errorController = String;
         app.routeNotFoundMiddleware = RouteNotFoundMiddleware;

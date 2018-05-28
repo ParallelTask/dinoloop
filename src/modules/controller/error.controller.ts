@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from '../types/express';
-import { DinoResponse } from '../entities/dino.response';
 
 // This is the controller to be extended to respond to errors i.e 500 internal server error
 /**

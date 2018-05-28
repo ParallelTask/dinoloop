@@ -667,7 +667,7 @@ describe('modules.router.dino.router.spec', () => {
                 };
             });
 
-        dinoRouter.registerExceptionFilter(app, ruri, provider);
+        dinoRouter.registerExceptionFilter(app as any, ruri, provider);
         callback(new Error('TestError'), request, res, () => 'invoked');
         expect(DinoUtility.isSyncExceptionFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
@@ -710,7 +710,7 @@ describe('modules.router.dino.router.spec', () => {
                 };
             });
 
-        dinoRouter.registerExceptionFilter(app, ruri, provider);
+        dinoRouter.registerExceptionFilter(app as any, ruri, provider);
         await callback(new Error('TestError'), request, res, () => 'invoked');
         expect(DinoUtility.isSyncExceptionFilter).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncExceptionFilter).toHaveBeenCalledTimes(1);
@@ -754,7 +754,7 @@ describe('modules.router.dino.router.spec', () => {
                 };
             });
 
-        dinoRouter.registerExceptionFilter(app, ruri, provider);
+        dinoRouter.registerExceptionFilter(app as any, ruri, provider);
         await callback(new Error('TestError'), request, res, e => err = e);
         expect(DinoUtility.isSyncExceptionFilter).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncExceptionFilter).toHaveBeenCalledTimes(1);
@@ -774,7 +774,7 @@ describe('modules.router.dino.router.spec', () => {
         spyOn(DinoUtility, 'isAsyncExceptionFilter').and.callFake(() => false);
 
         let dinoRouter = new DinoRouter(config);
-        dinoRouter.registerExceptionFilter(app, 'test', String);
+        dinoRouter.registerExceptionFilter(app as any, 'test', String);
         expect(DinoUtility.isSyncExceptionFilter).toHaveBeenCalledTimes(1);
         expect(DinoUtility.isAsyncExceptionFilter).toHaveBeenCalledTimes(1);
         expect(DinoParser.parseMiddlewareProvider).toHaveBeenCalledTimes(1);
@@ -797,7 +797,7 @@ describe('modules.router.dino.router.spec', () => {
                 arr.push(filter.useClass);
             });
 
-        dinoRouter.registerExceptionFilters(app, 'testUri', provider);
+        dinoRouter.registerExceptionFilters(app as any, 'testUri', provider);
         expect(arr.includes(Function)).toBeTruthy();
         expect(arr.includes(String)).toBeTruthy();
     });
