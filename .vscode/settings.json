@@ -71,6 +71,7 @@
         "setall",
         "singleline",
         "superbase",
+        "taskcontext",
         "testcontroller",
         "testerror",
         "testuri",

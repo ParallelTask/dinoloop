@@ -20,6 +20,12 @@
             "type": "npm",
             "script": "build:example:inversifybasic",
             "problemMatcher": []
+        },
+        {
+            "label": "debugger_taskcontext",
+            "type": "npm",
+            "script": "build:example:taskcontext",
+            "problemMatcher": []
         }
     ]
 }

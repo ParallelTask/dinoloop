@@ -28,16 +28,12 @@ import { ChildExceptionController } from './controllers/child.exception.controll
 
 const app = express();
 
-// Basic setup for express to work
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-// Dino requires express app instance
-// and the path on which dino app to be mounted
 let dino = new Dino(app, '/api');
 
-// Use express router
 dino.useRouter(() => express.Router());
 dino.requestStart(StartMiddlewareOne);
 dino.requestStart(StartMiddlewareOneAsync);

@@ -33,6 +33,16 @@
             "outFiles": [
                 "${workspaceFolder}/examples/inversify_basic/dist/**/*.js"
             ]
-        }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Example.TaskContext Launch",
+            "program": "${workspaceFolder}/examples\\task_context\\src\\app\\app.ts",
+            "preLaunchTask": "debugger_taskcontext",
+            "outFiles": [
+                "${workspaceFolder}/examples/task_context/dist/**/*.js"
+            ]
+        },
     ]
 }
