@@ -1,4 +1,12 @@
-![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&type=6&v=0.0.1&x2=0)
+
+[![node version](https://img.shields.io/node/v/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
+[![npm version](https://img.shields.io/npm/v/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
+[![dependencies](https://img.shields.io/david/paralleltask/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
+[![downloads](https://img.shields.io/npm/dt/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
+
+
 
 # dinoloop
+[![join chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/dinoloop/Lobby)
+
 dinoloop is an open-source Nodejs framework, highly extensible, completely written in typescript project designed to build REST APIs
