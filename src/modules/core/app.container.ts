@@ -3,8 +3,10 @@ import { DinoContainer } from './dino.container';
 import { DataUtility } from '../utility/data.utility';
 import { DinoStartMiddleware } from '../builtin/middlewares/dino.start.middleware';
 import { TaskContextMiddleware } from '../builtin/middlewares/task.context.middleware';
+import { ResponseEndMiddleware } from '../builtin/middlewares/response.end.middleware';
 import { IAppContainer } from '../interfaces/idino';
 import { IRouterCallBack } from '../types/attribute';
+import { RouteExceptionMiddleware } from '../builtin/middlewares/route.exception.middleware';
 
 export class AppContainer implements IAppContainer {
     private app: Express;
@@ -60,6 +62,10 @@ export class AppContainer implements IAppContainer {
             dinoContainer.requestEndMiddleware(middleware);
         }
 
+        // register ResponseEndMiddleware as the last RequestEndMiddleware
+        // must be registered after registering user requestEndMiddlewares
+        dinoContainer.builtInRequestEndMiddleware(ResponseEndMiddleware);
+
         for (const middleware of this.errorMiddleware) {
             dinoContainer.registerErrorMiddleware(middleware);
         }
@@ -70,6 +76,10 @@ export class AppContainer implements IAppContainer {
         if (!DataUtility.isUndefinedOrNull(this.errorController)) {
             dinoContainer.registerErrorController(this.errorController);
         }
+
+        // register RouteExceptionMiddleware as the last ErrorMiddleware
+        // must be registered after registering user ErrorMiddlewares
+        dinoContainer.builtInErrorMiddleware(RouteExceptionMiddleware);
     }
 
     static create(app: Express): AppContainer {

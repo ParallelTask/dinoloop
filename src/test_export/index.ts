@@ -3,6 +3,8 @@ export * from '../api/attributes';
 export * from '../api/dino';
 export * from '../modules/builtin/exceptions/exceptions';
 export * from '../modules/builtin/middlewares/dino.start.middleware';
+export * from '../modules/builtin/middlewares/response.end.middleware';
+export * from '../modules/builtin/middlewares/route.exception.middleware';
 export * from '../modules/builtin/middlewares/route.notfound.middleware';
 export * from '../modules/builtin/middlewares/task.context.middleware';
 export * from '../modules/builtin/providers/user.identity';

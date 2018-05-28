@@ -4,6 +4,12 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "debugger_basicstart",
+            "type": "npm",
+            "script": "build:example:basicstart",
+            "problemMatcher": []
+        },
+        {
             "label": "debugger_httpverb",
             "type": "npm",
             "script": "build:example:httpverb",

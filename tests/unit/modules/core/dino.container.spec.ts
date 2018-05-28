@@ -10,7 +10,9 @@ import {
     DinoErrorController,
     Attribute,
     ControllerAction,
-    DinoController
+    DinoController,
+    RequestEndMiddleware,
+    ErrorMiddleware
 } from '../../index';
 
 describe('modules.core.dino.container.spec', () => {
@@ -177,6 +179,126 @@ describe('modules.core.dino.container.spec', () => {
         dinoContainer.builtInRequestStartMiddleware(Function);
         expect(callback).toBeUndefined();
         expect(DinoUtility.isSyncRequestStartMiddleware).toHaveBeenCalledTimes(1);
+    });
+    it('builtInRequestEndMiddleWare.when_isSyncRequestEndMiddleware_true', () => {
+        const _req = { req: 'uri' };
+        const _res = {
+            locals: { dino: { result: 'express' } }
+        };
+        const _next = () => null;
+
+        class RequestEndFake extends RequestEndMiddleware {
+            invoke(req, res, next): void {
+                expect(req).toBe(_req);
+                expect(res).toBe(_res);
+                expect(next()).toBeNull();
+            }
+        }
+
+        let callback;
+        let config: IDinoContainerConfig = {
+            baseUri: 'testuri',
+            app: {
+                use: (uri, cb) => {
+                    expect(uri).toBe('testuri');
+                    callback = cb;
+                }
+            }
+        } as any;
+        spyOn(DIContainer, 'create').and.callFake(() => null);
+        spyOn(RouteTable, 'create').and.callFake(() => null);
+        spyOn(DinoUtility, 'isSyncRequestEndMiddleware')
+            .and.callFake(m => {
+                expect(m).toBe(RequestEndFake);
+
+                return true;
+            });
+
+        let dinoContainer = new DinoContainer(config);
+        dinoContainer.builtInRequestEndMiddleware(RequestEndFake);
+        callback(_req, _res, _next);
+        expect(DinoUtility.isSyncRequestEndMiddleware).toHaveBeenCalledTimes(1);
+    });
+    it('builtInRequestEndMiddleWare.when_isSyncRequestEndMiddleware_false', () => {
+        let callback;
+        let config: IDinoContainerConfig = {
+            baseUri: 'testuri',
+            app: {
+                use: (uri, cb) => {
+                    expect(uri).toBe('testuri');
+                    callback = cb;
+                }
+            }
+        } as any;
+        spyOn(DIContainer, 'create').and.callFake(() => null);
+        spyOn(RouteTable, 'create').and.callFake(() => null);
+        spyOn(DinoUtility, 'isSyncRequestEndMiddleware')
+            .and.callFake(m => false);
+
+        let dinoContainer = new DinoContainer(config);
+        dinoContainer.builtInRequestEndMiddleware(Function);
+        expect(callback).toBeUndefined();
+        expect(DinoUtility.isSyncRequestEndMiddleware).toHaveBeenCalledTimes(1);
+    });
+    it('builtInErrorMiddleWare.when_isSyncErrorMiddleware_true', () => {
+        const _req = { req: 'uri' };
+        const _res = { res: 'express' };
+        const _err = new Error('testerror');
+        const _next = () => null;
+
+        class ErrorFake extends ErrorMiddleware {
+            invoke(err, req, res, next): void {
+                expect(err).toBe(_err);
+                expect(req).toBe(_req);
+                expect(res).toBe(_res);
+                expect(next()).toBeNull();
+            }
+        }
+
+        let callback;
+        let config: IDinoContainerConfig = {
+            baseUri: 'testuri',
+            app: {
+                use: (uri, cb) => {
+                    expect(uri).toBe('testuri');
+                    callback = cb;
+                }
+            }
+        } as any;
+        spyOn(DIContainer, 'create').and.callFake(() => null);
+        spyOn(RouteTable, 'create').and.callFake(() => null);
+        spyOn(DinoUtility, 'isSyncErrorMiddleware')
+            .and.callFake(m => {
+                expect(m).toBe(ErrorFake);
+
+                return true;
+            });
+
+        let dinoContainer = new DinoContainer(config);
+        dinoContainer.builtInErrorMiddleware(ErrorFake);
+        callback(_err, _req, _res, _next);
+        expect(DinoUtility.isSyncErrorMiddleware).toHaveBeenCalledTimes(1);
+    });
+    it('builtInErrorMiddleWare.when_isSyncErrorMiddleware_false', () => {
+        let callback;
+        let config: IDinoContainerConfig = {
+            baseUri: 'testuri',
+            app: {
+                use: (uri, cb) => {
+                    expect(uri).toBe('testuri');
+                    callback = cb;
+                }
+            }
+        } as any;
+        spyOn(DIContainer, 'create').and.callFake(() => null);
+        spyOn(RouteTable, 'create').and.callFake(() => null);
+        spyOn(DinoUtility, 'isSyncErrorMiddleware')
+            .and.callFake(m => false);
+
+        let dinoContainer = new DinoContainer(config);
+        dinoContainer.builtInErrorMiddleware(Function);
+        expect(callback).toBeUndefined();
+        expect(DinoUtility.isSyncErrorMiddleware).toHaveBeenCalledTimes(1);
     });
     it('requestStartMiddleWare.when_isSyncRequestStartMiddleware', () => {
         let invoked = false;

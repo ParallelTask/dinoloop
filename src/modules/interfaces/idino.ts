@@ -37,6 +37,8 @@ export interface IDIContainer {
 }
 
 export interface IDinoContainer {
+    builtInRequestEndMiddleware(middleware: Function): void;
+    builtInErrorMiddleware(middleware: Function): void;
     builtInRequestStartMiddleware(middleware: Function): void;
     routeNotFoundMiddleware(middleware: Function): void;
     requestStartMiddleware(middleware: Function): void;

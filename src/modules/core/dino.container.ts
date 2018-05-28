@@ -69,13 +69,33 @@ export class DinoContainer implements IDinoContainer {
         }
     }
 
+    // create builtin middlewares as singleton objects
     // ex: DinoStartMiddleware, TaskContextMiddleware
     builtInRequestStartMiddleware(middleware: any): void {
         if (DinoUtility.isSyncRequestStartMiddleware(middleware)) {
-            // create builtin middlewares as singleton object
             let mw = new middleware();
             this.app.use(this.baseUri, (req, res, next) => {
                 mw.invoke(req, res, next);
+            });
+        }
+    }
+
+    // ex: ResponseEndMiddleware
+    builtInRequestEndMiddleware(middleware: any): void {
+        if (DinoUtility.isSyncRequestEndMiddleware(middleware)) {
+            let mw = new middleware();
+            this.app.use(this.baseUri, (req, res, next) => {
+                mw.invoke(req, res, next, res.locals.dino.result);
+            });
+        }
+    }
+
+    // ex: ResponseEndMiddleware
+    builtInErrorMiddleware(middleware: any): void {
+        if (DinoUtility.isSyncErrorMiddleware(middleware)) {
+            let mw = new middleware();
+            this.app.use(this.baseUri, (err, req, res, next) => {
+                mw.invoke(err, req, res, next);
             });
         }
     }

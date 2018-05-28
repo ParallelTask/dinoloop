@@ -7,6 +7,16 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Example.BasicStart Launch",
+            "program": "${workspaceFolder}/examples\\basic_start\\src\\app\\app.ts",
+            "preLaunchTask": "debugger_basicstart",
+            "outFiles": [
+                "${workspaceFolder}/examples/basic_start/dist/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Example.HttpVerb Launch",
             "program": "${workspaceFolder}/examples\\http_verb\\src\\app\\app.ts",
             "preLaunchTask": "debugger_httpverb",
@@ -43,6 +53,6 @@
             "outFiles": [
                 "${workspaceFolder}/examples/task_context/dist/**/*.js"
             ]
-        },
+        }
     ]
 }

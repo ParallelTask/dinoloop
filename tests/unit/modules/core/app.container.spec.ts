@@ -5,7 +5,9 @@ import {
     DinoStartMiddleware,
     TaskContextMiddleware,
     RouteNotFoundMiddleware,
-    DataUtility
+    DataUtility,
+    ResponseEndMiddleware,
+    RouteExceptionMiddleware
 } from '../../index';
 
 describe('modules.core.app.container.spec', () => {
@@ -28,13 +30,19 @@ describe('modules.core.app.container.spec', () => {
         let app = AppContainer.create({ use: undefined } as any);
         expect(app instanceof AppContainer).toBeTruthy();
     });
-    it('build.verify_DinoStartMiddleware_is_registered', () => {
+    it('build.verify_BuiltInMiddlewares_are_registered', () => {
         let app = new AppContainer({} as any);
         let obj: IDinoContainer = {} as IDinoContainer;
         let exists = false;
         spyOn(DinoContainer, 'create').and.callFake(config => obj);
         obj.builtInRequestStartMiddleware = m => {
             if (m.name === DinoStartMiddleware.name) exists = true;
+        };
+        obj.builtInRequestEndMiddleware = m => {
+            if (m.name === ResponseEndMiddleware.name) exists = true;
+        };
+        obj.builtInErrorMiddleware = m => {
+            if (m.name === RouteExceptionMiddleware.name) exists = true;
         };
         spyOn(obj, 'builtInRequestStartMiddleware').and.callThrough();
         app.build();
@@ -49,6 +57,8 @@ describe('modules.core.app.container.spec', () => {
         obj.builtInRequestStartMiddleware = m => {
             if (m.name === TaskContextMiddleware.name) exists = true;
         };
+        obj.builtInRequestEndMiddleware = x => null;
+        obj.builtInErrorMiddleware = x => null;
         spyOn(obj, 'builtInRequestStartMiddleware').and.callThrough();
         app.build();
         expect(exists).toBeFalsy();
@@ -62,6 +72,8 @@ describe('modules.core.app.container.spec', () => {
         obj.builtInRequestStartMiddleware = m => {
             if (m.name === TaskContextMiddleware.name) exists = true;
         };
+        obj.builtInRequestEndMiddleware = x => null;
+        obj.builtInErrorMiddleware = x => null;
         spyOn(obj, 'builtInRequestStartMiddleware').and.callThrough();
         app.build();
         expect(exists).toBeTruthy();
@@ -70,7 +82,9 @@ describe('modules.core.app.container.spec', () => {
         let app = new AppContainer({} as any);
         app.routeNotFoundMiddleware = RouteNotFoundMiddleware;
         let obj: IDinoContainer = {
-            builtInRequestStartMiddleware: x => null
+            builtInRequestStartMiddleware: x => null,
+            builtInRequestEndMiddleware: x => null,
+            builtInErrorMiddleware: x => null
         } as IDinoContainer;
         let exists = false;
         spyOn(DinoContainer, 'create').and.callFake(() => obj);
@@ -85,7 +99,9 @@ describe('modules.core.app.container.spec', () => {
         let app = new AppContainer({} as any);
         app.routeNotFoundMiddleware = undefined;
         let obj: IDinoContainer = {
-            builtInRequestStartMiddleware: x => null
+            builtInRequestStartMiddleware: x => null,
+            builtInRequestEndMiddleware: x => null,
+            builtInErrorMiddleware: x => null
         } as IDinoContainer;
         let exists = false;
         spyOn(DinoContainer, 'create').and.callFake(() => obj);
@@ -101,7 +117,9 @@ describe('modules.core.app.container.spec', () => {
         app.errorController = undefined;
         let obj: IDinoContainer = {
             builtInRequestStartMiddleware: x => null,
-            routeNotFoundMiddleware: x => null
+            routeNotFoundMiddleware: x => null,
+            builtInRequestEndMiddleware: x => null,
+            builtInErrorMiddleware: x => null
         } as IDinoContainer;
         let exists = false;
         spyOn(DinoContainer, 'create').and.callFake(() => obj);
@@ -117,7 +135,9 @@ describe('modules.core.app.container.spec', () => {
         app.errorController = String;
         let obj: IDinoContainer = {
             builtInRequestStartMiddleware: x => null,
-            routeNotFoundMiddleware: x => null
+            routeNotFoundMiddleware: x => null,
+            builtInRequestEndMiddleware: x => null,
+            builtInErrorMiddleware: x => null
         } as IDinoContainer;
         let exists = false;
         spyOn(DinoContainer, 'create').and.callFake(() => obj);
@@ -153,6 +173,18 @@ describe('modules.core.app.container.spec', () => {
         obj.builtInRequestStartMiddleware = m => {
             if (DataUtility.isUndefined(methodOrder.builtInRequestStartMiddleWare)) {
                 methodOrder.builtInRequestStartMiddleWare = ++i;
+            }
+            builtIn.push(m.name);
+        };
+        obj.builtInRequestEndMiddleware = m => {
+            if (DataUtility.isUndefined(methodOrder.builtInRequestEndMiddleWare)) {
+                methodOrder.builtInRequestEndMiddleWare = ++i;
+            }
+            builtIn.push(m.name);
+        };
+        obj.builtInErrorMiddleware = m => {
+            if (DataUtility.isUndefined(methodOrder.builtInErrorMiddleWare)) {
+                methodOrder.builtInErrorMiddleWare = ++i;
             }
             builtIn.push(m.name);
         };
@@ -194,6 +226,8 @@ describe('modules.core.app.container.spec', () => {
         };
 
         spyOn(obj, 'builtInRequestStartMiddleware').and.callThrough();
+        spyOn(obj, 'builtInRequestEndMiddleware').and.callThrough();
+        spyOn(obj, 'builtInErrorMiddleware').and.callThrough();
         spyOn(obj, 'routeNotFoundMiddleware').and.callThrough();
         spyOn(obj, 'requestStartMiddleware').and.callThrough();
         spyOn(obj, 'registerController').and.callThrough();
@@ -208,12 +242,16 @@ describe('modules.core.app.container.spec', () => {
         expect(methodOrder.requestStartMiddleWare).toBe(3);
         expect(methodOrder.registerController).toBe(4);
         expect(methodOrder.requestEndMiddleWare).toBe(5);
-        expect(methodOrder.registerErrorMiddleWare).toBe(6);
-        expect(methodOrder.registerErrorController).toBe(7);
+        expect(methodOrder.builtInRequestEndMiddleWare).toBe(6);
+        expect(methodOrder.registerErrorMiddleWare).toBe(7);
+        expect(methodOrder.registerErrorController).toBe(8);
+        expect(methodOrder.builtInErrorMiddleWare).toBe(9);
 
         // Verifies whether middlewares are registered exactly
         expect(builtIn.includes(DinoStartMiddleware.name)).toBeTruthy();
         expect(builtIn.includes(TaskContextMiddleware.name)).toBeTruthy();
+        expect(builtIn.includes(ResponseEndMiddleware.name)).toBeTruthy();
+        expect(builtIn.includes(RouteExceptionMiddleware.name)).toBeTruthy();
         expect(requestStart.includes(app.startMiddleware[0].name)).toBeTruthy();
         expect(requestStart.includes(app.startMiddleware[1].name)).toBeTruthy();
         expect(controllers.includes(app.controllers[0].name)).toBeTruthy();
