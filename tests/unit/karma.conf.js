@@ -6,7 +6,6 @@ module.exports = function (config) {
             "karma-jasmine",
             "karma-chrome-launcher",
             "karma-jasmine-html-reporter",
-            "karma-spec-reporter",
             "karma-typescript"
         ],
         mime: {
