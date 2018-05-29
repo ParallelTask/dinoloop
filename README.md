@@ -37,8 +37,8 @@ git clone https://github.com/ParallelTask/dinoloop-starter.git
 cd dinoloop-starter
 npm install
 npm start
-open http:localhost:8088/api/home/get in browser
 ```
+Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get) in browser
 
 ## Contribute
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our [CONTRIBUTING.md](https://github.com/ParallelTask/dinoloop/blob/master/CONTRIBUTING.md)
