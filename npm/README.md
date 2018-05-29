@@ -31,7 +31,6 @@ npm start
 ```
 Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get) in browser
 
-
 ## Features
 * Super easy set-up.
 * Isolation of controllers and services.
@@ -39,6 +38,10 @@ Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get)
 * Middlewares, ActionFilters, ExceptionFilters, ResultFilters at controller level.
 * Robust Sync/Async middlewares to handle async-await pattern.  
 * UserIdentity principal across request. 
+
+## Documentation
+
+* Visit the [Wiki](https://github.com/ParallelTask/dinoloop/tree/master/wiki)
 
 ## Philosophy 
 

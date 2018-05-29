@@ -43,7 +43,7 @@ Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get)
 
 ## Documentation
 
-* Visit the [Wiki]()
+* Visit the [Wiki](https://github.com/ParallelTask/dinoloop/tree/master/wiki)
 
 ## Philosophy 
 
