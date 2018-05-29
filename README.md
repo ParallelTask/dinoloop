@@ -8,8 +8,6 @@
 # Dinoloop
 [![join chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/dinoloop/Lobby)
 
-WebAPI for Typescript. Inspired by C# WebAPI
-
 Dinoloop is a Nodejs framework, completely written in Typescript project designed to build REST APIs. Dinoloop adds syntactic sugar on top of expressjs enabling C#/Java programmers to easily write REST APIs with similar coding skills in node.
 
 Dinoloop adds a layer on top of express but the express objects are still carried on to dinoloop. Whatever you might do in express can be done in dinoloop.
@@ -42,6 +40,10 @@ Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get)
 * Middlewares, ActionFilters, ExceptionFilters, ResultFilters at controller level.
 * Robust Sync/Async middlewares to handle async-await pattern.  
 * UserIdentity principal across request. 
+
+## Documentation
+
+* Visit the [Wiki]()
 
 ## Philosophy 
 
