@@ -1,4 +1,5 @@
 
+[![build status](https://api.travis-ci.org/ParallelTask/dinoloop.svg?branch=master)](https://travis-ci.org/ParallelTask/dinoloop/)
 [![node version](https://img.shields.io/node/v/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
 [![npm version](https://img.shields.io/npm/v/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
 [![downloads](https://img.shields.io/npm/dt/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
