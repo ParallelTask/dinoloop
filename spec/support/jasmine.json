@@ -1,16 +1,13 @@
 {
-  "spec_dir": "tests/unit",
-  "spec_files": [
-    "**/*.spec.ts"
-  ],
-  "helpers": [
-    "jasmine-helpers/**/*.ts"
-  ],
-  "stopSpecOnExpectationFailure": false,
-  "random": false,
-  "reporters": [
-    {
-      "name": "jasmine-spec-reporter#SpecReporter"
-    }
-  ]
+    "spec_dir": "tests/unit",
+    "spec_files": [
+        "**/*.spec.ts"
+    ],
+    "stopSpecOnExpectationFailure": false,
+    "random": false,
+    "reporters": [
+        {
+            "name": "jasmine-spec-reporter#SpecReporter"
+        }
+    ]
 }
