@@ -4,8 +4,7 @@ module.exports = function (config) {
         frameworks: ["jasmine", "karma-typescript"],
         plugins: [
             "karma-jasmine",
-            "karma-phantomjs-launcher",
-            "karma-spec-reporter",
+            "karma-chrome-launcher",
             "karma-typescript"
         ],
         mime: {
@@ -13,17 +12,19 @@ module.exports = function (config) {
         },
         files: [
             "src/**/*.ts",
-            "tests/**/*.ts"
+            "tests/*.ts",
+            "tests/fakes/*.ts",
+            "tests/unit/**/*.ts"
         ],
         preprocessors: {
             "**/*.ts": "karma-typescript"
         },
         reporters: ["karma-typescript"],
-        browsers: ["PhantomJS"],
+        browsers: ["Chrome"],
         karmaTypescriptConfig: {
             tsconfig: "./tsconfig.spec.json",
             coverageOptions: {
-                exclude: [/index.ts/i, /\.(d|spec|test|fake)\.ts/i]
+                exclude: [/(index|fakes).ts/i, /\.(d|spec|test|fake)\.ts/i]
             }
         },
         client: {
