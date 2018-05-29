@@ -44,4 +44,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 Join the dinoloop general discussion on [Gitter](https://gitter.im/dinoloop/Lobby).
 
 ## Releases
-The latest release is `v0.0.1`. This project is still undergoing breaking API changes. Stable release `v1.0.0` is planned to release soon. 
+This project is still undergoing breaking API changes. Stable release `v1.0.0` is planned to release soon. 
