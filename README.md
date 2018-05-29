@@ -1,8 +1,6 @@
 
-[![license](https://img.shields.io/github/license/ParallelTask/dinoloop.svg)](https://github.com/ParallelTask/dinoloop/blob/master/LICENSE)
 [![build status](https://api.travis-ci.org/ParallelTask/dinoloop.svg?branch=master)](https://travis-ci.org/ParallelTask/dinoloop/)
 [![dependencies](https://img.shields.io/david/paralleltask/dinoloop.svg)](https://david-dm.org/paralleltask/dinoloop)
-[![node version](https://img.shields.io/node/v/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
 [![npm version](https://img.shields.io/npm/v/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
 [![downloads](https://img.shields.io/npm/dt/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
 
