@@ -37,7 +37,8 @@
         "test:e2e:mocha": "mocha tests/integration/**/*.ts --require ts-node/register -p ./tsconfig.spec.json",
         "test:e2e": "ts-mocha -p ./tsconfig.spec.json tests/integration/**/*.ts --reporter mochawesome",
         "test:unit": "karma start ./tests/unit/karma.conf.js",
-        "test": "npm run test:unit",
+        "init:jasmine": "jasmine-ts init",
+        "test": "karma start karma.conf.js",
         "start": "npm run build"
     },
     "dependencies": {
@@ -53,10 +54,13 @@
         "@types/reflect-metadata": "^0.1.0",
         "@types/supertest": "^2.0.4",
         "jasmine": "^3.1.0",
+        "jasmine-spec-reporter": "^4.2.1",
+        "jasmine-ts": "^0.2.1",
         "karma": "^2.0.2",
         "karma-chrome-launcher": "^2.2.0",
         "karma-jasmine": "^1.1.2",
         "karma-jasmine-html-reporter": "^1.1.0",
+        "karma-phantomjs-launcher": "^1.0.4",
         "karma-spec-reporter": "0.0.32",
         "karma-typescript": "^3.0.12",
         "mocha": "^5.2.0",

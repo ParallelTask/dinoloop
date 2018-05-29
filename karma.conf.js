@@ -4,8 +4,7 @@ module.exports = function (config) {
         frameworks: ["jasmine", "karma-typescript"],
         plugins: [
             "karma-jasmine",
-            "karma-chrome-launcher",
-            "karma-jasmine-html-reporter",
+            "karma-phantomjs-launcher",
             "karma-spec-reporter",
             "karma-typescript"
         ],
@@ -19,8 +18,8 @@ module.exports = function (config) {
         preprocessors: {
             "**/*.ts": "karma-typescript"
         },
-        reporters: ["kjhtml", "karma-typescript"],
-        browsers: ["Chrome"],
+        reporters: ["karma-typescript"],
+        browsers: ["PhantomJS"],
         karmaTypescriptConfig: {
             tsconfig: "./tsconfig.spec.json",
             coverageOptions: {
