@@ -22,11 +22,11 @@ Defines a class as controller.
 Acts as base route for all actions.
 #### attr: IControllerAttribute
 Configures middlewares at controller-level.
-* `use:` You can define native express middlewares (express-wares). These native express middlewares are first to execute, and then proceeds to next middlewares.
-* `middlewares:` Provide an array of middlewares which are executed after `express-wares`.
-* `filters:` Provide an array of action-filters which are executed after `middlewares`.
-* `result:` Provide an array of result-filters which are executed after `action method`.
-* `exceptions:` Provide an array of exception-filters which handles uncaught exceptions thrown by controller. 
+* *use:* You can define native express middlewares (express-wares). These native express middlewares are first to execute, and then proceeds to next middlewares.
+* *middlewares:* Provide an array of middlewares which are executed after `express-wares`.
+* *filters:* Provide an array of action-filters which are executed after `middlewares`.
+* *result:* Provide an array of result-filters which are executed after `action method`.
+* *exceptions:* Provide an array of exception-filters which handles uncaught exceptions thrown by controller. 
 ```
 import { Controller, ApiController, HttpGet } from 'dinoloop';
 
@@ -108,7 +108,6 @@ Defines an action that responds to every `[HTTP-VERB]` request.
         return id + '_' + user; // xyza_john - GET /all/john/images/xyza
     }
 ```
-`Note:` 
 * Order of variables is not important, Value injection maps `place-holders` to `func-args`.
 * Named-segments are common to other http-verbs like `@HttpGet, @HttpPost ...`.
 * Dinoloop uses [url-pattern](https://www.npmjs.com/package/url-pattern) to support named-segments. Have placeholders in route patterns based on [url-pattern-docs on github](https://github.com/snd/url-pattern)
@@ -157,7 +156,7 @@ Defines an action that responds to `POST` request.
         return id;
     }
 ```
-`Note:` HttpVerbs like `HttpPut, HttpPatch, HttpPost ...` that have request-body injects http-body as first argument into action method.
+HttpVerbs like `HttpPut, HttpPatch, HttpPost ...` that have request-body injects http-body as first argument into action method.
 ## @HttpPatch(route: string)
 Defines an action that responds to `PATCH` request.
 ```
@@ -176,7 +175,7 @@ Defines an action that responds to `PUT` request.
 ```
 ## @SendsResponse()
 If you would like to have action method responding to request, then decorate `@SendsResponse()` on action. 
-Pretty useful in situations like `file downloads or uploads ...` More details on [this.response](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#request-expressrequest)
+Pretty useful in situations like *file downloads or uploads ...* More details on [this.response](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#request-expressrequest)
 
 * When action wants to send response using `response`.
 ```
@@ -204,4 +203,4 @@ Pretty useful in situations like `file downloads or uploads ...` More details on
         }
     }
 ```
-`Note:` When an action is decorated with `@SendsResponse()`, its return value is ignored. Preferred to have `void` methods.
+When an action is decorated with `@SendsResponse()`, it's return value is ignored. Preferred to have `void` methods.

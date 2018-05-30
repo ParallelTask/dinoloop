@@ -1,17 +1,17 @@
 # Controllers
 ## ApiController
 Every controller must extend this class. Properties defined on ApiController.
-##### request: Express.Request
+#### request: Express.Request
 Native express request object is mapped to this property.
-##### response: Express.Response
+#### response: Express.Response
 Native express response object is mapped to this property.
 
 `Note: ` The request and response properties depends purely on expressjs version you have installed.
-##### next: Express.NextFunction
+#### next: Express.NextFunction
 Native express next handler is mapped to this property.
-##### dino: DinoResponse
+#### dino: DinoResponse
 dino property has two methods `throw()` and `proceed()` explained in the bottom section.
-#### proceed(result: any)  
+##### proceed(result: any)  
 * Received response after async operation, instead of sending data via response object, you would like to have your result available to the next middlewares in the chain, say your result filters. Here is how you do it
 ```
     @Controller('/home', {
@@ -94,18 +94,18 @@ Controllers can be inherited by other controllers, this allows to have base-chil
         }
     }
 ```
-Make sure to have empty route on base controller `@Controller('')`, If you have a route-url `@Controller('/base')` then the route is prefixed to all child controllers, example: `/base/child/get/`.
+Make sure to have empty route on base controller `@Controller('')`, If you have a route-url `@Controller('/base')` then the route is prefixed to all child controllers, example: `/base/child/get`.
 ## ErrorController
 Extend this class to handle application errors. Unlike controllers (where you register multiple), you can register only one instance of ErrorController.
-##### request: Express.Request
+#### request: Express.Request
 Native express request object is mapped to this property.
-##### response: Express.Response
+#### response: Express.Response
 Native express response object is mapped to this property.
-##### next: Express.NextFunction
+#### next: Express.NextFunction
 Native express next handler is mapped to this property.
-##### error: Error
+#### error: Error
 Placeholder of unhandled error thrown by application.
-##### write()
+#### write()
 Gets executed when any unhandled error thrown by application.
 ```
 export class ApplicationError extends ErrorController {
