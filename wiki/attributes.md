@@ -178,11 +178,12 @@ Defines an action that responds to `PUT` request.
 If you would like to have action method responding to request, then decorate `@SendsResponse()` on action. 
 Pretty useful in situations like `file downloads or uploads ...` More details on [this.response](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#request-expressrequest)
 
-* When action wants to send response using `expressjs response` object.
+* When action wants to send response using `response`.
 ```
     @Controller('/home')
     export class HomeController extends ApiController {
     
+        @SendsResponse()
         @HttpGet('/download')
         download(): void {
             // .download() is the express method
@@ -195,6 +196,7 @@ Pretty useful in situations like `file downloads or uploads ...` More details on
     @Controller('/home')
     export class HomeController extends ApiController {
     
+        @SendsResponse()
         @HttpGet('/get')
         get(): void {
             // Send response after 2 seconds.

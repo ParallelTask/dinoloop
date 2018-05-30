@@ -6,17 +6,16 @@ Native express request object is mapped to this property.
 ##### response: Express.Response
 Native express response object is mapped to this property.
 
-`Note: ` The express request and response properties depends purely on the expressjs version you have installed.
+`Note: ` The request and response properties depends purely on expressjs version you have installed.
 ##### next: Express.NextFunction
 Native express next handler is mapped to this property.
 ##### dino: DinoResponse
-dino property has two methods `throw() and proceed()` explained in the bottom section.
-
-`proceed(result: any)`  
-* Received response after async operation, instead of sending data via express-response object, you would like to have your result available to the next middlewares in the chain, say your result filters. Here is how you can do it,
+dino property has two methods `throw()` and `proceed()` explained in the bottom section.
+#### proceed(result: any)  
+* Received response after async operation, instead of sending data via response object, you would like to have your result available to the next middlewares in the chain, say your result filters. Here is how you do it
 ```
     @Controller('/home', {
-        result: JsonResult
+        result: [JsonResult]
     })
     export class HomeController extends ApiController {
         
@@ -33,18 +32,18 @@ dino property has two methods `throw() and proceed()` explained in the bottom se
         }
     }
 ```
-`throw(err: Error)`
+##### throw(err: Error)
 * Gives ability to pass on error to next error middlewares when error is encountered in async operation. Following example explains mongo connection error.
 ```
     @Controller('/home', {
-        result: JsonResult
+        exceptions: [MongoConnectException]
     })
     export class HomeController extends ApiController {
         
         @HttpGet('/get')
         get(): void {
             MongoClient.connect("mongodb://localhost:27017/mydb", (err, db) =>  {
-                if (err) this.dino.throw(err);
+                if (err) this.dino.throw(new MongoConnectException());
                 db.close();
             });
         }
@@ -86,7 +85,7 @@ Controllers can be inherited by other controllers, this allows to have base-chil
         }
     }
     
-    // This controller would not go through authorization
+    // It would not go through authorization
     @Controller('/contact')
     export class ContactController extends ApiController {
         @HttpGet('/get')
@@ -95,9 +94,9 @@ Controllers can be inherited by other controllers, this allows to have base-chil
         }
     }
 ```
-`Note:` Make sure to have empty route on base controller `@Controller('')`, If you have a route-url then the route is prefixed to all child controllers as well as `/base/child/get/`.
+Make sure to have empty route on base controller `@Controller('')`, If you have a route-url `@Controller('/base')` then the route is prefixed to all child controllers, example: `/base/child/get/`.
 ## ErrorController
-Extend this class to handle application errors. Unlike controllers (where you register multiple controllers), you can register only one instance of ErrorController. Properties defined on ErrorController.
+Extend this class to handle application errors. Unlike controllers (where you register multiple), you can register only one instance of ErrorController.
 ##### request: Express.Request
 Native express request object is mapped to this property.
 ##### response: Express.Response
@@ -116,8 +115,11 @@ export class ApplicationError extends ErrorController {
         
         // Need to crash container
         if(this.error instanceof SystemFaultedException) {
+            // This error is now gone out of dino's control
+            // If you have handlers on express they might handle or simply crash container
             next(this.error);
         } else {
+            // If exception is not fatal 
             this.response.status(500).send('Internal server error occured');
         }
     }

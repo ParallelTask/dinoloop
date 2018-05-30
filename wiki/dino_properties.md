@@ -1,5 +1,4 @@
 # Dino
-Properties defined on Dino.
 ##### constructor(app: Express, baseUri: String)
 express app instance and baseUri on dino app will be mounted.
 ```
@@ -44,26 +43,26 @@ Register controller that extends [ErrorController](https://github.com/ParallelTa
 ```
 dino.registerApplicationError<ApplicationError>(ApplicationError);
 ```
-`Note:` If you register multiple error controllers the last one gets registered with dino.
+If you register multiple error controllers the last one gets registered with dino.
 ##### registerController<T>(T)
 Register controller that extends [ApiController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#apicontroller).
 ```
 dino.registerController<HomeController>(HomeController);
 ```
 ##### requestStart<T>(T)
-Register request-start middlewares that fire for every request handled by dino. These are the middlewares to handle request first in the chain. More on [RequestStart Middlewares]() 
+Register request-start middlewares. These are the middlewares to handle request first in the chain. More on [RequestStart Middlewares]() 
 ```
 dino.requestStart<LogRequestStart>(LogRequestStart);
 dino.requestStart<OtherRequestStart>(OtherRequestStart);
 ```
 ##### requestEnd<T>(T)
-Register request-end middlewares that fire for every request handled by dino. These are the middlewares to handle the request last in the chain. More on [RequestEnd Middlewares]() 
+Register request-end middlewares. These are the middlewares to handle the request last in the chain. More on [RequestEnd Middlewares]() 
 ```
 dino.requestEnd<LogRequestEnd>(LogRequestEnd);
 dino.requestEnd<OtherRequestEnd>(OtherRequestEnd);
 ```
 ##### serverError<T>(T)
-Register server-error middlewares to handle uncaught exceptions/errors thrown by application. These are the ones that fires when unhandled exception is thrown by application. More on [ServerError Middlewares]() 
+Register server-error middlewares to handle uncaught exceptions/errors thrown by application. When unhandled exception is thrown by application,these are the ones that fire. More on [ServerError Middlewares]() 
 ```
 dino.serverError<FormatExceptionr>(FormatException);
 dino.serverError<MongoException>(MongoException);
@@ -75,4 +74,4 @@ Register callback that returns new instance of `express.Router` on every invoke.
 ```
 dino.useRouter(() => express.Router());
 ```
-`Note:` Make sure to attach express.Router() to dino via `.useRouter()` otherwise dino would throw `new Error('Express router is not registered with dino')`.
+Make sure to attach express.Router() to dino via `.useRouter()` otherwise dino would throw `new Error('Express router is not registered with dino')`.
