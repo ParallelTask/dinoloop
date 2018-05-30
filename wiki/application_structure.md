@@ -10,7 +10,7 @@ npm install
 
 ## Files
 
-Open project in your favorite editor
+Open project in editor (Recommended VSCode)
 
 ### app.ts
 
@@ -22,7 +22,7 @@ import { HomeController } from './controllers/home.controller';
 
 const app = express();
 
-/**** basic express-setup dependencies ****/
+/**** basic express-setup ****/
 app.use(bodyParser.json());
 
 // Dino requires express instance

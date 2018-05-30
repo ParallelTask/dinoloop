@@ -1,9 +1,9 @@
 # Attributes
 Dinoloop attributes use [reflect-metadata](https://www.npmjs.com/package/reflect-metadata) behind the scenes.
-### `@Async()`
-When an action method has async modifier (`async-await`), then action method must be decorated with `@Async`.
+## @Async()
+When an action method has async modifier, then it must be decorated with `@Async`.
 ```
-    import { Controller, ApiController, HttpGet } from 'dinoloop';
+    import { Controller, ApiController, HttpGet, Async } from 'dinoloop';
     
     @Controller('/home')
     export class HomeController extends ApiController {
@@ -16,18 +16,17 @@ When an action method has async modifier (`async-await`), then action method mus
         }
     }
 ```
-### `@Controller(prefix: string, attr: IControllerAttribute)`
-Defines a class as controller via `@Controller`.
-##### `prefix: string`
+## @Controller(prefix: string, attr: IControllerAttribute)
+Defines a class as controller.
+#### prefix: string
 Acts as base route for all actions.
-##### `attr: IControllerAttribute`
+#### attr: IControllerAttribute
 Configures middlewares at controller-level.
-* `use:` You can define native express middlewaares (express-wares). These native express middlewares are first to execute, before proceeding to other middlewares in the chain.
+* `use:` You can define native express middlewares (express-wares). These native express middlewares are first to execute, and then proceeds to next middlewares.
 * `middlewares:` Provide an array of middlewares which are executed after `express-wares`.
 * `filters:` Provide an array of action-filters which are executed after `middlewares`.
 * `result:` Provide an array of result-filters which are executed after `action method`.
 * `exceptions:` Provide an array of exception-filters which handles uncaught exceptions thrown by controller. 
-###### basic controller
 ```
 import { Controller, ApiController, HttpGet } from 'dinoloop';
 
@@ -42,7 +41,7 @@ export class HomeController extends ApiController {
     }
 }
 ```
-###### using middlewares
+#### using middlewares
 ```
 import cors = require('cors');
 import { Controller, ApiController, HttpGet } from 'dinoloop';
@@ -54,7 +53,7 @@ import { Controller, ApiController, HttpGet } from 'dinoloop';
         
         // custom express-ware
         (req, res, next) => { 
-            ... you can add own logic
+            ... add logic
             next(); 
         }
     ],
@@ -88,35 +87,32 @@ export class OrdersController extends ApiController {
     }
 }
 ```
-Middlewares are explained in detail [here]().
-### `@HttpAll(route: string)`
+Dinowares are explained in detail [here]().
+## @HttpAll(route: string)
 Defines an action that responds to every `[HTTP-VERB]` request.
-###### without named-segments
 ```
     @HttpAll('/all')
     all(): string {
         return 'all';
     }
 ```
-###### with named-segments
+#### named-segments
 ```
-    // GET: /all/6axty
     @HttpAll('/all/:id')
     all(id: string): string {
-        return id; // 6axty
+        return id; // 6axty - GET /all/6axty
     }
     
-    // GET: /all/john/images/xyza
     @HttpAll('/all/:user/images/:id')
     all(id: string, user: string): string {
-        return id + '_' + user; // xyza_john
+        return id + '_' + user; // xyza_john - GET /all/john/images/xyza
     }
 ```
 `Note:` 
-* Order of variables is not important, value injection is based on mapping `named-segment` to `func-args`.
+* Order of variables is not important, Value injection maps `place-holders` to `func-args`.
 * Named-segments are common to other http-verbs like `@HttpGet, @HttpPost ...`.
-* Dinoloop uses [url-pattern](https://www.npmjs.com/package/url-pattern) to support named-segments You could have named-segments in routes based on [url-pattern-docs on github](https://github.com/snd/url-pattern)
-### `@HttpDelete(route: string)`
+* Dinoloop uses [url-pattern](https://www.npmjs.com/package/url-pattern) to support named-segments. Have placeholders in route patterns based on [url-pattern-docs on github](https://github.com/snd/url-pattern)
+## @HttpDelete(route: string)
 Defines an action that responds to `DELETE` request.
 ```
     @HttpDelete('/delete')
@@ -124,7 +120,7 @@ Defines an action that responds to `DELETE` request.
         return 'delete';
     }
 ```
-### `@HttpGet(route: string)`
+## @HttpGet(route: string)
 Defines an action that responds to `GET` request.
 ```
     @HttpGet('/get')
@@ -132,7 +128,7 @@ Defines an action that responds to `GET` request.
         return 'get';
     }
 ```
-### `@HttpHead(route: string)`
+## @HttpHead(route: string)
 Defines an action that responds to `HEAD` request.
 ```
     @HttpHead('/head')
@@ -140,16 +136,16 @@ Defines an action that responds to `HEAD` request.
         return 'head';
     }
 ```
-### `@HttpPost(route: string)`
+## @HttpPost(route: string)
 Defines an action that responds to `POST` request.
 ```
-    // RequestBody injects as first argument
+    // Injects request-body as first argument
     @HttpPost('/post')
     post(body: any): string {
         return 'post';
     }
     
-    // RequestBody with named-segments
+    // With named-segments
     @HttpPost('/post/:id')
     post(body: any, id: string): string {
         return id;
@@ -161,8 +157,8 @@ Defines an action that responds to `POST` request.
         return id;
     }
 ```
-`Note:` HttpVerbs like `HttpPut, HttpPatch, HttpPost ...` which support request-body injects http-body as first argument into action method.
-### `@HttpPatch(route: string)`
+`Note:` HttpVerbs like `HttpPut, HttpPatch, HttpPost ...` that have request-body injects http-body as first argument into action method.
+## @HttpPatch(route: string)
 Defines an action that responds to `PATCH` request.
 ```
     @HttpPost('/patch')
@@ -170,7 +166,7 @@ Defines an action that responds to `PATCH` request.
         return 'patch';
     }
 ```
-### `@HttpPut(route: string)`
+## @HttpPut(route: string)
 Defines an action that responds to `PUT` request.
 ```
     @HttpPut('/put')
@@ -178,12 +174,11 @@ Defines an action that responds to `PUT` request.
         return 'put';
     }
 ```
-### `@SendsResponse()`
-If you would like to have your action responding to request, then decorate `@SendsResponse()` on action. 
-Pretty useful in situations like `file downloads or uploads`. More details on [this.response]() 
+## @SendsResponse()
+If you would like to have action method responding to request, then decorate `@SendsResponse()` on action. 
+Pretty useful in situations like `file downloads or uploads ...` More details on [this.response](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#request-expressrequest)
 
-`use case:` 
-* When your action wants to send response using `expressjs response` object.
+* When action wants to send response using `expressjs response` object.
 ```
     @Controller('/home')
     export class HomeController extends ApiController {
@@ -195,17 +190,16 @@ Pretty useful in situations like `file downloads or uploads`. More details on [t
         }
     }
 ```
-* When you are dealing with callback pattern.
+* When dealing with callback pattern.
 ```
     @Controller('/home')
     export class HomeController extends ApiController {
     
         @HttpGet('/get')
         get(): void {
-            // send response after 2 seconds delay
-            // .json() is the express method
+            // Send response after 2 seconds.
             setTimeout(() => this.response.json('response sent after 2 seconds!'), 2000);
         }
     }
 ```
-`Note:` When an action is decorated with `@SendsResponse()`, its return value is ignored. So preferred to have `void` methods.
+`Note:` When an action is decorated with `@SendsResponse()`, its return value is ignored. Preferred to have `void` methods.
