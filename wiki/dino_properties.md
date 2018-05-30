@@ -67,11 +67,11 @@ Register server-error middlewares to handle uncaught exceptions/errors thrown by
 dino.serverError<FormatExceptionr>(FormatException);
 dino.serverError<MongoException>(MongoException);
 ```
-`Note:` Multiple `requestStart, requestEnd and serverError` dinowares can be registered.
+Multiple `requestStart`, `requestEnd` and `serverError` dinowares can be registered.
 Their order of execution depends on the order of registration.
 #### useRouter(cb: () => express.Router)
 Register callback that returns new instance of `express.Router` on every invoke.
 ```
 dino.useRouter(() => express.Router());
 ```
-Make sure to attach express.Router() to dino via `.useRouter()` otherwise dino would throw `new Error('Express router is not registered with dino')`.
+Make sure to attach express.Router() to dino via `.useRouter()`, Otherwise dino throws `new Error('Express router is not registered with dino')`.
