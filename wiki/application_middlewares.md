@@ -139,4 +139,4 @@ dino.serverError(InvalidHeaderMiddlewareAsync);
 * It is recommended to have Async in name for asynchronous middlewares to recognize easily.
 
 * You can register multiple *RequestStartMiddlewares*, *RequestEndMiddlewares* and *ErrorMiddlewares*. Their order of execution depends on the order of registration. 
-* `JsonResultFilter` is a built-in RequestEndMiddleware, which ends every API response with Json content-type default. To override this, have your own response by creating [RequestEndMiddleware]().
+* `ResponseEndMiddleware` is a built-in RequestEndMiddleware, which ends every API response with Json content-type default. To override this, have your own response by creating [RequestEndMiddleware](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/application_middlewares.md#requestendmiddleware).

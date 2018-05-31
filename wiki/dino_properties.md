@@ -23,15 +23,12 @@ dino.dependencyInjectionResolver<Container>
         return injector.resolve(type);
     });
 ```
-`Warning:` Please be sure when you choose DI framework, you do not have singleton instance of controller objects. If you have single instance lifescope for controller objects then you might be enter into serious issues where one user request gets tampered with other users request.
+`Warning:` Please be sure when you choose DI framework, you do not have singleton instance of controller objects. If you have single instance lifescope for controller objects then you might enter into serious issues where one user request gets tampered with other users request.
 
 #### Why does singleton controller create problems?
 Dinoloop resolves objects from DI container on controller hit. Now If you get the same object reference on every hit to `HomeController` (*Assuming HomeController as singleton*) then you are having single object/request sharing across users which results lot of problems. *Technically It is not a webserver :)*.
 
 `Note:` This is applicable only for controller instances.
-
-#### Middlewares can be singleton
-You can have singleton middlewares, totally depends on your requirements.
 
 #### Problem with [injection-js](https://github.com/mgechev/injection-js)
 
@@ -51,6 +48,8 @@ dino.dependencyInjectionResolver<ReflectiveInjector>(Container,
         return i;
     });
 ```
+#### Middlewares can be singleton
+You can have singleton middlewares, totally depends on your requirements.
 ### registerApplicationError<T>(T)
 Register controller that extends [ErrorController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#errorcontroller).
 ```
@@ -63,19 +62,19 @@ Register controller that extends [ApiController](https://github.com/ParallelTask
 dino.registerController<HomeController>(HomeController);
 ```
 ### requestStart<T>(T)
-Register request-start middlewares. These are the middlewares to handle request first in the chain. More on [RequestStart Middlewares]().
+Register request-start middlewares. These are the middlewares to handle request first in the chain. More on [RequestStart Middlewares](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/application_middlewares.md#requeststartmiddleware).
 ```
 dino.requestStart<LogRequestStart>(LogRequestStart);
 dino.requestStart<OtherRequestStart>(OtherRequestStart);
 ```
 ### requestEnd<T>(T)
-Register request-end middlewares. These are the middlewares to handle request last in the chain. More on [RequestEnd Middlewares]().
+Register request-end middlewares. These are the middlewares to handle request last in the chain. More on [RequestEnd Middlewares](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/application_middlewares.md#requestendmiddleware).
 ```
 dino.requestEnd<LogRequestEnd>(LogRequestEnd);
 dino.requestEnd<OtherRequestEnd>(OtherRequestEnd);
 ```
 ### serverError<T>(T)
-Register server-error middlewares to handle uncaught exceptions/errors thrown by application. More on [ServerError Middlewares]() .
+Register server-error middlewares to handle uncaught exceptions/errors thrown by application. More on [ServerError Middlewares](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/application_middlewares.md#errormiddleware) .
 ```
 dino.serverError<FormatExceptionr>(FormatException);
 dino.serverError<MongoException>(MongoException);
