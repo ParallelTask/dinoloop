@@ -1,26 +1,39 @@
 # Dino
-#### constructor(app: Express, baseUri: String)
-express app instance and baseUri on dino app will be mounted.
+Dino object is the main interface through which you will register controllers and middlewares.
+
+### constructor(app: Express, baseUri: String)
+Requires express instance and baseUri on dino app will be mounted.
 ```
 const dino = new Dino(express(), '/api');
 ```
-#### bind()
-Binds dino to express instance. Once you invoke `.bind()` it is done, you are not allowed to invoke `.bind()` twice which results `new Error('dino.bind: Already invoked')`
+### bind()
+Binds dino to express, once you invoke `.bind()` it is done. You are not allowed to invoke `.bind()` twice which results `Error: dino.bind: Already invoked`
 ```
 dino.bind();
 ```
-#### dependencyInjectionResolver<T>(injector: T, cb: (injector: T, type: any) => any)
-Allows you to configure any dependency injection framework available in typescript. We highly recommend [InversifyJs](https://github.com/inversify/InversifyJS/) which is just fantastic. We already have a [dino-inverisfy-starter]() project adheres to SOLID principles, clone it and start developing your app.
+### dependencyInjectionResolver<T>(injector: T, cb: (injector: T, type: any) => any)
+Allows you to configure any dependency injection framework available in Typescript. We highly recommend [InversifyJs](https://github.com/inversify/InversifyJS/) which is just fantastic. We already have a [dino-inverisfy-starter]() project adheres to SOLID principles, clone it and start developing your app :).
 ```
 import { Container } from 'inversify';
+import { AppContainer } from '/path/to/app.container'
 
 dino.dependencyInjectionResolver<Container>
-    (InversifyContainer, (injector, type) => {
-        // This is how you resolve objects from inversify container
+    (AppContainer, (injector, type) => {
+        // Resolve objects from inversify container
         return injector.resolve(type);
     });
 ```
-`Warning:` Make sure when you choose DI framework, you do not have singleton instance for controller objects. If you have single instance lifescope for controller objects then you might be entering into serious issues where one user request gets tampered with other users request.
+`Warning:` Please be sure when you choose DI framework, you do not have singleton instance of controller objects. If you have single instance lifescope for controller objects then you might be enter into serious issues where one user request gets tampered with other users request.
+
+#### Why does singleton controller create problems?
+Dinoloop resolves objects from DI container on controller hit. Now If you get the same object reference on every hit to `HomeController` (*Assuming HomeController as singleton*) then you are having single object/request sharing across users which results lot of problems. *Technically It is not a webserver :)*.
+
+`Note:` This is applicable only for controller instances.
+
+#### Middlewares can be singleton
+You can have singleton middlewares, totally depends on your requirements.
+
+#### Problem with [injection-js](https://github.com/mgechev/injection-js)
 
 [injection-js](https://github.com/mgechev/injection-js) is one such DI framework which resolves everything as singleton. To have a quick fix, you can shallow clone the controller objects 
 ```
@@ -38,40 +51,41 @@ dino.dependencyInjectionResolver<ReflectiveInjector>(Container,
         return i;
     });
 ```
-#### registerApplicationError<T>(T)
+### registerApplicationError<T>(T)
 Register controller that extends [ErrorController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#errorcontroller).
 ```
-dino.registerApplicationError<ApplicationError>(ApplicationError);
+dino.registerApplicationError<ApplicationErrorController>(ApplicationErrorController);
 ```
-If you register multiple error controllers, the last gets registered with dino.
-#### registerController<T>(T)
+If you register multiple error controllers, the last controller gets registered with dino.
+### registerController<T>(T)
 Register controller that extends [ApiController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#apicontroller).
 ```
 dino.registerController<HomeController>(HomeController);
 ```
-#### requestStart<T>(T)
-Register request-start middlewares. These are the middlewares to handle request first in the chain. More on [RequestStart Middlewares]() 
+### requestStart<T>(T)
+Register request-start middlewares. These are the middlewares to handle request first in the chain. More on [RequestStart Middlewares]().
 ```
 dino.requestStart<LogRequestStart>(LogRequestStart);
 dino.requestStart<OtherRequestStart>(OtherRequestStart);
 ```
-#### requestEnd<T>(T)
-Register request-end middlewares. These are the middlewares to handle the request last in the chain. More on [RequestEnd Middlewares]() 
+### requestEnd<T>(T)
+Register request-end middlewares. These are the middlewares to handle request last in the chain. More on [RequestEnd Middlewares]().
 ```
 dino.requestEnd<LogRequestEnd>(LogRequestEnd);
 dino.requestEnd<OtherRequestEnd>(OtherRequestEnd);
 ```
-#### serverError<T>(T)
-Register server-error middlewares to handle uncaught exceptions/errors thrown by application. When unhandled exception is thrown by application,these are the ones that fire. More on [ServerError Middlewares]() 
+### serverError<T>(T)
+Register server-error middlewares to handle uncaught exceptions/errors thrown by application. More on [ServerError Middlewares]() .
 ```
 dino.serverError<FormatExceptionr>(FormatException);
 dino.serverError<MongoException>(MongoException);
 ```
-Multiple `requestStart`, `requestEnd` and `serverError` dinowares can be registered.
-Their order of execution depends on the order of registration.
-#### useRouter(cb: () => express.Router)
+### useRouter(cb: () => express.Router)
 Register callback that returns new instance of `express.Router` on every invoke.
 ```
 dino.useRouter(() => express.Router());
 ```
-Make sure to attach express.Router() to dino via `.useRouter()`, Otherwise dino throws `new Error('Express router is not registered with dino')`.
+Make sure to attach express.Router() via `.useRouter()`, otherwise dino throws `Error: Express router is not registered with dino`.
+### Important Points
+* Multiple `requestStart`, `requestEnd` and `serverError` dinowares can be registered.
+* Their order of execution depends on the order of registration.

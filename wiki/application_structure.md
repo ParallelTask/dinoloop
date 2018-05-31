@@ -1,7 +1,5 @@
 # Application Structure
-
-## Quickstart
-
+Clone the [dinoloop-starter](https://github.com/ParallelTask/dinoloop-starter) and install the dependencies. Here are few steps: 
 ```
 git clone https://github.com/ParallelTask/dinoloop-starter.git
 cd dinoloop-starter
@@ -10,7 +8,7 @@ npm install
 
 ## Files
 
-Open project in editor (Recommended VSCode)
+Open project in your favorite editor (Recommended [VSCode](https://code.visualstudio.com/)). You will find bare minimum files in order to work with Dinoloop.
 
 ### app.ts
 
@@ -20,9 +18,8 @@ import bodyParser = require('body-parser');
 import { Dino } from 'dinoloop';
 import { HomeController } from './controllers/home.controller';
 
-const app = express();
-
 /**** basic express-setup ****/
+const app = express();
 app.use(bodyParser.json());
 
 // Dino requires express instance
