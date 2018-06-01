@@ -42,7 +42,10 @@ Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get)
 Dinoloop lets user to freely upgrade/downgrade expressjs. <span style="text-decoration:underline">Installing dinoloop won't install express</span>. You can install your own version of express. All you have to provide is express app, express router instance to dinoloop.
 
 ## Motivation
-Typescript (*Javascript now*) supports object oriented programming, these features are great with SOLID design principles. Dinoloop is a tool that helps node developers to write Restful APIs with SOLID principles similar to JAVA/C# coding skills.
+Typescript (*Javascript now*) supports object oriented programming, these features are great with SOLID design principles. Dinoloop is a tool that helps node developers to write Restful APIs with SOLID principles similar to JAVA and C# coding skills.
+
+## Motto
+Dinoloop has simple motto, to apply SOLID principles and reuse similar coding skills of Java and C# in Node.js
 
 ## Contribute
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our [CONTRIBUTING.md](https://github.com/ParallelTask/dinoloop/blob/master/CONTRIBUTING.md)
