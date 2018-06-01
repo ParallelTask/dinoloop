@@ -20,7 +20,7 @@ export class RequestLogMiddleware extends RequestStartMiddleware {
     }
 }
 ```
-* RequestStart middlewares are the first to run when dino receives a request. Please read [Flow of dinowares]().
+* RequestStart middlewares are the first to run when dino receives a request. Please read [Flow of dinowares](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/flow_of_dinowares.md).
 * You have to extend `RequestStartMiddleware` and implement `invoke()` method.
 * Request, Response, NextFunction are the express types, whatever you can do with express might get done with dino.
 * You can read *next(err)*  [on express](https://expressjs.com/en/guide/error-handling.html).
@@ -39,11 +39,9 @@ export class RequestLogMiddleware extends RequestStartMiddleware {
         next();
     }
 }
-
 ```
 ### RequestStartMiddlewareAsync
 Asnyc version of RequestStart middleware.
-
 ```
 import { RequestStartMiddlewareAsync } from 'dinoloop';
 import { Request, Response, NextFunction } from 'express';
@@ -74,7 +72,7 @@ export class JsonResult extends RequestEndMiddleware {
     }
 }
 ```
-* RequestEnd middlewares are the last to run in the chain of middlewares. Please read [Flow of dinowares]().
+* RequestEnd middlewares are the last to run in the chain of middlewares. Please read [Flow of dinowares](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/flow_of_dinowares.md).
 * `result` is the palceholder for return-value of action methods.
 ### RequestEndMiddlewareAsync
 Asnyc version of RequestEnd middleware.

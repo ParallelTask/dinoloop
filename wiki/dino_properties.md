@@ -13,7 +13,7 @@ dino.bind();
 ```
 Invoke `bind()` only after everything is configured and registered.
 ### dependencyInjectionResolver<T>(injector: T, cb: (injector: T, type: any) => any)
-Allows you to configure any dependency injection framework available in Typescript. We highly recommend [InversifyJs](https://github.com/inversify/InversifyJS/) which is just fantastic. We already have a [dino-inverisfy-starter]() project adhere to SOLID principles, clone it and start developing your app :).
+Allows you to configure any dependency injection framework available in Typescript. We highly recommend [InversifyJs](https://github.com/inversify/InversifyJS/) which is just fantastic. We already have a [dino-inverisfy-starter](https://github.com/ParallelTask/dinoloop-inversify-starter) project adhere to SOLID principles, clone it and start developing your app :)
 ```
 import { Container } from 'inversify';
 import { AppContainer } from '/path/to/app.container'

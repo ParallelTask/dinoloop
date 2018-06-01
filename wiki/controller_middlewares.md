@@ -45,7 +45,7 @@ export class HomeController extends ApiController {
     ... add action methods
 }
 ```
-You can even provide custom data to your middlewares. Here is an example to provide custom data to your middlewares:
+You can even provide custom data to your middlewares. Here is an example to provide custom data:
 #### Middleware with metadata
 ```
 import { Middleware } from 'dinoloop';
@@ -120,7 +120,7 @@ export class LogFilter extends ActionFilter {
 })
 ... add controller and action-methods
 ```
-* As explained [Middleware with metadata](), custom `data` can be provided to action filters.
+* As explained [Middleware with metadata](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controller_middlewares.md#middleware-with-metadata), custom `data` can be provided to action filters.
 * `result` is the placeholder for return-value of action methods.
 ### ActionFilterAsync
 Asnyc version of ActionFilterAsync.

@@ -33,10 +33,10 @@ When dino receives a request and if it is a valid route to handle, this is what 
 ## Order of Dinowares When Error occured
 * Array of ExceptionFilters specific to controller (registered via *exceptions*).
 * Array of ErrorMiddlewares (Irrespective of controller).
-* Executes [ErroController]() implementation of `write()` method.
+* Executes [ErroController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#errorcontroller) implementation of `write()` method.
 
 ## Order of Dinowares When Error occured in Base-Child
 * Array of ExceptionFilters specific to child controller (registered via *exceptions*).
 * Array of ExceptionFilters specific to base controller (registered via *exceptions*).
 * Array of ErrorMiddlewares (Irrespective of controller).
-* Executes [ErroController]() implementation of `write()` method.
+* Executes [ErroController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#errorcontroller) implementation of `write()` method.
