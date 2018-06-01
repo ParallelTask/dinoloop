@@ -32,12 +32,13 @@ dino.useRouter(() => express.Router());
 // Register controller
 dino.registerController(HomeController);
 
-// Binds dino to express
+// Bind dino to express
 dino.bind();
 
-// Start listening
+// Start your express app
 app.listen(8088, () => console.log('Server started on port 8088'));
 ```
+* Make sure to `bind()` dino before you start express.
 
 ### home.controller.ts
 

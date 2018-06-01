@@ -11,8 +11,9 @@ Binds dino to express, once you invoke `.bind()` it is done. You are not allowed
 ```
 dino.bind();
 ```
+Invoke `bind()` only after everything is configured and registered.
 ### dependencyInjectionResolver<T>(injector: T, cb: (injector: T, type: any) => any)
-Allows you to configure any dependency injection framework available in Typescript. We highly recommend [InversifyJs](https://github.com/inversify/InversifyJS/) which is just fantastic. We already have a [dino-inverisfy-starter]() project adheres to SOLID principles, clone it and start developing your app :).
+Allows you to configure any dependency injection framework available in Typescript. We highly recommend [InversifyJs](https://github.com/inversify/InversifyJS/) which is just fantastic. We already have a [dino-inverisfy-starter]() project adhere to SOLID principles, clone it and start developing your app :).
 ```
 import { Container } from 'inversify';
 import { AppContainer } from '/path/to/app.container'
@@ -26,7 +27,7 @@ dino.dependencyInjectionResolver<Container>
 `Warning:` Please be sure when you choose DI framework, you do not have singleton instance of controller objects. If you have single instance lifescope for controller objects then you might enter into serious issues where one user request gets tampered with other users request.
 
 #### Why does singleton controller create problems?
-Dinoloop resolves objects from DI container on controller hit. Now If you get the same object reference on every hit to `HomeController` (*Assuming HomeController as singleton*) then you are having single object/request sharing across users which results lot of problems. *Technically It is not a webserver :)*.
+Dinoloop resolves objects from DI container on every request. Now If you get the same object reference on every hit to `HomeController` (*Assuming HomeController as singleton*) then you are having single object/request sharing across users which results lot of problems. *Technically It is not a webserver :)*.
 
 `Note:` This is applicable only for controller instances.
 
@@ -50,12 +51,16 @@ dino.dependencyInjectionResolver<ReflectiveInjector>(Container,
 ```
 #### Middlewares can be singleton
 You can have singleton middlewares, totally depends on your requirements.
+### raiseModelError()
+Reserved for future use.
 ### registerApplicationError<T>(T)
 Register controller that extends [ErrorController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#errorcontroller).
 ```
 dino.registerApplicationError<ApplicationErrorController>(ApplicationErrorController);
 ```
-If you register multiple error controllers, the last controller gets registered with dino.
+* Dinoloop allows only one error controller to register.
+
+If you register multiple error controllers, the last controller gets registered with dino. All other error controllers are discarded.
 ### registerController<T>(T)
 Register controller that extends [ApiController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#apicontroller).
 ```
@@ -87,4 +92,4 @@ dino.useRouter(() => express.Router());
 Make sure to attach express.Router() via `.useRouter()`, otherwise dino throws `Error: Express router is not registered with dino`.
 ### Important Points
 * Multiple `requestStart`, `requestEnd` and `serverError` dinowares can be registered.
-* Their order of execution depends on the order of registration.
+* Order of execution depends on the order of registration.

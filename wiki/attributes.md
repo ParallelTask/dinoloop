@@ -22,10 +22,10 @@ Defines a class as controller.
 Acts as base route for all actions.
 #### attr: IControllerAttribute
 Configures middlewares at controller-level.
-* **use:** You can define native express middlewares (express-wares). These native express middlewares are first to execute, and then proceeds to next middlewares.
-* **middlewares:** Provide an array of middlewares which are executed after *express-wares*.
-* **filters:** Provide an array of action-filters which are executed after *middlewares*.
-* **result:** Provide an array of result-filters which are executed after *action method*.
+* **use:** Provide an array of express middlewares (express-wares). These express middlewares are first to execute, and then proceeds to middlewares.
+* **middlewares:** Provide an array of middlewares which are executed after *express-wares* and proceeds to *filters*.
+* **filters:** Provide an array of action-filters which are executed after *middlewares* and proceeds to *action-method*.
+* **result:** Provide an array of result-filters which are executed after *action method* and proceeds to *request-end middlewares*.
 * **exceptions:** Provide an array of exception-filters which handles uncaught exceptions thrown by controller. 
 #### Without Middlewares
 ```
@@ -47,7 +47,7 @@ import { Controller, ApiController, HttpGet } from 'dinoloop';
 
 @Controller('/orders', {
     use: [
-        // enable cors for this controller - it's a native express-ware
+        // enable cors for this controller - it's an express-ware
         cors(), 
         
         // or have a custom express-ware
@@ -86,7 +86,7 @@ export class OrdersController extends ApiController {
     }
 }
 ```
-Dinowares are explained in detail [here]().
+Dinowares are explained in detail [here](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controller_middlewares.md).
 ## @HttpAll(route: string)
 Defines an action that responds to every `[HTTP-VERB]` request.
 ```
@@ -148,7 +148,8 @@ post(body: any, id: string): string {
     return id;
 }
     
-// Wrong: body must be first argument
+// Wrong: body must be first argument.
+// This would not throw error but request-body is injected to id.
 @HttpPost('/post/:id')
 post(id: string, body: any): string {
     return id;
@@ -173,7 +174,7 @@ put(body: any): string {
 ```
 ## @SendsResponse()
 If you would like to have action method responding to request, then decorate `@SendsResponse()`. 
-Pretty useful in situations like *file downloads or uploads or more ...*
+Pretty useful in situations like *file downloads/uploads or more ...*
 
 * When action wants to send response using `response`.
 ```

@@ -3,7 +3,7 @@
 This guide gets you started with Dinoloop. By the end of this guide, you will have a working web server.
 
 ## Prerequisites
-Dinoloop is built on top of [ES2017 async functions](https://blog.risingstack.com/mastering-async-await-in-nodejs/), please make sure Node.js installed that support [async](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) and [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). Dinoloop uses [express.Router](https://expressjs.com/en/guide/routing.html) extensively for API routing, install Express version that support express.Router.
+Dinoloop is built on top of [ES2017 async](https://blog.risingstack.com/mastering-async-await-in-nodejs/), please make sure Node.js installed supports [async](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) and [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). Dinoloop uses [express.Router](https://expressjs.com/en/guide/routing.html) extensively for API routing, install Express.js that support express.Router.
 
 * Node 8.10.x or higher 
 * Express 4.x.x or higher
@@ -26,7 +26,7 @@ npm start
 Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get) in browser
 
 ## Typescript Configuration
-Dinoloop requires the compilation options in your tsconfig.json file.
+Dinoloop requires the compilation options in your [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file.
 
 ```
 {

@@ -1,18 +1,21 @@
 # Controllers
+This guide gets you started with Controllers and their properties.
 ## ApiController
 Every controller must extend this class.
+### model: DinoModel
+Reserved for future use.
 ### request: Express.Request
 Express request object is mapped to this property.
 ### response: Express.Response
 Express response object is mapped to this property.
 
-`Note: ` The request and response properties depends purely on expressjs version you have installed.
+`Note: ` The request and response properties depends purely on express.js version you have installed.
 ### next: Express.NextFunction
 Express next handler is mapped to this property.
 ### dino: DinoResponse
-dino property has two methods `throw()` and `proceed()` explained in the bottom section.
+dino property has two methods `proceed()` and `throw()` explained in the bottom section.
 #### proceed(result: any)  
-* Typically used when you receive response after async operation, now you would like to have your result available to the next middlewares in chain, say your result filters. Here is how you do it:
+* Typically used when you receive response after async operation, you would then like to have your result available to the next middlewares in the chain, say your result filters. Here is how you do it:
 ```
 @Controller('/home', {
     result: [JsonResult]
@@ -27,7 +30,7 @@ export class HomeController extends ApiController {
         
     @HttpGet('/no-proceed')
     noproceed(): void {
-        // ends response, would not pass on the result to next middleware
+        // ends response, would not pass on result to next middleware
         setTimeout(() => this.response.json('response sent after 2 seconds!'), 2000);
     }
 }
@@ -98,9 +101,9 @@ export class ContactController extends ApiController {
     }
 }
 ```
-Have an empty route on base controller `@Controller('')`, If you have a route-url `@Controller('/base')` then the route is prefixed to all child controllers, example: `/base/child/get`.
+Have an empty route on base controller `@Controller('')`, if you have a route-url `@Controller('/base')` then the route is prefixed to all child controllers, example: `/base/child1/get` and `/base/child2/get`.
 ## ErrorController
-Extend this class to handle application errors. Unlike controllers (where you register multiple), you can register only one instance of ErrorController.
+Extend this class to handle application-level errors. Unlike controllers (where you register multiple), you can register only one class extending ErrorController.
 ### request: Express.Request
 Express request object is mapped to this property.
 ### response: Express.Response
@@ -117,10 +120,11 @@ export class ApplicationError extends ErrorController {
     write(): void {
         logToDatabase(this.error);
         
-        // Need to crash container
+        // Need to crash container ??
         if(this.error instanceof SystemFaultedException) {
             // This error is now gone out of dino's control.
-            // If you have handlers on express they might handle or simply crash container
+            // If you have err handlers on express they might handle or 
+            // simply crash container
             next(this.error);
         } else {
             // If error is not fatal 
@@ -129,3 +133,4 @@ export class ApplicationError extends ErrorController {
     }
 }
 ```
+* `write()` is an abstract method which has to be implemented.
