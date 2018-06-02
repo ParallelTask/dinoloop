@@ -15,5 +15,5 @@ Welcome to the Dinoloop wiki!
 * [Exceptions](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/exceptions.md)
 * [Flow of Dinowares](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/flow_of_dinowares.md)
 * [ErrorMiddleware vs ErrorController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/errom_vs_errorc.md)
-* [Dependency Injection setup with Moq.ts, Mocha as TDD](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/di_setup.md)
+* [Dependency Injection with TDD](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/di_setup.md)
 * [Terminology](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/terminology.md)
