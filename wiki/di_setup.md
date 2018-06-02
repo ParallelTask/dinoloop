@@ -86,6 +86,6 @@ This is where you put your services.
 ### src/app/model
 This is where you put your entities/models.
 ### test/helpers
-This is where you put start-up for your tests when required.
+This is where you put start-up code for your tests if required.
 ### test/unit
 This is where you put your unit tests.

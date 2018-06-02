@@ -17,3 +17,5 @@ Welcome to the Dinoloop wiki!
 * [ErrorMiddleware vs ErrorController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/errom_vs_errorc.md)
 * [Dependency Injection with TDD](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/di_setup.md)
 * [Terminology](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/terminology.md)
+* [Update express.d.ts for Express type-hinting](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/type_hinting.md)
+* [FAQ](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/faq.md)
