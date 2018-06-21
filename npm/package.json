@@ -1,6 +1,6 @@
 {
     "name": "dinoloop",
-    "version": "0.0.1",
+    "version": "0.1.2",
     "description": "open-source nodejs framework, completely written in typescript project designed to build REST APIs",
     "main": "index.js",
     "typings": "index.d.ts",

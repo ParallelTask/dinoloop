@@ -19,9 +19,19 @@ npm install dinoloop
 ```
 
 ### Quickstart
+Without Dependency Injection framework
+
 ```
 git clone https://github.com/ParallelTask/dinoloop-starter.git
 cd dinoloop-starter
+npm install
+npm start
+```
+With Dependency Injection framework
+
+```
+git clone https://github.com/ParallelTask/dinoloop-inversify-starter.git
+cd dinoloop-inversify-starter
 npm install
 npm start
 ```
@@ -29,11 +39,14 @@ Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get)
 
 ## Features
 * Super easy set-up.
-* Isolation of controllers and services.
-* Dependency injection support with Test-driven development.
+* Supports express middlewares, completely express compatible.
+* Zero configuration to switch from express to dinoloop.
+* Heavily influenced by MVC pattern.
+* Proper isolation of controllers and services.
+* Dependency injection support.
 * Middlewares, ActionFilters, ExceptionFilters, ResultFilters at controller level.
-* Robust Sync/Async middlewares to handle ES2017 async-await pattern.  
-* UserIdentity context across request. 
+* Robust Sync/Async middlewares to handle es6 async-await pattern.  
+* UserIdentity principal across request. 
 
 ## Documentation
 * Visit the [Wiki](https://github.com/ParallelTask/dinoloop/tree/master/wiki)

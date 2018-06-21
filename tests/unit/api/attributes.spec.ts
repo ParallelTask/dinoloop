@@ -11,8 +11,7 @@ import {
     HttpDelete,
     HttpHead,
     HttpAll,
-    Controller,
-    BindModel
+    Controller
 } from '../../index';
 
 describe('api.attributes.spec', () => {
@@ -85,23 +84,5 @@ describe('api.attributes.spec', () => {
             });
         Controller('test', { use: [String] });
         expect(AttributeMetadata.controller).toHaveBeenCalledTimes(1);
-    });
-    it('BindModel.invoke_AttributeMetadata.bindModel_without_attributes_exact_once', () => {
-        spyOn(AttributeMetadata, 'bindModel')
-            .and.callFake((type, opts) => {
-                expect(type).toBe(Function);
-                expect(opts).toBeUndefined();
-            });
-        BindModel(Function);
-        expect(AttributeMetadata.bindModel).toHaveBeenCalledTimes(1);
-    });
-    it('BindModel.invoke_AttributeMetadata.bindModel_with_attributes_exact_once', () => {
-        spyOn(AttributeMetadata, 'bindModel')
-            .and.callFake((type, opts) => {
-                expect(type).toBe(String);
-                expect(opts).toEqual({ stopOnError: true });
-            });
-        BindModel(String, { stopOnError: true });
-        expect(AttributeMetadata.bindModel).toHaveBeenCalledTimes(1);
     });
 });

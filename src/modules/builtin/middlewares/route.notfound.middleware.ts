@@ -1,9 +1,9 @@
 // tslint:disable-next-line:no-require-imports
 import UrlParser = require('url-pattern');
-import { RequestStartMiddleware } from '../../filter/filter';
-import { RouteNotFoundException } from '../exceptions/exceptions';
-import { Response, Request } from '../../types/express';
-import { IRouteTable } from '../../interfaces/idino';
+import { RequestStartMiddleware } from '../../filter';
+import { RouteNotFoundException } from '../exceptions';
+import { Response, Request } from '../../types';
+import { IRouteTable } from '../../interfaces';
 
 // it would proceed to next handler only if valid route is matched
 // if valid route is not found, it fires error middleware chain

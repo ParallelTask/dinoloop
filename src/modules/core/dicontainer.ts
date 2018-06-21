@@ -1,5 +1,5 @@
-import { DataUtility } from '../utility/data.utility';
-import { IDIContainer } from '../interfaces/idino';
+import { DataUtility } from '../utility';
+import { IDIContainer } from '../interfaces';
 
 export class DIContainer implements IDIContainer {
     constructor(private injector: any, private cb: any) { }

@@ -14,7 +14,7 @@ describe('modules.constants.constants.spec', () => {
         expect(RouteAttribute[Attribute.httpHead]).toBe('head');
         expect(RouteAttribute[Attribute.httpAll]).toBe('all');
     });
-    it('Attribute.errorControllerDefaultMethod_should_be_write', () => {
-        expect(Attribute.errorControllerDefaultMethod).toBe('write');
+    it('Attribute.errorControllerDefaultMethod_should_be_internalServerError', () => {
+        expect(Attribute.errorControllerDefaultMethod).toBe('internalServerError');
     });
 });

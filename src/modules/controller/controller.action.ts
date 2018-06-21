@@ -1,4 +1,4 @@
-import { IBindModelAttributeExtended } from '../types/attribute';
+import { IBindModelAttributeExtended } from '../types';
 
 export class ControllerAction {
     sendsResponse?: boolean;

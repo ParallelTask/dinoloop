@@ -38,12 +38,10 @@
         "test:e2e:mocha": "mocha tests/integration/**/*.ts --require ts-node/register -p ./tsconfig.spec.json",
         "test:e2e": "ts-mocha -p ./tsconfig.spec.json tests/integration/**/*.ts --reporter mochawesome",
         "test:unit": "karma start ./tests/unit/karma.conf.js",
-        "test:coverage": "karma start karma.conf.js",
         "test": "jasmine-ts JASMINE_CONFIG_PATH=spec/support/jasmine.json",
         "start": "npm run build"
     },
     "dependencies": {
-        "express": "^4.16.3",
         "reflect-metadata": "~0.1.12",
         "url-pattern": "~1.0.3"
     },
@@ -53,6 +51,8 @@
         "@types/node": "^7.0.22",
         "@types/reflect-metadata": "^0.1.0",
         "@types/supertest": "^2.0.4",
+        "body-parser": "^1.18.3",
+        "express": "^4.16.3",
         "jasmine": "^3.1.0",
         "jasmine-spec-reporter": "^4.2.1",
         "jasmine-ts": "^0.2.1",

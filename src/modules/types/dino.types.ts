@@ -1,5 +1,5 @@
 import { IRouterCallBack, IBindModelAttributeExtended } from './attribute';
-import { IDIContainer } from '../interfaces/idino';
+import { IDIContainer } from '../interfaces';
 import { Express } from './express';
 
 export interface IDinoProperties {

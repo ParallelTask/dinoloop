@@ -1,13 +1,13 @@
-import { Reflector } from '../lib/reflector';
-import { Attribute } from '../constants/constants';
-import { DataUtility } from '../utility/data.utility';
-import { InvalidRouteException, InvalidArgumentException } from '../builtin/exceptions/exceptions';
+import { Reflector } from '../lib';
+import { Attribute } from '../constants';
+import { DataUtility } from '../utility';
+import { InvalidRouteException, InvalidArgumentException } from '../builtin/exceptions';
 import {
     IControllerAttribute,
     IControllerAttributeExtended,
     IBindModelAttributeExtended,
     IBindModelAttribute
-} from '../types/attribute';
+} from '../types';
 
 export abstract class AttributeMetadata {
 

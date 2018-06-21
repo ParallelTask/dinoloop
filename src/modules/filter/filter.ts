@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from '../types/express';
-import { DinoResponse } from '../entities/dino.response';
+import { Request, Response, NextFunction } from '../types';
+import { DinoResponse } from '../entities';
 
 /**
  * Extend this class to create ErrorMiddleware

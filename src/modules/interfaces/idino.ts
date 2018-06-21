@@ -1,5 +1,11 @@
-import { IRouterCallBack, IMiddlewareProvider } from '../types/attribute';
-import { Express, Request, Response, NextFunction } from '../types/express';
+import {
+    IRouterCallBack,
+    IMiddlewareProvider,
+    Express,
+    Request,
+    Response,
+    NextFunction
+} from '../types';
 
 export interface IDino {
     registerController<T>(controller: Function & { prototype: T }): void;
@@ -9,8 +15,7 @@ export interface IDino {
     requestStart<T>(middleware: Function & { prototype: T }): void;
     requestEnd<T>(middleware: Function & { prototype: T }): void;
     serverError<T>(middleware: Function & { prototype: T }): void;
-    raiseModelError(): void;
-    dependencyInjectionResolver<T>(
+    dependencyResolver<T>(
         injector: T, cb: (injector: T, type: any) => any): void;
     bind(): void
     useRouter(cb: () => any): void;

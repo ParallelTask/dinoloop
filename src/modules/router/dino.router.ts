@@ -1,11 +1,15 @@
-import { Router, Express } from '../types/express';
-import { DinoUtility } from '../utility/dino.utility';
-import { IMiddlewareProvider, IMiddlewareClass, IRouterCallBack } from '../types/attribute';
-import { IDIContainer, IDinoRouter } from '../interfaces/idino';
-import { IRouterConfig, IDinoProperties } from '../types/dino.types';
-import { ObjectUtility } from '../utility/object.utility';
-import { DinoParser } from '../utility/dino.parser';
-import { IUserIdentity } from '../providers/providers';
+import {
+    Router,
+    Express,
+    IRouterConfig,
+    IDinoProperties,
+    IMiddlewareProvider,
+    IMiddlewareClass,
+    IRouterCallBack
+} from '../types';
+import { DinoUtility, ObjectUtility, DinoParser } from '../utility';
+import { IDIContainer, IDinoRouter } from '../interfaces';
+import { IUserIdentity } from '../providers';
 import {
     Middleware,
     MiddlewareAsync,
@@ -15,7 +19,7 @@ import {
     ResultFilterAsync,
     ExceptionFilter,
     ExceptionFilterAsync
-} from '../filter/filter';
+} from '../filter';
 
 // Each controller gets an instance of router
 // Register middlewares on the router level

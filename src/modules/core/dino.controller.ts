@@ -1,14 +1,13 @@
-import { ApiController } from '../controller/api.controller';
-import { Request, Response, NextFunction } from '../types/express';
-import { RouteUtility } from '../utility/route.utility';
-import { HttpUtility } from '../utility/http.utility';
-import { DataUtility } from '../utility/data.utility';
-import { ControllerAction } from '../controller/controller.action';
-import { Validator } from '../validations/validator';
-import { DinoModel } from '../entities/dino.model';
-import { InvalidModelException } from '../builtin/exceptions/exceptions';
-import { IDinoController } from '../interfaces/idino';
-import { IDinoProperties } from '../types/dino.types';
+import { ApiController, ControllerAction } from '../controller';
+import { Request, Response, NextFunction, IDinoProperties } from '../types';
+import {
+    RouteUtility,
+    HttpUtility,
+    DataUtility
+} from '../utility';
+import { DinoModel } from '../entities';
+import { InvalidModelException } from '../builtin/exceptions';
+import { IDinoController } from '../interfaces';
 
 export class DinoController implements IDinoController {
     private controller: ApiController;
@@ -51,18 +50,18 @@ export class DinoController implements IDinoController {
         let bModel = this.controllerAction.bindsModel;
         let dinoModel = new DinoModel();
 
-        if (HttpUtility.hasBody(httpVerb) && !DataUtility.isUndefinedOrNull(bModel)) {
-            dinoModel.type = bModel.model;
-            dinoModel.value = ctx.request.body;
-            dinoModel.errors = Validator.tryValidateWithType(ctx.request.body,
-                bModel.model, bModel.options.stopOnError);
-            dinoModel.isValid = dinoModel.errors.length === 0;
+        // if (HttpUtility.hasBody(httpVerb) && !DataUtility.isUndefinedOrNull(bModel)) {
+        //     dinoModel.type = bModel.model;
+        //     dinoModel.value = ctx.request.body;
+        //     dinoModel.errors = Validator.tryValidateWithType(ctx.request.body,
+        //         bModel.model, bModel.options.stopOnError);
+        //     dinoModel.isValid = dinoModel.errors.length === 0;
 
-            if (bModel.options.raiseModelError) {
-                ctx.next(new InvalidModelException(dinoModel.value, dinoModel.errors,
-                    dinoModel.type));
-            }
-        }
+        //     if (bModel.options.raiseModelError) {
+        //         ctx.next(new InvalidModelException(dinoModel.value, dinoModel.errors,
+        //             dinoModel.type));
+        //     }
+        // }
 
         return dinoModel;
     }

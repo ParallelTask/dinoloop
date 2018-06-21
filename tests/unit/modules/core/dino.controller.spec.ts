@@ -6,7 +6,6 @@ import {
     DinoModel,
     RouteUtility,
     HttpUtility,
-    Validator,
     InvalidModelException,
     IDinoProperties
 } from '../../index';
@@ -72,106 +71,6 @@ describe('modules.core.dino.controller.spec', () => {
         ctrl.attachResultToDino(true, result);
         let dino = obj.dino as IDinoProperties;
         expect(dino.result).toBeUndefined();
-    });
-    it('getModelFromBody.no_httpbody_and_bindmodel_undefined', () => {
-        let ctrl = new DinoController({} as any, { bindsModel: undefined });
-        spyOn(HttpUtility, 'hasBody').and.callFake(() => false);
-        let model = ctrl.getModelFromBody('get');
-        expect(model.value).toBeUndefined();
-        expect(model.type).toBeUndefined();
-        expect(model.errors).toBeUndefined();
-        expect(model.isValid).toBeUndefined();
-    });
-    it('getModelFromBody.httpbody_exists_and_bindmodel_undefined', () => {
-        let ctrl = new DinoController({} as any, { bindsModel: undefined });
-        spyOn(HttpUtility, 'hasBody').and.callFake(() => true);
-        let model = ctrl.getModelFromBody('post');
-        expect(model.value).toBeUndefined();
-        expect(model.type).toBeUndefined();
-        expect(model.errors).toBeUndefined();
-        expect(model.isValid).toBeUndefined();
-    });
-    it('getModelFromBody.httpbody_exists_raiseModelError_is_false_and_no_errs', () => {
-        let invoked = false;
-        let ca: ControllerAction = {
-            bindsModel: {
-                model: Test,
-                options: { raiseModelError: false }
-            }
-        };
-        let ctx: ApiController = {
-            request: {
-                body: { test: 'sample' }
-            },
-            next: e => invoked = true
-        } as any;
-        let ctrl = new DinoController(ctx, ca);
-
-        spyOn(HttpUtility, 'hasBody').and.callFake(() => true);
-        spyOn(Validator, 'tryValidateWithType').and.callFake(() => []);
-
-        let model = ctrl.getModelFromBody('post');
-        expect(model.value).toBe(ctx.request.body);
-        expect(model.type).toBe(ca.bindsModel.model);
-        expect(model.errors).toEqual([]);
-        expect(model.isValid).toBeTruthy();
-        expect(invoked).toBeFalsy();
-    });
-    it('getModelFromBody.httpbody_exists_raiseModelError_is_false_with_errs', () => {
-        let invoked = false;
-        let ca: ControllerAction = {
-            bindsModel: {
-                model: Test,
-                options: { raiseModelError: false }
-            }
-        };
-        let ctx: ApiController = {
-            request: {
-                body: { test: 'sample' }
-            },
-            next: e => invoked = true
-        } as any;
-        let ctrl = new DinoController(ctx, ca);
-
-        spyOn(HttpUtility, 'hasBody').and.callFake(() => true);
-        spyOn(Validator, 'tryValidateWithType')
-            .and.callFake(() => ['testerror']);
-
-        let model = ctrl.getModelFromBody('post');
-        expect(model.value).toBe(ctx.request.body);
-        expect(model.type).toBe(ca.bindsModel.model);
-        expect(model.errors).toEqual(['testerror']);
-        expect(model.isValid).toBeFalsy();
-        expect(invoked).toBeFalsy();
-    });
-    it('getModelFromBody.httpbody_exists_and_raiseModelError_true_with_errs', () => {
-        let err: InvalidModelException;
-        let ca: ControllerAction = {
-            bindsModel: {
-                model: Test,
-                options: { raiseModelError: true }
-            }
-        };
-        let ctx: ApiController = {
-            request: {
-                body: { test: 'sample' }
-            },
-            next: e => err = e
-        } as any;
-        let ctrl = new DinoController(ctx, ca);
-
-        spyOn(HttpUtility, 'hasBody').and.callFake(() => true);
-        spyOn(Validator, 'tryValidateWithType')
-            .and.callFake(() => ['testerror']);
-
-        let model = ctrl.getModelFromBody('post');
-        expect(model.value).toBe(ctx.request.body);
-        expect(model.type).toBe(ca.bindsModel.model);
-        expect(model.errors).toEqual(['testerror']);
-        expect(model.isValid).toBeFalsy();
-        expect(err.errors).toEqual(['testerror']);
-        expect(err.model).toBe(ca.bindsModel.model);
-        expect(err.value).toBe(ctx.request.body);
     });
     it('invoke.when_mappedSegments_[]_and_body_false', () => {
         let val = [];

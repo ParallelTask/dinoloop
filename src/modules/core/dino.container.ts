@@ -1,27 +1,29 @@
-import { Express, Response } from '../types/express';
-import { ApiController } from '../controller/api.controller';
+
 import { DIContainer } from './dicontainer';
-import { ErrorController } from '../controller/error.controller';
-import { DinoUtility } from '../utility/dino.utility';
-import { DinoController } from '../core/dino.controller';
-import { DinoRouter } from '../router/dino.router';
+import { DinoController } from './dino.controller';
 import { DinoErrorController } from './dino.error.controller';
-import { RouteTable } from '../router/route.table';
-import { DataUtility } from '../utility/data.utility';
-import { ControllerAction } from '../controller/controller.action';
-import { Reflector } from '../lib/reflector';
-import { ObjectUtility } from '../utility/object.utility';
-import { IDinoContainer, IDIContainer, IRouteTable } from '../interfaces/idino';
-import { IDinoContainerConfig, IDinoProperties } from '../types/dino.types';
+import { DinoRouter, RouteTable } from '../router';
+import { ApiController, ControllerAction, ErrorController } from '../controller';
+import { Reflector } from '../lib';
+import {
+    ObjectUtility,
+    DataUtility,
+    DinoUtility
+} from '../utility';
+import { IDinoContainer, IDIContainer, IRouteTable } from '../interfaces';
 import {
     IRouterCallBack,
     IControllerAttributeProvider,
     IControllerAttributeExtended,
     IBindModelAttributeExtended,
-    IActionMethodAttribute
-} from '../types/attribute';
-import { Attribute, RouteAttribute } from '../constants/constants';
-import { IUserIdentity } from '../providers/providers';
+    IActionMethodAttribute,
+    IDinoContainerConfig,
+    IDinoProperties,
+    Express,
+    Response
+} from '../types';
+import { Attribute, RouteAttribute } from '../constants';
+import { IUserIdentity } from '../providers';
 import {
     RequestStartMiddleware,
     RequestStartMiddlewareAsync,
@@ -29,7 +31,7 @@ import {
     RequestEndMiddlewareAsync,
     ErrorMiddleware,
     ErrorMiddlewareAsync
-} from '../filter/filter';
+} from '../filter';
 
 export class DinoContainer implements IDinoContainer {
     private diContainer: IDIContainer;

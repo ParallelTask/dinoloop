@@ -1,11 +1,8 @@
-import {
-    IControllerAttribute,
-    AttributeMetadata,
-    IBindModelAttribute
-} from './index';
+import { IControllerAttribute } from '../modules/types';
+import { AttributeMetadata } from '../modules/metadata';
 
 // if an API action wants to send response on its own, decorate @SendsResponse()
-// this is used when action method directly sends response using response object.
+// this is used when action method directly sends response using express response object.
 // ex: like read, download file contents must be decorated with @SendsResponse
 // actions having @SendsResponse recommended to have void return type since return value is ignored
 /**
@@ -78,14 +75,4 @@ export function HttpAll(route: string | RegExp): (target: any, propertyKey: stri
  */
 export function Controller(prefix: string, attr?: IControllerAttribute): any {
     return AttributeMetadata.controller(prefix, attr);
-}
-
-// Use this attribute on the action method that typically has http request body.
-// It reads the http request body and tries to validate the body against the provided model.
-// accordingly, sets the validation errors on the model instance of the controller
-/**
- * Decorate on API actions to bind HttpBody to the model
- */
-export function BindModel(type: Function, options?: IBindModelAttribute): any {
-    return AttributeMetadata.bindModel(type, options);
 }

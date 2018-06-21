@@ -1,9 +1,19 @@
-import { RouteExceptionMiddleware, RouteNotFoundException } from '../../../index';
+import {
+    RouteExceptionMiddleware,
+    RouteNotFoundException,
+    HttpStatusCode
+} from '../../../index';
 
 describe('modules.builtin.route.exception.middleware.spec', () => {
     it('invoke.sends_response_when_RouteNotFoundException_occurred', () => {
         let responseResult;
+        let statusCode;
         let res: any = {
+            status: code => {
+                statusCode = code;
+
+                return res;
+            },
             json: data => responseResult = data
         };
         let httpVerb = 'get';
@@ -15,6 +25,7 @@ describe('modules.builtin.route.exception.middleware.spec', () => {
             .invoke(err, {}, res, () => invoked = true);
 
         expect(responseResult).toBe(`Cannot ${httpVerb} ${uri}`);
+        expect(statusCode).toBe(HttpStatusCode.NotFound);
         expect(invoked).toBeFalsy();
     });
     it('invoke.invoked_next_err_handler_when_RouteNotFoundException_not_occurred', () => {

@@ -1,5 +1,5 @@
-import { IUserIdentity } from '../../providers/providers';
-import { DataUtility } from '../../utility/data.utility';
+import { IUserIdentity } from '../../providers';
+import { DataUtility } from '../../utility';
 
 /**
  * UserIdentity principal context object

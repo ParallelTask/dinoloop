@@ -1,4 +1,4 @@
-import { RouteAttribute } from '../constants/constants';
+import { RouteAttribute } from '../constants';
 
 export abstract class HttpUtility {
 

@@ -3,7 +3,7 @@ export const Attribute = {
     asyncAttr: 'asyncAttribute',
     controller: 'controllerAttribute',
     bindModel: 'bindModelAttribute',
-    errorControllerDefaultMethod: 'write',
+    errorControllerDefaultMethod: 'internalServerError',
     httpGet: 'httpGetAttribute',
     httpPost: 'httpPostAttribute',
     httpPatch: 'httpPatchAttribute',

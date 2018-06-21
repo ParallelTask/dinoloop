@@ -1,4 +1,5 @@
 /**** Comment these exports while publishing to NPM ****/
+// tslint:disable-next-line:no-implicit-dependencies
 import { Express, Router, Request, Response, NextFunction } from 'express';
 export type Express = Express;
 export type Router = Router;

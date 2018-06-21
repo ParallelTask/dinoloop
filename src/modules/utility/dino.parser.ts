@@ -1,4 +1,4 @@
-import { IMiddlewareProvider, IMiddlewareClass } from '../types/attribute';
+import { IMiddlewareProvider, IMiddlewareClass } from '../types';
 import { DataUtility } from './data.utility';
 
 /**
