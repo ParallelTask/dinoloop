@@ -1,20 +1,16 @@
 # Exceptions
 
 ## RouteNotFoundException
-Dino throws `RouteNotFoundException` when it receives a request that does not match a route. Here is how you can handle it
+Dinoloop throws `RouteNotFoundException` when it receives a request that does not match a route. Here is how you can handle it
 ```
-import { ErrorMiddleware, RouteNotFoundException } from 'dinoloop';
+import { HttpStatusCode, ErrorMiddleware, RouteNotFoundException } from 'dinoloop';
 import { Request, Response, NextFunction } from 'express';
 
 export class RouteNotFoundErrorMiddleware extends ErrorMiddleware {
     
     invoke(err: Error, request: Request, response: Response, next: NextFunction): void {
         if (err instanceof RouteNotFoundException) {
-            response.json({
-                errMsg: 'Link has been moved or broken',
-                status: false,
-                statusCode: 404
-            });
+            response.status(HttpStatusCode.NotFound).json('Link has been moved or broken');
         } else next(err);
     }
 }
@@ -25,7 +21,7 @@ dino.serverError<RouteNotFoundErrorMiddleware>(RouteNotFoundErrorMiddleware);
 * It is so easy to setup error-middlewares and add custom response.
 * It is recommended to register `RouteNotFoundErrorMiddleware` as first server-error middleware.
 ## CustomException
-Programmers from C#/Java have robust support for exception handling. Dino suggests to create a `CustomException` and extend all your exceptions from this class.
+Programmers from C#/Java have robust support for exception handling. Dinoloop suggests to create a `CustomException` and extend all your exceptions from this class.
 ```
 export abstract class CustomException extends Error {
     innerException: Error;

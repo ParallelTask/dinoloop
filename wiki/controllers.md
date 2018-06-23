@@ -15,7 +15,7 @@ Express next handler is mapped to this property.
 ### dino: DinoResponse
 dino property has two methods `proceed()` and `throw()` explained in the bottom section.
 #### proceed(result: any)  
-* Typically used when you receive response after async operation, you would then like to have your result available to the next middlewares in the chain, say your result filters. Here is how you do it:
+* Typically used when you receive response after async-callback operation, you would then like to have your result available to the next middlewares in the chain, say your result filters. Here is how you do it:
 ```
 @Controller('/home', {
     result: [JsonResult]
@@ -36,7 +36,7 @@ export class HomeController extends ApiController {
 }
 ```
 #### throw(err: Error)
-* Gives ability to pass on error to next error middlewares when error is encountered in async operation. Following example explains mongo connection error.
+* Gives ability to pass on error to next error middlewares when error is encountered in async-callback operation. Following example explains mongo connection error.
 ```
 @Controller('/home', {
     exceptions: [MongoConnectException]
@@ -53,7 +53,7 @@ export class HomeController extends ApiController {
 }
 ```
 ## Controller
-Dinoloop treats a class as controller when it extends [ApiController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#apicontroller) and [@Controller](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/attributes.md#controllerprefix-string-attr-icontrollerattributed) attached to it.
+Dinoloop treats a class as controller when it extends [ApiController](https://github.com/ParallelTask/dinoloop/blob/master/wiki/controllers.md#apicontroller) and [@Controller](https://github.com/ParallelTask/dinoloop/blob/master/wiki/attributes.md#controllerprefix-string-attr-icontrollerattributed) attached to it.
 ```
 @Controller('/home')
 export class HomeController extends ApiController {
@@ -78,7 +78,7 @@ export class HomeController extends AuthorizeController {
     
     @HttpGet('/get')
     get(): string {
-        return 'Home Page!';
+        return 'Home Page';
     }
 }
     
@@ -101,7 +101,7 @@ export class ContactController extends ApiController {
     }
 }
 ```
-Have an empty route on base controller `@Controller('')`, if you have a route-url `@Controller('/base')` then the route is prefixed to all child controllers, example: `/base/child1/get` and `/base/child2/get`.
+Have an empty route on base controller `@Controller('')`, if you have a route-url `@Controller('/base')` then the base controller route is prefixed to all child controllers, example: `/base/child1/get` and `/base/child2/get`.
 ## ErrorController
 Extend this class to handle application-level errors. Unlike controllers (where you register multiple), you can register only one class extending ErrorController.
 ### request: Express.Request
@@ -112,12 +112,12 @@ Express response object is mapped to this property.
 Express next handler is mapped to this property.
 ### error: Error
 Placeholder of unhandled error thrown by application.
-### write()
+### internalServerError()
 Gets executed when any unhandled error thrown by application.
 ```
 export class ApplicationError extends ErrorController {
 
-    write(): void {
+    internalServerError(): void {
         logToDatabase(this.error);
         
         // Need to crash container ??
@@ -133,4 +133,4 @@ export class ApplicationError extends ErrorController {
     }
 }
 ```
-* `write()` is an abstract method which has to be implemented.
+* `internalServerError()` is an abstract method on ErrorController which has to be implemented.

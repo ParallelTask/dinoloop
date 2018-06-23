@@ -3,7 +3,7 @@
 This guide gets you started with Dinoloop. By the end of this guide, you will have a working web server.
 
 ## Prerequisites
-Dinoloop is built on top of [ES2017 async](https://blog.risingstack.com/mastering-async-await-in-nodejs/), please make sure Node.js installed supports [async](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) and [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). Dinoloop uses [express.Router](https://expressjs.com/en/guide/routing.html) extensively for API routing, install Express.js that support express.Router.
+Dinoloop is built on top of [ES6 Async](https://blog.risingstack.com/mastering-async-await-in-nodejs/), please make sure Node.js installed supports [Async](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) and [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). Dinoloop uses [express.Router](https://expressjs.com/en/guide/routing.html) extensively for API routing, install Express.js that supports express.Router.
 
 * Node 8.10.x or higher 
 * Express 4.x.x or higher

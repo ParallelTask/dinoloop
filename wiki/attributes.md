@@ -1,7 +1,7 @@
 # Attributes
 Dinoloop attributes use [reflect-metadata](https://www.npmjs.com/package/reflect-metadata) behind the scenes.
 ## @Async()
-When an action method has async modifier, it must be decorated with `@Async`.
+When an action method has async modifier, it must be decorated with `@Async`. This is required to notify dinoloop to setup asynchronous execution model with express. 
 ```
 import { Controller, ApiController, HttpGet, Async } from 'dinoloop';
     
@@ -22,10 +22,10 @@ Defines a class as controller.
 Acts as base route for all actions.
 #### attr: IControllerAttribute
 Configures middlewares at controller-level.
-* **use:** Provide an array of express middlewares (express-wares). These express middlewares are first to execute, and then proceeds to middlewares.
-* **middlewares:** Provide an array of middlewares which are executed after *express-wares* and proceeds to *filters*.
-* **filters:** Provide an array of action-filters which are executed after *middlewares* and proceeds to *action-method*.
-* **result:** Provide an array of result-filters which are executed after *action method* and proceeds to *request-end middlewares*.
+* **use:** Provide an array of express middlewares (express-wares). These express middlewares are first to execute, and then proceeds to dinoloop middlewares.
+* **middlewares:** Provide an array of dinoloop middlewares which are executed after *express-wares* and proceeds to *filters*.
+* **filters:** Provide an array of action-filters which are executed before/after *action-method*.
+* **result:** Provide an array of result-filters which captures return values received from *action method* and proceeds to *request-end middlewares*.
 * **exceptions:** Provide an array of exception-filters which handles uncaught exceptions thrown by controller. 
 #### Without Middlewares
 ```
@@ -86,7 +86,7 @@ export class OrdersController extends ApiController {
     }
 }
 ```
-Dinowares are explained in detail [here](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controller_middlewares.md).
+Dinowares are explained in detail [here](https://github.com/ParallelTask/dinoloop/blob/master/wiki/controller_middlewares.md).
 ## @HttpAll(route: string)
 Defines an action that responds to every `[HTTP-VERB]` request.
 ```
@@ -107,8 +107,8 @@ all(id: string, user: string): string {
     return id + '_' + user; // xy_john - GET /all/john/images/xy
 }
 ```
-* Order of variables is not important. Value injection framework maps `place-holders` to `func-args`.
-* Dinoloop uses [url-pattern](https://www.npmjs.com/package/url-pattern) to implement named-segments. Have placeholders in your route patterns based on [url-pattern-docs on github](https://github.com/snd/url-pattern)
+* Order of variables is not important. Value injection framework maps `placeholders` to `func-args`.
+* Dinoloop also uses [path-to-regexp](https://github.com/pillarjs/path-to-regexp) (*express uses internally*) to implement named-segments. Have placeholders in your route patterns based on [path-to-regexp on github](https://github.com/pillarjs/path-to-regexp)
 ## @HttpDelete(route: string)
 Defines an action that responds to `DELETE` request.
 ```
@@ -136,7 +136,7 @@ head(): string {
 ## @HttpPost(route: string)
 Defines an action that responds to `POST` request.
 ```
-// Injects request-body as first argument
+// Injects http-body as first argument
 @HttpPost('/post')
 post(body: any): string {
     return 'post';
@@ -149,7 +149,7 @@ post(body: any, id: string): string {
 }
     
 // Wrong: body must be first argument.
-// This would not throw error but request-body is injected to id.
+// This would not throw error but http-body is injected to id.
 @HttpPost('/post/:id')
 post(id: string, body: any): string {
     return id;
@@ -172,6 +172,23 @@ put(body: any): string {
     return 'put';
 }
 ```
+
+### Having multiple http verbs
+You can also have multiple http verbs on the same action.
+
+```
+@Controller('/home')
+export class HomeController extends ApiController {
+    
+    // Responds to GET and POST.
+    @HttpGet('/name')
+    @HttpPost('/name)
+    name(): string {
+        return 'received';
+    }
+}
+```
+
 ## @SendsResponse()
 If you would like to have action method responding to request, then decorate `@SendsResponse()`. 
 Pretty useful in situations like *file downloads/uploads or more ...*

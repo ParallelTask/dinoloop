@@ -4,21 +4,22 @@ Dino object is the main interface through which you will register controllers an
 ### constructor(app: Express, baseUri: String)
 Requires express instance and baseUri on dino app will be mounted.
 ```
-const dino = new Dino(express(), '/api');
+const app = express();
+const dino = new Dino(app, '/api');
 ```
 ### bind()
-Binds dino to express, once you invoke `.bind()` it is done. You are not allowed to invoke `.bind()` twice which results `Error: dino.bind: Already invoked`
+Binds dino to express, once you invoke `.bind()` it is done. You are not allowed to invoke `.bind()` twice which results `Error: dino.bind(): Already invoked.`
 ```
 dino.bind();
 ```
-Invoke `bind()` only after everything is configured and registered.
-### dependencyInjectionResolver<T>(injector: T, cb: (injector: T, type: any) => any)
+* Invoke `bind()` only after everything is configured and registered.
+### dependencyResolver<T>(injector: T, cb: (injector: T, type: any) => any)
 Allows you to configure any dependency injection framework available in Typescript. We highly recommend [InversifyJs](https://github.com/inversify/InversifyJS/) which is just fantastic. We already have a [dino-inverisfy-starter](https://github.com/ParallelTask/dinoloop-inversify-starter) project adhere to SOLID principles, clone it and start developing your app :)
 ```
 import { Container } from 'inversify';
 import { AppContainer } from '/path/to/app.container'
 
-dino.dependencyInjectionResolver<Container>
+dino.dependencyResolver<Container>
     (AppContainer, (injector, type) => {
         // Resolve objects from inversify container
         return injector.resolve(type);
@@ -31,14 +32,14 @@ Dinoloop resolves objects from DI container on every request. Now If you get the
 
 `Note:` This is applicable only for controller instances.
 
-#### Problem with [injection-js](https://github.com/mgechev/injection-js)
+#### Problems with [injection-js](https://github.com/mgechev/injection-js)
 
 [injection-js](https://github.com/mgechev/injection-js) is one such DI framework which resolves everything as singleton. To have a quick fix, you can shallow clone the controller objects 
 ```
 import { ReflectiveInjector } from 'injection-js';
 import * as clone from 'lodash.clone';
 
-dino.dependencyInjectionResolver<ReflectiveInjector>(Container,
+dino.dependencyResolver<ReflectiveInjector>(Container,
     (injector, type) => {
         let i = injector.get(type);
         // clone it, so that you get different reference object
@@ -51,10 +52,38 @@ dino.dependencyInjectionResolver<ReflectiveInjector>(Container,
 ```
 #### Middlewares can be singleton
 You can have singleton middlewares, totally depends on your requirements.
-### raiseModelError()
-Reserved for future use.
+### disableRouteNotFoundException()
+Dinoloop internally uses router middleware (*created by dinoloop authors*) which handles every request to verify if the request matches a valid action-route, If the request does not match then dinloop throws **RouteNotFoundException**.
+
+#### Why dinoloop uses router middleware?
+Express fires the handlers based on the mounted path.
+So the middlewares still gets fired even though the end action-route is not matched. For example:
+``` 
+router.get('/home', function (req, res) {
+    res.send('hello, user!')
+});
+
+// This handler gets fired even for /admin/apple
+// but we have configured /admin/home
+app.use('/admin', (req, res, next) => {
+    next();
+});
+
+app.use('/admin', router);
+
+Request: GET /admin/apple
+```
+Even though end route is not matched, the middlewares are fired. To overcome this problem dinoloop introduced router-middleware. To make sure middlewares are executed only when the valid action-method is found.
+This also increases response times and reduces unwanted handlers execution.
+
+Invoking this method disables dinloop router middleware.
+
+Highly recommended **NOT TO INVOKE** this method.
+
+### enableUserIdentity()
+Experimental feature for future use.
 ### registerApplicationError<T>(T)
-Register controller that extends [ErrorController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#errorcontroller).
+Register controller that extends [ErrorController](https://github.com/ParallelTask/dinoloop/blob/master/wiki/controllers.md#errorcontroller).
 ```
 dino.registerApplicationError<ApplicationErrorController>(ApplicationErrorController);
 ```
@@ -62,24 +91,24 @@ dino.registerApplicationError<ApplicationErrorController>(ApplicationErrorContro
 
 If you register multiple error controllers, the last controller gets registered with dino. All other error controllers are discarded.
 ### registerController<T>(T)
-Register controller that extends [ApiController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#apicontroller).
+Register controller that extends [ApiController](https://github.com/ParallelTask/dinoloop/blob/master/wiki/controllers.md#apicontroller).
 ```
 dino.registerController<HomeController>(HomeController);
 ```
 ### requestStart<T>(T)
-Register request-start middlewares. These are the middlewares to handle request first in the chain. More on [RequestStart Middlewares](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/application_middlewares.md#requeststartmiddleware).
+Register request-start middlewares. These are the middlewares to handle request first in the chain. More on [RequestStart Middlewares](https://github.com/ParallelTask/dinoloop/blob/master/wiki/application_middlewares.md#requeststartmiddleware).
 ```
 dino.requestStart<LogRequestStart>(LogRequestStart);
 dino.requestStart<OtherRequestStart>(OtherRequestStart);
 ```
 ### requestEnd<T>(T)
-Register request-end middlewares. These are the middlewares to handle request last in the chain. More on [RequestEnd Middlewares](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/application_middlewares.md#requestendmiddleware).
+Register request-end middlewares. These are the middlewares to handle request last in the chain. More on [RequestEnd Middlewares](https://github.com/ParallelTask/dinoloop/blob/master/wiki/application_middlewares.md#requestendmiddleware).
 ```
 dino.requestEnd<LogRequestEnd>(LogRequestEnd);
 dino.requestEnd<OtherRequestEnd>(OtherRequestEnd);
 ```
 ### serverError<T>(T)
-Register server-error middlewares to handle uncaught exceptions/errors thrown by application. More on [ServerError Middlewares](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/application_middlewares.md#errormiddleware) .
+Register server-error middlewares to handle uncaught exceptions/errors thrown by application. More on [ServerError Middlewares](https://github.com/ParallelTask/dinoloop/blob/master/wiki/application_middlewares.md#errormiddleware) .
 ```
 dino.serverError<FormatExceptionr>(FormatException);
 dino.serverError<MongoException>(MongoException);

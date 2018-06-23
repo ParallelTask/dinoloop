@@ -1,7 +1,7 @@
 # Flow of Dinowares
 This guide helps you to understand the flow of dinowares.
 
-When dino receives a request and if it is a valid route to handle, this is what happens: 
+When dinoloop receives a request and if it is a valid route to handle, this is what happens: 
 
 ## Order of Dinowares
 * Array of RequestStartMiddlewares (Irrespective of controller).
@@ -13,7 +13,7 @@ When dino receives a request and if it is a valid route to handle, this is what 
 * Array of ResultFilters specific to controller (registered via *result*).
 * Array of RequestEndMiddlewares (Irrespective of controller).
 
-`Note:` Execution of middlewares/dinowares is based on order of registration.
+`Note:` Execution of expresswares/dinowares is based on order of registration.
 
 ## Order of Dinowares in Base-Child Controller
 * Array of RequestStartMiddlewares (Irrespective of controller).
@@ -33,10 +33,10 @@ When dino receives a request and if it is a valid route to handle, this is what 
 ## Order of Dinowares When Error occured
 * Array of ExceptionFilters specific to controller (registered via *exceptions*).
 * Array of ErrorMiddlewares (Irrespective of controller).
-* Executes [ErroController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#errorcontroller) implementation of `write()` method.
+* Executes [ErroController](https://github.com/ParallelTask/dinoloop/blob/master/wiki/controllers.md#errorcontroller) implementation of `internalServerError()` method.
 
 ## Order of Dinowares When Error occured in Base-Child
 * Array of ExceptionFilters specific to child controller (registered via *exceptions*).
 * Array of ExceptionFilters specific to base controller (registered via *exceptions*).
 * Array of ErrorMiddlewares (Irrespective of controller).
-* Executes [ErroController](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controllers.md#errorcontroller) implementation of `write()` method.
+* Executes [ErroController](https://github.com/ParallelTask/dinoloop/blob/master/wiki/controllers.md#errorcontroller) implementation of `internalServerError()` method.

@@ -1,7 +1,7 @@
 # Application Middlewares
 Application middlewares are configured at application-level (which run for every request handled by dino).
 
-* Dino supports both synchronous/asynchronous versions of middlewares.
+* Dinoloop supports both synchronous/asynchronous versions of middlewares.
 
 Following are the list of classes which helps to create dinowares at application-level:
 ### RequestStartMiddleware
@@ -20,11 +20,11 @@ export class RequestLogMiddleware extends RequestStartMiddleware {
     }
 }
 ```
-* RequestStart middlewares are the first to run when dino receives a request. Please read [Flow of dinowares](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/flow_of_dinowares.md).
+* RequestStart middlewares are the first to run when dino receives a request. Please read [Flow of dinowares](https://github.com/ParallelTask/dinoloop/blob/master/wiki/flow_of_dinowares.md).
 * You have to extend `RequestStartMiddleware` and implement `invoke()` method.
-* Request, Response, NextFunction are the express types, whatever you can do with express might get done with dino.
+* Request, Response, NextFunction are the express types, whatever you can do with express might get done.
 * You can read *next(err)*  [on express](https://expressjs.com/en/guide/error-handling.html).
-* RequestStart middlewares are similar to [express middlewares](https://expressjs.com/en/guide/using-middleware.html) in functioning. However, they provide class-based approach with Dependency Injection support as explained below.
+* RequestStart middlewares are similar to [express middlewares](https://expressjs.com/en/guide/using-middleware.html) in functioning. However, they provide class-based approach with Dependency Injection support as shown below.
 ```
 import { RequestStartMiddleware } from 'dinoloop';
 import { Request, Response, NextFunction } from 'express';
@@ -72,7 +72,7 @@ export class JsonResult extends RequestEndMiddleware {
     }
 }
 ```
-* RequestEnd middlewares are the last to run in the chain of middlewares. Please read [Flow of dinowares](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/flow_of_dinowares.md).
+* RequestEnd middlewares are the last to run in the chain of middlewares. Please read [Flow of dinowares](https://github.com/ParallelTask/dinoloop/blob/master/wiki/flow_of_dinowares.md).
 * `result` is the palceholder for return-value of action methods.
 ### RequestEndMiddlewareAsync
 Asnyc version of RequestEnd middleware.
@@ -93,7 +93,7 @@ export class JsonResultAsync extends RequestEndMiddlewareAsync {
 }
 ```
 ### ErrorMiddleware
-This example shows how to create error middleware that handles uncaught exceptions thrown by application (dino). 
+This example shows how to create error middleware that handles uncaught exceptions thrown by application. 
 ```
 import { ErrorMiddleware } from 'dinoloop';
 import { Request, Response, NextFunction } from 'express';
@@ -153,4 +153,4 @@ dino.serverError(InvalidHeaderMiddlewareAsync);
 * It is recommended to have Async in name for asynchronous middlewares to recognize easily.
 
 * You can register multiple *RequestStartMiddlewares*, *RequestEndMiddlewares* and *ErrorMiddlewares*, order of execution depends on the order of registration. 
-* `ResponseEndMiddleware` is a built-in RequestEndMiddleware, which ends every API response with Json content-type default. To override this, have your own response middleware by creating [RequestEndMiddleware](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/application_middlewares.md#requestendmiddleware).
+* `ResponseEndMiddleware` is a built-in RequestEndMiddleware, which ends every API response with Json content-type default. To override this, have your own response middleware by creating [RequestEndMiddleware](https://github.com/ParallelTask/dinoloop/blob/master/wiki/application_middlewares.md#requestendmiddleware).

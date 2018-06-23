@@ -120,7 +120,7 @@ export class LogFilter extends ActionFilter {
 })
 ... add controller and action-methods
 ```
-* As explained [Middleware with metadata](https://github.com/ParallelTask/dinoloop/blob/wiki-folder/wiki/controller_middlewares.md#middleware-with-metadata), custom `data` can be provided to action filters.
+* As explained [Middleware with metadata](https://github.com/ParallelTask/dinoloop/blob/master/wiki/controller_middlewares.md#middleware-with-metadata), custom `data` can be provided to action filters also.
 * `result` is the placeholder for return-value of action methods.
 ### ActionFilterAsync
 Asnyc version of ActionFilterAsync.
@@ -247,3 +247,4 @@ export class InvalidOrderExceptionFilterAsync extends ExceptionFilterAsync {
 ```
 ## Notes
 * It is recommended to have Async in name for asynchronous middlewares to recognize easily.
+* You have to invoke *next()* to pass on to next middlewares in chain.

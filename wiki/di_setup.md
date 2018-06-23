@@ -1,8 +1,8 @@
 # Dependency Injection with TDD
-This guide gets you started on how to setup dependency injection to your project.
+This guide gets you started on how to setup dependency injection and unit tests to your project.
 
-## DI with [Inversify.js](http://inversify.io/)
-Dinoloop already has a [dinoloop-inversify-starter](https://github.com/ParallelTask/dinoloop-inversify-starter) project for inversify setup. Here are few steps to setup:
+## DI with [Inversify.js](http://inversify.io/) and Tests with [Moq.ts](https://github.com/dvabuzyarov/moq.ts)
+Dinoloop already has a [dinoloop-inversify-starter](https://github.com/ParallelTask/dinoloop-inversify-starter) project for inversify and moq.ts setup. Here are few steps to setup:
 ```
 git clone https://github.com/ParallelTask/dinoloop-inversify-starter.git
 cd dinoloop-inversify-starter
@@ -88,4 +88,20 @@ This is where you put your entities/models.
 ### test/helpers
 This is where you put start-up code for your tests if required.
 ### test/unit
-This is where you put your unit tests.
+This is where you put your unit tests. You can find sample unit test case written using [moq.ts](https://github.com/dvabuzyarov/moq.ts) and [Jasmine](https://jasmine.github.io/).
+```
+import { Mock } from 'moq.ts';
+import { IAppConfigService } from '../../../src/app/services/config/iapp.config.service';
+import { AboutService } from '../../../src/app/services/about.service';
+import { About } from '../../../src/app/model/about.model';
+
+describe('services.about.service.spec', () => {
+    it('get.returns_array_of_about_entity', () => {
+        let mockAppConfig = new Mock<IAppConfigService>();
+        let cut = new AboutService(mockAppConfig.object());
+        let result = cut.get();
+
+        expect(result).toEqual([new About()]);
+    });
+});
+```
