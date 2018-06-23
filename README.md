@@ -64,3 +64,6 @@ Dinoloop has simple motto, to apply SOLID principles and reuse similar coding sk
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our [CONTRIBUTING.md](https://github.com/ParallelTask/dinoloop/blob/master/CONTRIBUTING.md)
 
 Join the dinoloop general discussion on [Gitter](https://gitter.im/dinoloop/Lobby).
+
+## Contact
+ Send your queries/questions on [Gitter](https://gitter.im/dinoloop/Lobby), we get in touch with you or shoot me an email at dinoloop45@gmail.com.
