@@ -8,5 +8,8 @@
 4. Ensure package.json versioning matches with npm publishing version.
 5. Login to your npm account, **npm login**.
 6. After login, **npm publish**.
+7. After publishing to npm registry, create git tag having the npm version say `v1.0.0` on `master:@latest` commit.
+(*You can do it from git prompt or visual studio*).
+8. Push the tag (*git push origin tag_name*) to github repo.
 
 That's it!
