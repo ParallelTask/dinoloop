@@ -1,6 +1,11 @@
 import { BaseController } from './base.controller';
 import { Controller, HttpGet } from '../../../../index';
-import { RequestMiddleware, RequestFilter, LogFilterAsync, RequestMiddlewareAsync } from '../middlewares/filter';
+import {
+    RequestMiddleware,
+    RequestFilter,
+    LogFilterAsync,
+    RequestMiddlewareAsync
+} from '../middlewares/filter';
 
 @Controller('/child', {
     use: [

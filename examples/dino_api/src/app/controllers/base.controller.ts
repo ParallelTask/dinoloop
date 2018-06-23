@@ -3,7 +3,12 @@ import {
     Controller,
     HttpGet
 } from '../../../../index';
-import { BaseRequestMiddleware, BaseRequestMiddlewareAsync, BaseRequestFilter, BaseRequestFilterAsync } from '../middlewares/base';
+import {
+    BaseRequestMiddleware,
+    BaseRequestMiddlewareAsync,
+    BaseRequestFilter,
+    BaseRequestFilterAsync
+} from '../middlewares/base';
 
 @Controller('/base', {
     use: [

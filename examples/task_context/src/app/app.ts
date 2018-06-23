@@ -23,7 +23,7 @@ dino.registerController(HomeController);
 dino.requestEnd(ResponseMiddleware);
 dino.enableUserIdentity();
 
-dino.dependencyInjectionResolver<Container>(InversifyContainer,
+dino.dependencyResolver<Container>(InversifyContainer,
     (injector, type) => injector.resolve(type));
 
 dino.bind();

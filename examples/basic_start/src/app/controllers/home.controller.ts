@@ -12,6 +12,7 @@ export class HomeController extends ApiController {
 
     // verifies if built-in response middleware is working
     @HttpGet('/name')
+    @HttpPost('/name')
     getName(): string {
         return 'HomeController';
     }

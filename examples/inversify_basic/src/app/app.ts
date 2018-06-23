@@ -23,7 +23,7 @@ dino.requestStart(StartMiddleware);
 dino.requestEnd(ResponseMiddleware);
 dino.registerController(HomeController);
 
-dino.dependencyInjectionResolver<Container>(InversifyContainer,
+dino.dependencyResolver<Container>(InversifyContainer,
     (injector, type) => {
         return injector.resolve(type);
     });

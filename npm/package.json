@@ -27,7 +27,7 @@
     ],
     "dependencies": {
         "reflect-metadata": "^0.1.12",
-        "url-pattern": "^1.0.3"
+        "path-to-regexp": "^2.2.1"
     },
     "engines": {
         "node": ">= 8.10.x",

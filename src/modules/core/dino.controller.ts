@@ -50,6 +50,7 @@ export class DinoController implements IDinoController {
         let bModel = this.controllerAction.bindsModel;
         let dinoModel = new DinoModel();
 
+        // TODO when @ModelBinder is added
         // if (HttpUtility.hasBody(httpVerb) && !DataUtility.isUndefinedOrNull(bModel)) {
         //     dinoModel.type = bModel.model;
         //     dinoModel.value = ctx.request.body;
