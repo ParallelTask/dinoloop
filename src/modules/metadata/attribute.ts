@@ -1,13 +1,13 @@
-import { Reflector } from '../lib/reflector';
-import { Attribute } from '../constants/constants';
-import { DataUtility } from '../utility/data.utility';
-import { InvalidRouteException, InvalidArgumentException } from '../builtin/exceptions/exceptions';
+import { Reflector } from '../lib';
+import { Attribute } from '../constants';
+import { DataUtility } from '../utility';
+import { InvalidRouteException, InvalidArgumentException } from '../builtin/exceptions';
 import {
     IControllerAttribute,
     IControllerAttributeExtended,
     IBindModelAttributeExtended,
     IBindModelAttribute
-} from '../types/attribute';
+} from '../types';
 
 export abstract class AttributeMetadata {
 
@@ -41,43 +41,50 @@ export abstract class AttributeMetadata {
 
     static httpGet = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpGet, target, propertyKey);
+            AttributeMetadata
+                .defineHttpVerbMetadata(route, Attribute.httpGet, target, propertyKey);
         };
     }
 
     static httpPost = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpPost, target, propertyKey);
+            AttributeMetadata
+                .defineHttpVerbMetadata(route, Attribute.httpPost, target, propertyKey);
         };
     }
 
     static httpDelete = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpDelete, target, propertyKey);
+            AttributeMetadata
+                .defineHttpVerbMetadata(route, Attribute.httpDelete, target, propertyKey);
         };
     }
 
     static httpPatch = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpPatch, target, propertyKey);
+            AttributeMetadata
+                .defineHttpVerbMetadata(route, Attribute.httpPatch, target, propertyKey);
         };
     }
 
     static httpPut = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpPut, target, propertyKey);
+            AttributeMetadata
+                .defineHttpVerbMetadata(route, Attribute.httpPut, target, propertyKey);
         };
     }
 
     static httpHead = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpHead, target, propertyKey);
+            AttributeMetadata
+                .defineHttpVerbMetadata(route, Attribute.httpHead, target, propertyKey);
         };
     }
 
     static httpAll = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
-            AttributeMetadata.defineHttpVerbMetadata(route, Attribute.httpAll, target, propertyKey);
+            AttributeMetadata
+                .defineHttpVerbMetadata(route, Attribute.httpAll, target, propertyKey);
         };
     }
 

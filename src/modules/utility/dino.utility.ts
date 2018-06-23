@@ -13,11 +13,10 @@ import {
     RequestEndMiddlewareAsync,
     ExceptionFilterAsync,
     ErrorMiddlewareAsync
-} from '../filter/filter';
-import { ErrorController } from '../controller/error.controller';
-import { IMiddlewareProvider, IMiddlewareClass } from '../types/attribute';
+} from '../filter';
+import { ErrorController, ApiController } from '../controller';
+import { IMiddlewareProvider, IMiddlewareClass } from '../types';
 import { ObjectUtility } from './object.utility';
-import { ApiController } from '../controller/api.controller';
 import { DataUtility } from './data.utility';
 
 /**

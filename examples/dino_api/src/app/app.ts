@@ -51,7 +51,7 @@ dino.serverError(ErrorMiddlewareOneAsync);
 dino.serverError(ErrorMiddlewareTwo);
 dino.registerApplicationError(ServerErrorController);
 
-dino.dependencyInjectionResolver<ReflectiveInjector>(Container,
+dino.dependencyResolver<ReflectiveInjector>(Container,
     (injector, type) => {
         let t = injector.get(type);
         if (t instanceof ApiController) {

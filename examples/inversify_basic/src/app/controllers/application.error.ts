@@ -3,7 +3,7 @@ import { ErrorController } from '../../../../index';
 
 @injectable()
 export class ApplicationError extends ErrorController {
-    write(): void {
+    internalServerError(): void {
         this.response.json({
             errMsg: 'Something went wrong while processing. Please try after sometime',
             status: false,

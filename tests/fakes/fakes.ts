@@ -65,7 +65,7 @@ export class ResultFilterAsyncFake extends ResultFilterAsync {
     }
 }
 export class ErrorControllerFake extends ErrorController {
-    write(): void { }
+    internalServerError(): void { }
 }
 export class ErrorMiddlewareFake extends ErrorMiddleware {
     invoke(err: Error, request: any, response: any, next: any): void { }

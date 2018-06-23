@@ -4,7 +4,7 @@ import { ErrorController } from '../../../../index';
 // so make sure to return the custom response
 export class ServerErrorController extends ErrorController {
     // This is the default method executes on 500 error
-    write(): void {
+    internalServerError(): void {
         this.response.json({
             errMsg: 'Something went wrong while processing the request. Please try after sometime',
             status: false,

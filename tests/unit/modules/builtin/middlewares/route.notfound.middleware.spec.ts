@@ -10,7 +10,8 @@ import {
 describe('modules.builtin.route.notfound.middleware.spec', () => {
     let routes = [
         '/get_/api/route/',
-        '/get_/api/parse/(:route)',
+        // :route is optional segment 
+        '/get_/api/parse/:route?',
         '/get_/api/apple/:id',
         '/get_/api/route/:id/one/:name',
         '/get_/api/:id/home/one/:name',
@@ -18,7 +19,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
         '/post_/:id',
         '/post_/v3/:id/one/:name',
         '/:verb_/api/v1/:id',
-        '/:verb_/v1/(:parse)/v2/(:route)'
+        '/:verb_/v1/:parse?/v2/:route?'
     ];
     let table = new Mock<IRouteTable>()
         .setup(x => x.getRoutes()).returns(routes);
@@ -66,7 +67,7 @@ describe('modules.builtin.route.notfound.middleware.spec', () => {
                 path: '/45'
             } as any, null, err => expect(err).toBeUndefined());
     });
-    it('invoke.route_found_for_/api/parse/(:route)_when_optional_segment_not_provided', () => {
+    it('invoke.route_found_for_/api/parse/:route?_when_optional_segment_not_provided', () => {
         new RouteNotFoundMiddleware(table.object())
             .invoke({
                 method: 'get',

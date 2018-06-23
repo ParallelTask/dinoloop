@@ -1,4 +1,4 @@
-// tslint:disable-next-line:no-require-imports
+// tslint:disable-next-line:no-require-imports no-implicit-dependencies
 import express = require('express');
 
 import {

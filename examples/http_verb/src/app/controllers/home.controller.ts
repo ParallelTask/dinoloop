@@ -24,6 +24,18 @@ export class HomeController extends ApiController {
         this.response.json(`get => params.id: ${this.request.params.id} and id: ${id}`);
     }
 
+    // verifies if optional segments are working
+    // Following are the routes to request
+    // server:8088/api/home/getData/stack
+    // id => stack
+    // server:8088/api/home/getData
+    // id => undefined
+    @SendsResponse()
+    @HttpGet('/getData/:id?')
+    getData(id: string): void {
+        this.response.json(`get => params.id: ${this.request.params.id} and id: ${id}`);
+    }
+
     // verifies if named segments are working
     @SendsResponse()
     @HttpGet('/get/:id/fotos/:image')
@@ -36,11 +48,11 @@ export class HomeController extends ApiController {
     // verifies if named segments and query-strings are mapped.
     // Following are the routes to request
     // server:8088/api/home/query/stack?search=queue
-    // id => stack, search = queue
+    // name => stack, search = queue
     // server:8088/api/home/query/stack?name=queue
-    // id => stack, search = undefined
+    // name => stack, search = undefined (name is taken from segments and not from query string)
     // server:8088/api/home/query/stack?search=queue&search=list
-    // id => stack, search = queue, list
+    // name => stack, search = queue, list
     @SendsResponse()
     @HttpGet('/query/:name')
     query(name: string, search: string): void {
@@ -52,7 +64,8 @@ export class HomeController extends ApiController {
     @SendsResponse()
     @HttpAll('/all/:id')
     all(id: string): void {
-        this.response.json(`get => params.id: ${this.request.params.id} and id: ${id}`);
+        this.response
+            .json(`${this.request.method} => params.id: ${this.request.params.id} and id: ${id}`);
     }
 
     // verifies if request-body is injecting into first argument and also named segments

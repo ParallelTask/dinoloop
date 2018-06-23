@@ -1,8 +1,8 @@
-import { UserException } from '../../exception/user.exception';
-import { DataUtility } from '../../utility/data.utility';
+import { UserException } from '../../exception';
+import { DataUtility } from '../../utility';
 
 /**
- * Typically passing null/undefined as arguments invokes this exception
+ * Passing Invalid values for arguments invokes this exception
  */
 export class InvalidArgumentException extends UserException {
     argumentValue: any;

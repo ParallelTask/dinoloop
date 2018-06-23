@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from '../types/express';
+import { Request, Response, NextFunction } from '../types';
 
 // This is the controller to be extended to respond to errors i.e 500 internal server error
 /**
@@ -21,5 +21,5 @@ export abstract class ErrorController {
     /**
      * Default method that will be invoked on application error
      */
-    abstract write(): void;
+    abstract internalServerError(): void;
 }

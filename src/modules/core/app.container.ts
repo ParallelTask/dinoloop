@@ -1,12 +1,13 @@
-import { Express } from '../types/express';
+import { Express, IRouterCallBack } from '../types';
 import { DinoContainer } from './dino.container';
-import { DataUtility } from '../utility/data.utility';
-import { DinoStartMiddleware } from '../builtin/middlewares/dino.start.middleware';
-import { TaskContextMiddleware } from '../builtin/middlewares/task.context.middleware';
-import { ResponseEndMiddleware } from '../builtin/middlewares/response.end.middleware';
-import { IAppContainer } from '../interfaces/idino';
-import { IRouterCallBack } from '../types/attribute';
-import { RouteExceptionMiddleware } from '../builtin/middlewares/route.exception.middleware';
+import { DataUtility } from '../utility';
+import {
+    DinoStartMiddleware,
+    TaskContextMiddleware,
+    ResponseEndMiddleware,
+    RouteExceptionMiddleware
+} from '../builtin/middlewares';
+import { IAppContainer } from '../interfaces';
 
 export class AppContainer implements IAppContainer {
     private app: Express;

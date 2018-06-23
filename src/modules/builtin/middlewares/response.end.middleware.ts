@@ -1,4 +1,7 @@
-import { RequestEndMiddleware } from '../../filter/filter';
+import { RequestEndMiddleware } from '../../filter';
+import { DataUtility } from '../../utility';
+import { Response } from '../../types';
+import { HttpStatusCode } from '../../constants';
 
 // If user did not configure requestEnd middleware to send response
 // then ResponseMiddleware is the last requestEnd middleware that gets fired,
@@ -7,7 +10,12 @@ import { RequestEndMiddleware } from '../../filter/filter';
  * Formats result as JSON response
  */
 export class ResponseEndMiddleware extends RequestEndMiddleware {
-    invoke(request, response, next, result): void {
-        response.json(result);
+    invoke(request, response: Response, next, result): void {
+
+        if (DataUtility.isUndefined(result)) {
+            response.status(HttpStatusCode.NoContent).json();
+        } else {
+            response.status(HttpStatusCode.OK).json(result);
+        }
     }
 }

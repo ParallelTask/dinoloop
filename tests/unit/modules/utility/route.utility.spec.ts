@@ -13,7 +13,7 @@ describe('modules.utility.route.utility.spec', () => {
     });
     it('getNamedSegmentKeyValues.return_false_when_original_/get/:id_and_requested_/get/', () => {
         let result = RouteUtility.getNamedSegmentKeyValues('/get/:id', '/get/');
-        expect(result).toBeFalsy();
+        expect(result).toEqual({});
     });
     it('getNamedSegmentKeyValues.return_{}_when_original_/get_and_requested_/get', () => {
         let result = RouteUtility.getNamedSegmentKeyValues('/get', '/get');
@@ -21,7 +21,7 @@ describe('modules.utility.route.utility.spec', () => {
     });
     it('getNamedSegmentKeyValues.return_false_when_original_/get/:id_and_requested_/mat/45', () => {
         let result = RouteUtility.getNamedSegmentKeyValues('/get/:id', '/mat/45');
-        expect(result).toBeFalsy();
+        expect(result).toEqual({});
     });
     it(`getNamedSegmentKeyValues.return_{user:john,album:winter_season}_
         when_original_/get/:user/fotos/:album_and_requested_/get/john/fotos/winter_season`, () => {
@@ -113,7 +113,7 @@ describe('modules.utility.route.utility.spec', () => {
         let reqUrl = '/met';
         let action = (log, id, delay) => null;
         // order of returning func arg keys is important
-        spyOn(RouteUtility, 'getNamedSegmentKeyValues').and.callFake(() => false);
+        spyOn(RouteUtility, 'getNamedSegmentKeyValues').and.callFake(() => { });
         let result = RouteUtility
             .mapSegmentsAndQueryToActionArguments(originalUrl, reqUrl, queryString, action);
         expect(RouteUtility.getNamedSegmentKeyValues).toHaveBeenCalledTimes(1);

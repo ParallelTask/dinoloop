@@ -1,12 +1,9 @@
-import {
-    IAppContainer,
-    IDino,
-    AppContainer,
-    RouteNotFoundMiddleware,
-    DataUtility,
-    Express,
-    Errors
-} from './index';
+import { IAppContainer, IDino } from '../modules/interfaces';
+import { Express } from '../modules/types';
+import { DataUtility } from '../modules/utility';
+import { Errors } from '../modules/constants';
+import { RouteNotFoundMiddleware } from '../modules/builtin/middlewares';
+import { AppContainer } from '../modules/core';
 
 /**
  * Creates dino instance
@@ -92,22 +89,13 @@ export class Dino implements IDino {
         this.appContainer.enableTaskContext = true;
     }
 
-    // While binding the http request body to given model, if it is invalid model
-    // following property decides whether to trigger InvalidModelException or continue silently.
-    /**
-     * Globally sets up to raise InvalidModelException
-     */
-    raiseModelError(): void {
-        this.appContainer.raiseModelError = true;
-    }
-
     // This method lets us choose between different di containers,
     // We can use angular di or inversify which are popular di containers for typescript.
     // the consumer has to pass di container and resolver callback to resolve dependency from container.
     /**
      * Configures Dino to use DIFramework
      */
-    dependencyInjectionResolver<T>(injector: T,
+    dependencyResolver<T>(injector: T,
         cb: (injector: T, type: any) => any): void {
         this.appContainer.diContainer = injector;
         this.appContainer.diResolveCallback = cb;

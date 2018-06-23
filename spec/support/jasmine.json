@@ -3,6 +3,9 @@
     "spec_files": [
         "**/*.spec.ts"
     ],
+    "helpers": [
+        "jasmine-helpers/**/*.ts"
+    ],
     "stopSpecOnExpectationFailure": false,
     "random": false,
     "reporters": [

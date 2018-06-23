@@ -23,20 +23,34 @@ npm install dinoloop
 
 ### Quickstart
 
+Without Dependency Injection framework
+
 ```
 git clone https://github.com/ParallelTask/dinoloop-starter.git
 cd dinoloop-starter
 npm install
 npm start
 ```
+With Dependency Injection framework
+
+```
+git clone https://github.com/ParallelTask/dinoloop-inversify-starter.git
+cd dinoloop-inversify-starter
+npm install
+npm start
+```
+
 Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get) in browser
 
 ## Features
 * Super easy set-up.
-* Isolation of controllers and services.
+* Supports express middlewares, completely express compatible.
+* Zero configuration to switch from express to dinoloop.
+* Heavily influenced by MVC pattern.
+* Proper isolation of controllers and services.
 * Dependency injection support.
 * Middlewares, ActionFilters, ExceptionFilters, ResultFilters at controller level.
-* Robust Sync/Async middlewares to handle async-await pattern.  
+* Robust Sync/Async middlewares to handle es6 async-await pattern.  
 * UserIdentity principal across request. 
 
 ## Documentation
@@ -46,6 +60,9 @@ Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get)
 ## Philosophy 
 
 Dinoloop lets user to freely upgrade/downgrade expressjs. <span style="text-decoration:underline">Installing dinoloop won't install express</span>. You can install your own version of express. All you have to provide is express app, express router instance to dinoloop.
+
+## Motivation
+Typescript (*Javascript now*) supports object oriented programming, these features are great with SOLID design principles. Dinoloop is a tool that helps node developers to write Restful APIs with SOLID principles similar to JAVA and C# coding skills.
 
 ## Community
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our [CONTRIBUTING.md](https://github.com/ParallelTask/dinoloop/blob/master/CONTRIBUTING.md)

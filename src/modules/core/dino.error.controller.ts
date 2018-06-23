@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from '../types/express';
-import { ErrorController } from '../controller/error.controller';
-import { IDinoErrorController } from '../interfaces/idino';
+import { Request, Response, NextFunction } from '../types';
+import { ErrorController } from '../controller';
+import { IDinoErrorController } from '../interfaces';
 
 export class DinoErrorController implements IDinoErrorController {
     private controller: ErrorController;

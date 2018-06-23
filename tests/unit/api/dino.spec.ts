@@ -89,21 +89,14 @@ describe('api.dino.spec', () => {
         app.enableUserIdentity();
         expect(obj.enableTaskContext).toBeTruthy();
     });
-    it('raiseModelError.raiseModelError_must_be_true', () => {
-        let obj: IAppContainer = { raiseModelError: false } as IAppContainer;
-        spyOn(AppContainer, 'create').and.callFake(() => obj);
-        let app = new Dino({ expressInstance: true } as any, '/test');
-        app.raiseModelError();
-        expect(obj.raiseModelError).toBeTruthy();
-    });
-    it('dependencyInjectionResolver.verify_di_resolver', () => {
+    it('dependencyResolver.verify_di_resolver', () => {
         let obj: IAppContainer = {
             diContainer: undefined,
             diResolveCallback: undefined
         } as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
         let app = new Dino({ expressInstance: true } as any, '/test');
-        app.dependencyInjectionResolver(String, () => 5);
+        app.dependencyResolver(String, () => 5);
         expect(obj.diContainer).toBe(String);
         expect(obj.diResolveCallback()).toBe(5);
     });

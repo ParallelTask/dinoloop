@@ -1,9 +1,9 @@
 // tslint:disable-next-line:no-require-imports
-import UrlParser = require('url-pattern');
-import { RequestStartMiddleware } from '../../filter/filter';
-import { RouteNotFoundException } from '../exceptions/exceptions';
-import { Response, Request } from '../../types/express';
-import { IRouteTable } from '../../interfaces/idino';
+import pathToRegexp = require('path-to-regexp');
+import { RequestStartMiddleware } from '../../filter';
+import { RouteNotFoundException } from '../exceptions';
+import { Response, Request } from '../../types';
+import { IRouteTable } from '../../interfaces';
 
 // it would proceed to next handler only if valid route is matched
 // if valid route is not found, it fires error middleware chain
@@ -11,7 +11,7 @@ import { IRouteTable } from '../../interfaces/idino';
  * Compares the requested route against the registered routes
  */
 export class RouteNotFoundMiddleware extends RequestStartMiddleware {
-    private routes: UrlParser[] = [];
+    private routes: RegExp[] = [];
     private isRouteTableLoaded = false;
 
     constructor(private routeTable: IRouteTable) {
@@ -24,7 +24,7 @@ export class RouteNotFoundMiddleware extends RequestStartMiddleware {
             // load the routes and create UrlParser objects
             let routes = this.routeTable.getRoutes();
             for (const route of routes) {
-                this.routes.push(new UrlParser(route));
+                this.routes.push(pathToRegexp(route));
             }
             this.isRouteTableLoaded = true;
         }
@@ -35,8 +35,7 @@ export class RouteNotFoundMiddleware extends RequestStartMiddleware {
         let isRouteMatched = false;
 
         for (const route of this.routes) {
-            let values = route.match(requestUrl);
-            if (values !== null) {
+            if (route.test(requestUrl)) {
                 isRouteMatched = true;
                 break;
             }

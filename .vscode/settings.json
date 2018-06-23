@@ -2,7 +2,7 @@
     "files.exclude": {
         "coverage/": true,
         "mochawesome-report/": true,
-        ".vs": true,
+        ".vs/": true,
         "node_modules/": true,
         "package-lock.json": true,
         "**/*/package-lock.json": true,
@@ -48,6 +48,7 @@
         "idino",
         "inversify",
         "inversifybasic",
+        "iuser",
         "ivalidator",
         "jsdoc",
         "kjhtml",

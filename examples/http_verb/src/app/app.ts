@@ -21,7 +21,7 @@ let dino = new Dino(app, '/api');
 dino.useRouter(() => express.Router());
 dino.registerController(HomeController);
 
-dino.dependencyInjectionResolver<ReflectiveInjector>(Container,
+dino.dependencyResolver<ReflectiveInjector>(Container,
     (injector, type) => {
         let t = injector.get(type);
         if (t instanceof ApiController) {

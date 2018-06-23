@@ -1,6 +1,5 @@
-import { Request, Response, NextFunction } from '../types/express';
-import { DinoResponse } from '../entities/dino.response';
-import { DinoModel } from '../entities/dino.model';
+import { Request, Response, NextFunction } from '../types';
+import { DinoResponse, DinoModel } from '../entities';
 
 // Base class that should be extended by every controller for it work as api controller
 /**
@@ -20,5 +19,8 @@ export abstract class ApiController {
      */
     next: NextFunction;
     dino: DinoResponse;
+    /**
+     * Reserved for future
+     */
     model: DinoModel;
 }
