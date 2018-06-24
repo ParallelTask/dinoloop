@@ -16,6 +16,7 @@ Welcome to the Dinoloop wiki!
 * [Flow of Dinowares](https://github.com/ParallelTask/dinoloop/blob/master/wiki/flow_of_dinowares.md)
 * [ErrorMiddleware vs ErrorController](https://github.com/ParallelTask/dinoloop/blob/master/wiki/errom_vs_errorc.md)
 * [Dependency Injection with TDD](https://github.com/ParallelTask/dinoloop/blob/master/wiki/di_setup.md)
+* [Custom HttpResponseMessage and HttpResponseException](https://github.com/ParallelTask/dinoloop/blob/master/wiki/httpresponse_httpexception.md)
 * [Terminology](https://github.com/ParallelTask/dinoloop/blob/master/wiki/terminology.md)
 * [Update express.d.ts for Express type-hinting](https://github.com/ParallelTask/dinoloop/blob/master/wiki/type_hinting.md)
 * [FAQ](https://github.com/ParallelTask/dinoloop/blob/master/wiki/faq.md)

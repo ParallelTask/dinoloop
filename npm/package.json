@@ -17,13 +17,16 @@
     },
     "keywords": [
         "dinoloop",
-        "api",
+        "node-api",
         "rest-api",
         "express",
         "framework",
         "web",
         "rest",
-        "restful"
+        "restful",
+        "node-rest",
+        "node-rest-api",
+        "node-express"
     ],
     "dependencies": {
         "reflect-metadata": "^0.1.12",

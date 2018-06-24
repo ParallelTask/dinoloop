@@ -45,10 +45,9 @@ Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get)
 ## Features
 * Super easy set-up.
 * Supports express middlewares, completely express compatible.
-* Zero configuration to switch from express to dinoloop.
 * Heavily influenced by MVC pattern.
-* Proper isolation of controllers and services.
 * Dependency injection support.
+* Proper isolation of controllers and services.
 * Middlewares, ActionFilters, ExceptionFilters, ResultFilters at controller level.
 * Robust Sync/Async middlewares to handle es6 async-await pattern.  
 * UserIdentity principal across request. 
