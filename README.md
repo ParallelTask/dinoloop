@@ -65,7 +65,7 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 Join the dinoloop general discussion on [Gitter](https://gitter.im/dinoloop/Lobby).
 
 ## Contact
- Send your queries/questions on [Gitter](https://gitter.im/dinoloop/Lobby), we get in touch with you or shoot us an email at dinoloop45@gmail.com.
+ Send your queries/questions on [Gitter](https://gitter.im/dinoloop/Lobby).
 
  ## Planned Releases
  * Middlewares at action level.
