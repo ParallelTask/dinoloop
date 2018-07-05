@@ -5,18 +5,27 @@
 # Dinoloop
 [![join chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/dinoloop/Lobby)
 
-Dinoloop is a Nodejs library, completely written in Typescript project designed to build REST APIs. Dinoloop adds syntactic sugar on top of expressjs enabling C#/Java programmers to easily write REST APIs with similar coding skills in node. Dinoloop adds a layer on top of express but the express objects are still carried on to dinoloop. Whatever you might do in express can be done in dinoloop.
+Dinoloop is an [ExpressJs](https://expressjs.com/) library, completely written in Typescript project designed to build REST APIs. Dinoloop adds syntactic sugar to expressjs enabling C#/Java programmers to easily switch to Nodejs with zero or less learning curve. You can reuse OOP, SOLID principles, Controllers, Services, Well-Proven OOP Design Patterns in Nodejs while developing REST APIs using Dinoloop. 
 
-### Prerequisites
+## Questions raised by our community
+
+### Dinoloop looks pretty new, Should I use it?
+
+As a contributor, we would definitely request you to give it a try (May be your personal or mini sized projects). The way expressjs does not abstract you from node, Dinoloop does not abstract you from expressjs. You are free to use/mix node, express and dinoloop in your development. Indeed 99% of code you write would be purely node, typescript and express. Dinoloop is a library at server-side (like [Reactjs](https://reactjs.org/), we love what Reactjs does at client-side). You can either develop entire application in Dinoloop or part of it or gradually migrate expressjs to Dinoloop. The first principle of Dinoloop is to provide architecture shift to developers and not to create a complete huge framework because we do not want our developers to run into issues because of dinoloop, we love and support pluggable architecture. 
+
+### Typescript for Node, Seems pretty new?
+We love Typescript and it provides great tooling to develop enterprise applications. [Angular](https://angular.io/) promotes typescript and now it is hard to imagine npm packages without types. If you are a lover of angular (like us), we highly suggest you to use Dinoloop to maintain single Typescript codebase for [MEAN](http://mean.io/) application.
+
+## Prerequisites
 * node 8.10.x or higher 
 * express 4.x.x or higher
 
-### Install
+## Install
 ```
 npm install dinoloop
 ```
 
-### Quickstart
+## Quickstart
 Without Dependency Injection framework
 
 ```
@@ -35,21 +44,8 @@ npm start
 ```
 Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get) in browser
 
-## Features
-* Super easy set-up.
-* Supports express middlewares, completely express compatible.
-* Heavily influenced by MVC pattern.
-* Dependency injection support.
-* Proper isolation of controllers and services.
-* Middlewares, ActionFilters, ExceptionFilters, ResultFilters at controller level.
-* Robust Sync/Async middlewares to handle es6 async-await pattern.  
-* UserIdentity principal across request. 
-
-## Documentation
-* Visit the [Wiki](https://github.com/ParallelTask/dinoloop/tree/master/wiki)
-
 ## Principles
-Dinoloop has been designed from the start for gradual adoption, and you can use as little or as much dinoloop as you need. Perhaps you only want to develop some "REST APIs" using dinoloop and other REST APIs can be developed using [expressjs](https://expressjs.com/). In this section, we will show how to create dinoloop REST API to an existing express app.
+Dinoloop has been designed from the start for gradual adoption, and you can use as little or as much dinoloop as you need. Perhaps you only want to develop some "REST APIs" using dinoloop and other REST APIs can be developed using [expressjs](https://expressjs.com/). In this section, we will show how to create dinoloop REST API to an existing or newly created express app.
 
 #### Step 1: Add HomeController (file: home.controller.ts)
 
@@ -96,6 +92,19 @@ app.get('/about', (req, res, next) => {
 app.listen(8088, () => console.log('Server started on port 8088'));
 ```
 Dinoloop is mounted on `/api` and all of its controller routes/endpoints which are registered with dinoloop are also mounted on `/api`. Dinoloop will handle those requests which are mounted on `/api` i.e. `/api/home/get`, the other end points `/home` and `/about` which are created by expressjs are not handled by dinoloop, this way you can slowly migrate your existing express app to dinoloop or you can start writing your new REST APIs using dinoloop. 
+
+## Features
+* Super easy set-up.
+* Supports express middlewares, completely express compatible.
+* Heavily influenced by MVC pattern.
+* Dependency injection support.
+* Proper isolation of controllers and services.
+* Middlewares, ActionFilters, ExceptionFilters, ResultFilters at controller level.
+* Robust Sync/Async middlewares to handle es6 async-await pattern.  
+* UserIdentity principal across request. 
+
+## Documentation
+* Visit the [Wiki](https://github.com/ParallelTask/dinoloop/tree/master/wiki)
 
 ## Philosophy 
 Dinoloop lets user to freely upgrade/downgrade expressjs. Installing dinoloop won't install express. You can install your own version of express. All you have to provide is express app, express router instance to dinoloop.
