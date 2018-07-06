@@ -91,13 +91,16 @@ app.get('/about', (req, res, next) => {
 // Start your express app
 app.listen(8088, () => console.log('Server started on port 8088'));
 ```
-Dinoloop is mounted on `/api` and all of its controller routes/endpoints which are registered with dinoloop are also mounted on `/api`. Dinoloop will handle those requests which are mounted on `/api` i.e. `/api/home/get`, the other end points `/home` and `/about` which are created by expressjs are not handled by dinoloop, this way you can slowly migrate your existing express app to dinoloop or you can start writing your new REST APIs using dinoloop. 
+Dinoloop is mounted on `/api` and all of its controller routes/endpoints which are registered with dinoloop are also mounted on `/api`. Dinoloop will handle those requests which are mounted on `/api` i.e. `/api/home/get`, the other end points `/home` and `/about` which are created by expressjs are not handled by dinoloop, this way you can slowly migrate your existing express app to dinoloop or you can start writing your new REST APIs using dinoloop in combination with expressjs. 
 
 ## Features
-* Super easy set-up.
+* Super easy set-up, git clone your taste of starter project and start building right away. We want our developers to have freedom whether to use DI or not. You can develop API without using DI framework.
+
+    * Without DI framework [dinoloop-starter-without-DI](https://github.com/ParallelTask/dinoloop-starter)
+    * With DI framework [dinoloop-starter-with-DI](https://github.com/ParallelTask/dinoloop-inversify-starter)
 * Supports express middlewares, completely express compatible.
 * Heavily influenced by MVC pattern.
-* Dependency injection support.
+* Configurable Dependency injection support. You can choose your favorite DI framework [InversifyJs](http://inversify.io/), [peppermint-di](https://www.npmjs.com/package/peppermint-di) and [more](https://www.npmjs.com/search?q=DI) to work with.
 * Proper isolation of controllers and services.
 * Middlewares, ActionFilters, ExceptionFilters, ResultFilters at controller level.
 * Robust Sync/Async middlewares to handle es6 async-await pattern.  
@@ -110,7 +113,7 @@ Dinoloop is mounted on `/api` and all of its controller routes/endpoints which a
 Dinoloop lets user to freely upgrade/downgrade expressjs. Installing dinoloop won't install express. You can install your own version of express. All you have to provide is express app, express router instance to dinoloop.
 
 ## Motivation
-Typescript (*Javascript now*) supports object oriented programming, these features are great with SOLID design principles. Dinoloop has simple motto, to apply SOLID principles and reuse similar coding skills of Java and C# in Nodejs.
+Typescript (*Javascript now*) supports object oriented programming, these features are great with SOLID design principles. Dinoloop has simple motto, to apply SOLID principles and reuse similar coding skills of Java and C# in Nodejs. We are not trying to make every Nodejs developer as OOP programmer, we are providing the same architecture for the java/c# and mostly OOP minded programmers. We love javascript the way it is <3
 
 ## Contribute
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our [CONTRIBUTING.md](https://github.com/ParallelTask/dinoloop/blob/master/CONTRIBUTING.md)
