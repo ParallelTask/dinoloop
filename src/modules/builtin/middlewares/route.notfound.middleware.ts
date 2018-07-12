@@ -29,9 +29,10 @@ export class RouteNotFoundMiddleware extends RequestStartMiddleware {
             this.isRouteTableLoaded = true;
         }
 
-        // Note: Following format should match with the expression provided in "route.table.ts"
+        // Note: Following format should match with expression in "route.table.ts"
         // '/[httpVerb]_[route]'
-        let requestUrl = `/${request.method}_${request.baseUrl}${request.path}`.toLowerCase();
+        let requestUrl =
+            `/${request.method}_${request.baseUrl}${request.path}`.toLowerCase();
         let isRouteMatched = false;
 
         for (const route of this.routes) {
@@ -44,7 +45,8 @@ export class RouteNotFoundMiddleware extends RequestStartMiddleware {
         if (isRouteMatched) {
             next();
         } else {
-            next(new RouteNotFoundException(request.method, `${request.baseUrl}${request.path}`));
+            next(new RouteNotFoundException(request.method,
+                `${request.baseUrl}${request.path}`));
         }
     }
 }

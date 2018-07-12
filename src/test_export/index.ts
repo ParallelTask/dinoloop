@@ -29,6 +29,7 @@ export * from '../modules/sequence/deferrer';
 export * from '../modules/types/attribute';
 export * from '../modules/types/dino.types';
 export * from '../modules/types/express';
+export * from '../modules/types/types';
 export * from '../modules/utility/data.utility';
 export * from '../modules/utility/dino.parser';
 export * from '../modules/utility/dino.utility';

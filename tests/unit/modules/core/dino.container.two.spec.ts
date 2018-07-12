@@ -386,8 +386,7 @@ describe('modules.core.dino.container.two.spec', () => {
             isAsync: false,
             httpVerb: 'get',
             route: 'test',
-            sendsResponse: false,
-            bindsModel: undefined
+            sendsResponse: false
         };
         let fakeRouteTable = RouteTable.create();
         router[actionMeta.httpVerb] = (route, cb) => {
@@ -425,10 +424,9 @@ describe('modules.core.dino.container.two.spec', () => {
         spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(() => meta);
         spyOn(dinoContainer, 'getActionMethodMetadata').and.callFake(() => actionMeta);
         spyOn(dinoContainer, 'setUpDinoController')
-            .and.callFake((type, sendsResponse, bindsModel, res) => {
+            .and.callFake((type, action: IActionMethodAttribute, res) => {
                 expect(type).toBe(controllerType);
-                expect(sendsResponse).toBe(actionMeta.sendsResponse);
-                expect(bindsModel).toBe(actionMeta.bindsModel);
+                expect(action.sendsResponse).toBe(actionMeta.sendsResponse);
                 expect(res).toEqual({ dino: true });
 
                 return {
@@ -438,12 +436,7 @@ describe('modules.core.dino.container.two.spec', () => {
                         expect(next()).toBe('invoke');
                         patch = true;
                     },
-                    invoke: (action, verb, route) => {
-                        expect(route).toBe(actionMeta.route);
-                        expect(verb).toBe(actionMeta.httpVerb);
-
-                        invoked = true;
-                    }
+                    invoke: action => invoked = true
                 };
             });
 
@@ -530,8 +523,7 @@ describe('modules.core.dino.container.two.spec', () => {
             isAsync: true,
             httpVerb: 'get',
             route: 'test',
-            sendsResponse: false,
-            bindsModel: undefined
+            sendsResponse: false
         };
         let fakeRouteTable = RouteTable.create();
         router[actionMeta.httpVerb] = (route, cb) => {
@@ -568,10 +560,9 @@ describe('modules.core.dino.container.two.spec', () => {
         spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(() => meta);
         spyOn(dinoContainer, 'getActionMethodMetadata').and.callFake(() => actionMeta);
         spyOn(dinoContainer, 'setUpDinoController')
-            .and.callFake((type, sendsResponse, bindsModel, res) => {
+            .and.callFake((type, action: IActionMethodAttribute, res) => {
                 expect(type).toBe(controllerType);
-                expect(sendsResponse).toBe(actionMeta.sendsResponse);
-                expect(bindsModel).toBe(actionMeta.bindsModel);
+                expect(action.sendsResponse).toBe(actionMeta.sendsResponse);
                 expect(res).toEqual({ dino: true });
 
                 return {
@@ -581,12 +572,7 @@ describe('modules.core.dino.container.two.spec', () => {
                         expect(next()).toBe('invoke');
                         patch = true;
                     },
-                    invokeAsync: (action, verb, route) => {
-                        expect(route).toBe(actionMeta.route);
-                        expect(verb).toBe(actionMeta.httpVerb);
-
-                        invoked = true;
-                    }
+                    invokeAsync: action => invoked = true
                 };
             });
 
@@ -598,15 +584,12 @@ describe('modules.core.dino.container.two.spec', () => {
         expect(invoked).toBeTruthy();
         expect(fakeRouteTable.getRoutes().length).toBe(1);
     });
-    it('getActionMethodMetadata.when_metadata_defined_and_raiseModelError_undefined_on_action', async () => {
+    it('getActionMethodMetadata.when_Attribute.parse_is_undefined', async () => {
 
         let config: IDinoContainerConfig = { raiseModelError: true } as any;
 
         spyOn(Reflector, 'getMetadata').and.callFake(ob => {
             if (ob === Attribute.httpGet) return '/route';
-            if (ob === Attribute.bindModel) {
-                return { options: {} };
-            }
         });
         spyOn(Reflector, 'hasMetadata').and.callFake(ob => {
             if (ob === Attribute.asyncAttr) return true;
@@ -623,35 +606,34 @@ describe('modules.core.dino.container.two.spec', () => {
         expect(obj.isAsync).toBeTruthy();
         expect(obj.sendsResponse).toBeFalsy();
         expect(obj.route).toBe('/route');
-        expect(obj.httpVerb).toBe(RouteAttribute.httpGetAttribute);
-        expect(obj.bindsModel.options.raiseModelError).toBeUndefined();
+        expect(obj.httpVerb).toBe(RouteAttribute.httpGet_ActionAttribute);
+        expect(obj.actionArguments).toEqual([]);
     });
-    it('getActionMethodMetadata.when_metadata_defined_and_raiseModelError_defined_on_action', async () => {
-
+    it('getActionMethodMetadata.when_Attribute.parse_is_defined', async () => {
         let config: IDinoContainerConfig = { raiseModelError: true } as any;
-
+        let testData = [{
+            key: 'body',
+            value: 'test'
+        }];
         spyOn(Reflector, 'getMetadata').and.callFake(ob => {
             if (ob === Attribute.httpGet) return '/route';
-            if (ob === Attribute.bindModel) {
-                return { options: { raiseModelError: false } };
-            }
+            if (ob === Attribute.parse) return testData;
         });
         spyOn(Reflector, 'hasMetadata').and.callFake(ob => {
             if (ob === Attribute.asyncAttr) return true;
             if (ob === Attribute.sendsResponse) return false;
         });
-        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(ob => false);
-        spyOn(DIContainer, 'create').and.callFake(ob => undefined);
-        spyOn(RouteTable, 'create').and.callFake(ob => undefined);
+        spyOn(DataUtility, 'isUndefinedOrNull').and.callFake(() => false);
+        spyOn(DIContainer, 'create').and.callFake(() => undefined);
+        spyOn(RouteTable, 'create').and.callFake(() => undefined);
 
         let dinoContainer = new DinoContainer(config);
         let obj = dinoContainer
             .getActionMethodMetadata(Attribute.httpGet, 'testAction', {} as any);
-
         expect(obj.isAsync).toBeTruthy();
         expect(obj.sendsResponse).toBeFalsy();
         expect(obj.route).toBe('/route');
-        expect(obj.httpVerb).toBe(RouteAttribute.httpGetAttribute);
-        expect(obj.bindsModel.options.raiseModelError).toBeFalsy();
+        expect(obj.httpVerb).toBe(RouteAttribute.httpGet_ActionAttribute);
+        expect(obj.actionArguments).toBe(testData);
     });
 });

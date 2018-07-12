@@ -12,7 +12,9 @@ import {
     ControllerAction,
     DinoController,
     RequestEndMiddleware,
-    ErrorMiddleware
+    ErrorMiddleware,
+    Constants,
+    IActionMethodAttribute
 } from '../../index';
 
 describe('modules.core.dino.container.spec', () => {
@@ -779,7 +781,7 @@ describe('modules.core.dino.container.spec', () => {
                     patch = true;
                 },
                 invoke: method => {
-                    expect(method).toBe(Attribute.errorControllerDefaultMethod);
+                    expect(method).toBe(Constants.errControllerDefaultMethod);
                     invoked = true;
                 }
             };
@@ -825,13 +827,14 @@ describe('modules.core.dino.container.spec', () => {
         let config: IDinoContainerConfig = {} as any;
         let res: any = { locals: { dino: 45 } };
         let dinoController: DinoController = { ctx: true } as any;
-        let _sendsResponse = false;
+        let action: IActionMethodAttribute = {
+            sendsResponse: false
+        };
         let _bindmodel = {};
 
         spyOn(ControllerAction, 'create')
-            .and.callFake((sendsResponse, bindsModel) => {
-                expect(sendsResponse).toBe(_sendsResponse);
-                expect(bindsModel).toBe(_bindmodel);
+            .and.callFake((actionAttr: IActionMethodAttribute) => {
+                expect(actionAttr.sendsResponse).toBe(action.sendsResponse);
 
                 return 'testAction';
             });
@@ -857,7 +860,7 @@ describe('modules.core.dino.container.spec', () => {
             });
 
         let obj = dinoContainer
-            .setUpDinoController(String, _sendsResponse, _bindmodel, res);
+            .setUpDinoController(String, action, res);
         expect(ControllerAction.create).toHaveBeenCalledTimes(1);
         expect(DinoController.create).toHaveBeenCalledTimes(1);
         expect(dinoContainer.resolve).toHaveBeenCalledTimes(1);

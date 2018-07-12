@@ -1,12 +1,14 @@
 import { Reflector } from '../lib';
 import { Attribute } from '../constants';
-import { DataUtility } from '../utility';
+import { DataUtility, FunctionUtility } from '../utility';
 import { InvalidRouteException, InvalidArgumentException } from '../builtin/exceptions';
 import {
     IControllerAttribute,
     IControllerAttributeExtended,
     IBindModelAttributeExtended,
-    IBindModelAttribute
+    IBindModelAttribute,
+    IParseAttribute,
+    IParseHandler
 } from '../types';
 
 export abstract class AttributeMetadata {
@@ -23,6 +25,44 @@ export abstract class AttributeMetadata {
         }
         Reflector.defineMetadata(verb,
             route, target.constructor.prototype, property);
+    }
+
+    // we are creating an array of parameter values and saving it to metadata
+    static parse = (cb: IParseHandler, data?: any):
+        (target: any, propertyKey: string, parameterIndex: number) => void => {
+
+        return (target: any, propertyKey: string, parameterIndex: number): void => {
+
+            let args = FunctionUtility.getParamNames(target[propertyKey]);
+            let parameterKey = args[parameterIndex];
+
+            if (!DataUtility.isUndefinedOrNull(parameterKey)) {
+
+                // get already added metadata
+                let meta: IParseAttribute[] = Reflector.getMetadata(Attribute.parse,
+                    target.constructor.prototype, propertyKey);
+
+                const parseAttribute: IParseAttribute = {
+                    handler: cb,
+                    key: parameterKey,
+                    controller: target,
+                    action: propertyKey,
+                    data: data
+                };
+
+                if (!DataUtility.isUndefinedOrNull(meta)) {
+                    meta.push(parseAttribute);
+
+                    // rewrite metadata by adding it to existing array
+                    Reflector.defineMetadata(Attribute.parse, meta,
+                        target.constructor.prototype, propertyKey);
+                } else {
+                    // must be set as array for first save
+                    Reflector.defineMetadata(Attribute.parse, [parseAttribute],
+                        target.constructor.prototype, propertyKey);
+                }
+            }
+        };
     }
 
     static sendsResponse = (): (target: any, propertyKey: string) => void => {
@@ -108,33 +148,6 @@ export abstract class AttributeMetadata {
                 use: DataUtility.isUndefinedOrNull(attrs.use) ? [] : attrs.use
             };
             Reflector.defineMetadata(Attribute.controller, val, target.prototype);
-        };
-    }
-
-    static bindModel = (type: Function, options?: IBindModelAttribute):
-        (target: any, propertyKey: string) => void => {
-
-        return (target: any, propertyKey: string): void => {
-
-            if (DataUtility.isUndefinedOrNull(type)) {
-                throw new InvalidArgumentException(type, `bindModel(${type}) is not valid`);
-            }
-
-            // Note: we are deliberately not initializing raiseModelError default value
-            // because these may override global raiseModelError property always,
-            // hence it is recommended the value to be undefined
-            // However we are initializing stopOnError to false because we dont have global flag for this.
-            let opts = DataUtility.isUndefinedOrNull(options) ? {} : options;
-            let stop = DataUtility.isUndefinedOrNull(opts.stopOnError) ? false : opts.stopOnError;
-            let val: IBindModelAttributeExtended = {
-                model: type,
-                options: {
-                    stopOnError: stop,
-                    raiseModelError: opts.raiseModelError
-                }
-            };
-            Reflector.defineMetadata(Attribute.bindModel,
-                val, target.constructor.prototype, propertyKey);
         };
     }
 }

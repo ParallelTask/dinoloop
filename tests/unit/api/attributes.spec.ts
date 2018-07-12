@@ -11,10 +11,22 @@ import {
     HttpDelete,
     HttpHead,
     HttpAll,
-    Controller
+    Controller,
+    Parse
 } from '../../index';
 
 describe('api.attributes.spec', () => {
+    it('Parse.invoke_AttributeMetadata.parse_exact_once', () => {
+        let testHandler = () => 45;
+        let testData = Function;
+        spyOn(AttributeMetadata, 'parse')
+            .and.callFake((cb, data) => {
+                expect(data).toBe(testData);
+                expect(cb).toBe(testHandler);
+            });
+        Parse(testHandler, testData);
+        expect(AttributeMetadata.parse).toHaveBeenCalledTimes(1);
+    });
     it('SendsResponse.invoke_AttributeMetadata.sendsResponse_exact_once', () => {
         spyOn(AttributeMetadata, 'sendsResponse').and.callFake(() => null);
         SendsResponse();

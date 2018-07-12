@@ -1,5 +1,5 @@
 
-import { RouteAttribute, Attribute } from '../../index';
+import { RouteAttribute, Attribute, Constants } from '../../index';
 
 describe('modules.constants.constants.spec', () => {
     it('keys_of_RouteAttribute_obj_should_match_values_of_Attribute_obj_keys_for_httpverbType', () => {
@@ -15,6 +15,6 @@ describe('modules.constants.constants.spec', () => {
         expect(RouteAttribute[Attribute.httpAll]).toBe('all');
     });
     it('Attribute.errorControllerDefaultMethod_should_be_internalServerError', () => {
-        expect(Attribute.errorControllerDefaultMethod).toBe('internalServerError');
+        expect(Constants.errControllerDefaultMethod).toBe('internalServerError');
     });
 });

@@ -47,6 +47,16 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Example.ParseApi Launch",
+            "program": "${workspaceFolder}/examples\\parse_api\\src\\app\\app.ts",
+            "preLaunchTask": "debugger_parseapi",
+            "outFiles": [
+                "${workspaceFolder}/examples/parse_api/dist/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Example.TaskContext Launch",
             "program": "${workspaceFolder}/examples\\task_context\\src\\app\\app.ts",
             "preLaunchTask": "debugger_taskcontext",

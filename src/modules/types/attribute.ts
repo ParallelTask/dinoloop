@@ -1,3 +1,6 @@
+import { IParseProps } from './types';
+import { DinoModel } from '../entities';
+
 export interface IMiddlewareClass {
     useClass?: Function;
     data?: any;
@@ -39,10 +42,21 @@ export interface IControllerAttributeProvider {
 
 export declare type IRouterCallBack = () => any;
 
+export declare type IParseHandler =
+    (props: IParseProps, model?: DinoModel) => any;
+
+export interface IParseAttribute {
+    key?: string;
+    handler?: IParseHandler;
+    controller?: any;
+    action?: string;
+    data?: any;
+}
+
 export interface IActionMethodAttribute {
-    route: string;
-    httpVerb: string;
-    isAsync: boolean;
-    sendsResponse: boolean;
-    bindsModel: IBindModelAttributeExtended;
+    route?: string;
+    httpVerb?: string;
+    isAsync?: boolean;
+    sendsResponse?: boolean;
+    actionArguments?: IParseAttribute[];
 }

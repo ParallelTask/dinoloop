@@ -28,6 +28,12 @@
             "problemMatcher": []
         },
         {
+            "label": "debugger_parseapi",
+            "type": "npm",
+            "script": "build:example:parseapi",
+            "problemMatcher": []
+        },
+        {
             "label": "debugger_taskcontext",
             "type": "npm",
             "script": "build:example:taskcontext",

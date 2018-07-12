@@ -3,14 +3,22 @@ import { DIContainer } from './dicontainer';
 import { DinoController } from './dino.controller';
 import { DinoErrorController } from './dino.error.controller';
 import { DinoRouter, RouteTable } from '../router';
-import { ApiController, ControllerAction, ErrorController } from '../controller';
+import {
+    ApiController,
+    ControllerAction,
+    ErrorController
+} from '../controller';
 import { Reflector } from '../lib';
 import {
     ObjectUtility,
     DataUtility,
     DinoUtility
 } from '../utility';
-import { IDinoContainer, IDIContainer, IRouteTable } from '../interfaces';
+import {
+    IDinoContainer,
+    IDIContainer,
+    IRouteTable
+} from '../interfaces';
 import {
     IRouterCallBack,
     IControllerAttributeProvider,
@@ -20,9 +28,14 @@ import {
     IDinoContainerConfig,
     IDinoProperties,
     Express,
-    Response
+    Response,
+    IParseAttribute
 } from '../types';
-import { Attribute, RouteAttribute } from '../constants';
+import {
+    Attribute,
+    RouteAttribute,
+    Constants
+} from '../constants';
 import { IUserIdentity } from '../providers';
 import {
     RequestStartMiddleware,
@@ -176,19 +189,18 @@ export class DinoContainer implements IDinoContainer {
                     res.locals.dino);
                 let ctx = DinoErrorController.create(api);
                 ctx.patch(err, req, res, next);
-                ctx.invoke(Attribute.errorControllerDefaultMethod);
+                ctx.invoke(Constants.errControllerDefaultMethod);
             });
         }
     }
 
     // made public for unit test and not available on interface contract
     setUpDinoController(type: any,
-        sendsResponse: boolean,
-        bindsModel: IBindModelAttributeExtended,
+        actionAttr: IActionMethodAttribute,
         res: Response): DinoController {
 
         let api = this.resolve<ApiController>(type, res.locals.dino);
-        let action = ControllerAction.create(sendsResponse, bindsModel);
+        let action = ControllerAction.create(actionAttr);
         let ctx = DinoController.create(api, action);
 
         return ctx;
@@ -259,25 +271,23 @@ export class DinoContainer implements IDinoContainer {
         controller: ApiController): IActionMethodAttribute {
 
         let route: string = Reflector.getMetadata(httpAttribute, controller, actionName);
-        let bindsModel: IBindModelAttributeExtended =
-            Reflector.getMetadata(Attribute.bindModel, controller, actionName);
         let httpVerb: string = RouteAttribute[httpAttribute];
         let isAsync = Reflector.hasMetadata(Attribute.asyncAttr, controller, actionName);
         let sendsResponse = Reflector.hasMetadata(Attribute.sendsResponse, controller, actionName);
+        let actionArgs: IParseAttribute[] =
+            Reflector.getMetadata(Attribute.parse, controller, actionName);
+        let c = DataUtility.isUndefinedOrNull(actionArgs);
 
-        if (!DataUtility.isUndefinedOrNull(bindsModel)) {
-            bindsModel.options.raiseModelError =
-                DataUtility.isUndefinedOrNull(bindsModel.options.raiseModelError)
-                    ? this.raiseModelError : bindsModel.options.raiseModelError;
-        }
-
-        return {
+        let obj = {
             route: route,
             httpVerb: httpVerb,
             isAsync: isAsync,
             sendsResponse: sendsResponse,
-            bindsModel: bindsModel
+            actionArguments:
+                DataUtility.isUndefinedOrNull(actionArgs) ? [] : actionArgs
         };
+
+        return obj;
     }
 
     // Registers and binds the controller with express router
@@ -324,23 +334,17 @@ export class DinoContainer implements IDinoContainer {
 
                         if (action.isAsync) {
                             router[action.httpVerb](action.route, async (req, res, next) => {
-                                let ctx = this.setUpDinoController(
-                                    type,
-                                    action.sendsResponse,
-                                    action.bindsModel,
-                                    res);
+                                let ctx =
+                                    this.setUpDinoController(type, action, res);
                                 ctx.patch(req, res, next);
-                                ctx.invokeAsync(actionName, action.httpVerb, action.route);
+                                ctx.invokeAsync(actionName);
                             });
                         } else {
                             router[action.httpVerb](action.route, (req, res, next) => {
-                                let ctx = this.setUpDinoController(
-                                    type,
-                                    action.sendsResponse,
-                                    action.bindsModel,
-                                    res);
+                                let ctx =
+                                    this.setUpDinoController(type, action, res);
                                 ctx.patch(req, res, next);
-                                ctx.invoke(actionName, action.httpVerb, action.route);
+                                ctx.invoke(actionName);
                             });
                         }
                     }

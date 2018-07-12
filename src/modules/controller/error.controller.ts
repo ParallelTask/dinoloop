@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from '../types';
 
-// This is the controller to be extended to respond to errors i.e 500 internal server error
+// This is the controller to be extended to respond internal server error globally.
 /**
  * ApplicationError controller must extend this class
  */
@@ -19,7 +19,7 @@ export abstract class ErrorController {
     next: NextFunction;
     error: Error;
     /**
-     * Default method that will be invoked on application error
+     * Invoked on application error
      */
     abstract internalServerError(): void;
 }

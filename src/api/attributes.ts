@@ -1,5 +1,13 @@
-import { IControllerAttribute } from '../modules/types';
+import { IControllerAttribute, IParseHandler } from '../modules/types';
 import { AttributeMetadata } from '../modules/metadata';
+
+/**
+ *  Decorate on Action Parameters to validate and transform the values
+ */
+export function Parse(cb: IParseHandler, data?: any)
+    : (target: any, propertyKey: string, parameterIndex: number) => void {
+    return AttributeMetadata.parse(cb, data);
+}
 
 // if an API action wants to send response on its own, decorate @SendsResponse()
 // this is used when action method directly sends response using express response object.

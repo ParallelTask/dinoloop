@@ -38,16 +38,20 @@ describe('modules.utility.route.utility.spec', () => {
         let originalUrl = '/get/:id';
         let reqUrl = '/get/45';
         let action = (log, delay, id) => null;
+        let testKeys = ['log', 'delay', 'id'];
         // order of returning func arg keys is important
-        spyOn(FunctionUtility, 'getParamNames').and.callFake(fn => ['log', 'delay', 'id']);
+        spyOn(FunctionUtility, 'getParamNames').and.callFake(fn => testKeys);
         spyOn(RouteUtility, 'getNamedSegmentKeyValues').and.callFake(() => {
             return { id: '45' };
         });
         let result = RouteUtility
             .mapSegmentsAndQueryToActionArguments(originalUrl, reqUrl, queryString, action);
-        expect(result[0]).toBe('console');
-        expect(result[1]).toBe('5');
-        expect(result[2]).toBe('45');
+        expect(result[0].key).toBe(testKeys[0]);
+        expect(result[0].value).toBe('console');
+        expect(result[1].key).toBe(testKeys[1]);
+        expect(result[1].value).toBe('5');
+        expect(result[2].key).toBe(testKeys[2]);
+        expect(result[2].value).toBe('45');
     });
     it('mapSegmentsAndQueryToActionArguments.map_values_when_segment_valid_and_querystring_valid_diff_order',
         () => {
@@ -58,32 +62,40 @@ describe('modules.utility.route.utility.spec', () => {
             let originalUrl = '/get/:id';
             let reqUrl = '/get/45';
             let action = (delay, id, log) => null;
+            let testKeys = ['delay', 'id', 'log'];
             // order of returning func arg keys is important
-            spyOn(FunctionUtility, 'getParamNames').and.callFake(fn => ['delay', 'id', 'log']);
+            spyOn(FunctionUtility, 'getParamNames').and.callFake(fn => testKeys);
             spyOn(RouteUtility, 'getNamedSegmentKeyValues').and.callFake(() => {
                 return { id: '45' };
             });
             let result = RouteUtility
                 .mapSegmentsAndQueryToActionArguments(originalUrl, reqUrl, queryString, action);
-            expect(result[0]).toBe('5');
-            expect(result[1]).toBe('45');
-            expect(result[2]).toBe('console');
+            expect(result[0].key).toBe(testKeys[0]);
+            expect(result[0].value).toBe('5');
+            expect(result[1].key).toBe(testKeys[1]);
+            expect(result[1].value).toBe('45');
+            expect(result[2].key).toBe(testKeys[2]);
+            expect(result[2].value).toBe('console');
         });
     it('mapSegmentsAndQueryToActionArguments.map_values_when_segment_valid_and_no_querystring', () => {
         let queryString = {};
         let originalUrl = '/get/:id';
         let reqUrl = '/get/45';
         let action = (delay, id, log) => null;
+        let testKeys = ['delay', 'id', 'log'];
         // order of returning func arg keys is important
-        spyOn(FunctionUtility, 'getParamNames').and.callFake(fn => ['delay', 'id', 'log']);
+        spyOn(FunctionUtility, 'getParamNames').and.callFake(fn => testKeys);
         spyOn(RouteUtility, 'getNamedSegmentKeyValues').and.callFake(() => {
             return { id: '45' };
         });
         let result = RouteUtility
             .mapSegmentsAndQueryToActionArguments(originalUrl, reqUrl, queryString, action);
-        expect(result[0]).toBe(undefined);
-        expect(result[1]).toBe('45');
-        expect(result[2]).toBe(undefined);
+        expect(result[0].key).toBe(testKeys[0]);
+        expect(result[0].value).toBe(undefined);
+        expect(result[1].key).toBe(testKeys[1]);
+        expect(result[1].value).toBe('45');
+        expect(result[2].key).toBe(testKeys[2]);
+        expect(result[2].value).toBe(undefined);
     });
     it('mapSegmentsAndQueryToActionArguments.map_values_when_no_segment_and_querystring_valid', () => {
         let queryString = {
@@ -93,16 +105,20 @@ describe('modules.utility.route.utility.spec', () => {
         let originalUrl = '/get';
         let reqUrl = '/get';
         let action = (log, id, delay) => null;
+        let testKeys = ['log', 'id', 'delay'];
         // order of returning func arg keys is important
-        spyOn(FunctionUtility, 'getParamNames').and.callFake(fn => ['log', 'id', 'delay']);
+        spyOn(FunctionUtility, 'getParamNames').and.callFake(fn => testKeys);
         spyOn(RouteUtility, 'getNamedSegmentKeyValues').and.callFake(() => {
             return {};
         });
         let result = RouteUtility
             .mapSegmentsAndQueryToActionArguments(originalUrl, reqUrl, queryString, action);
-        expect(result[0]).toBe('persistent');
-        expect(result[1]).toBe(undefined);
-        expect(result[2]).toBe('65');
+        expect(result[0].key).toBe(testKeys[0]);
+        expect(result[0].value).toBe('persistent');
+        expect(result[1].key).toBe(testKeys[1]);
+        expect(result[1].value).toBe(undefined);
+        expect(result[2].key).toBe(testKeys[2]);
+        expect(result[2].value).toBe('65');
     });
     it('mapSegmentsAndQueryToActionArguments.map_values_when_no_url_matched_and_querystring_valid', () => {
         let queryString = {

@@ -6,7 +6,8 @@ import { Response } from '../../types';
  */
 export class DinoStartMiddleware extends RequestStartMiddleware {
     invoke(req, res: Response, next): void {
-        // initialize the dino object, this is critical for other middlewares to work
+        // initialize the dino object, 
+        // this is critical for other middlewares to work
         res.locals.dino = {};
         next();
     }

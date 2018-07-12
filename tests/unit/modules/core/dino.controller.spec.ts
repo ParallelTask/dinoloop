@@ -7,7 +7,8 @@ import {
     RouteUtility,
     HttpUtility,
     InvalidModelException,
-    IDinoProperties
+    IDinoProperties,
+    IKeyValuePair
 } from '../../index';
 
 class Test { }
@@ -83,18 +84,21 @@ describe('modules.core.dino.controller.spec', () => {
             }
         } as any;
 
-        let ctrl = new DinoController(ctx, {});
+        let ctrl = new DinoController(ctx, {
+            actionAttributes: {
+                route: '/test',
+                actionArguments: []
+            }
+        });
         spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
             .and.callFake(() => []);
         spyOn(HttpUtility, 'hasBody').and.callFake(() => false);
-        spyOn(ctrl, 'getModelFromBody').and.callFake(() => null);
         spyOn(ctrl, 'attachResultToDino')
             .and.callFake((sendsResponse, result) => {
                 expect(result).toBe(45);
             });
 
-        ctrl.invoke('test', 'get', 'sample');
-        expect(ctrl.getModelFromBody).toHaveBeenCalledTimes(1);
+        ctrl.invoke('test');
         expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(1);
         expect(val[0]).toBeUndefined();
     });
@@ -111,18 +115,23 @@ describe('modules.core.dino.controller.spec', () => {
             }
         } as any;
 
-        let ctrl = new DinoController(ctx, {});
+        let ctrl = new DinoController(ctx, {
+            actionAttributes: {
+                route: '/test',
+                actionArguments: []
+            }
+        });
         spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
-            .and.callFake(() => []);
+            .and.callFake(() => [
+                { key: 'body', value: undefined }
+            ]);
         spyOn(HttpUtility, 'hasBody').and.callFake(() => true);
-        spyOn(ctrl, 'getModelFromBody').and.callFake(() => null);
         spyOn(ctrl, 'attachResultToDino')
             .and.callFake((sendsResponse, result) => {
                 expect(result).toBe(45);
             });
 
-        ctrl.invoke('test', 'get', 'sample');
-        expect(ctrl.getModelFromBody).toHaveBeenCalledTimes(1);
+        ctrl.invoke('test');
         expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(1);
         expect(val[0]).toBe(ctx.request.body);
     });
@@ -138,18 +147,24 @@ describe('modules.core.dino.controller.spec', () => {
             }
         } as any;
 
-        let ctrl = new DinoController(ctx, {});
+        let ctrl = new DinoController(ctx, {
+            actionAttributes: {
+                route: '/test',
+                actionArguments: []
+            }
+        });
         spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
-            .and.callFake(() => ['hello', 'world']);
+            .and.callFake(() => [
+                { key: 'a', value: 'hello' },
+                { key: 'b', value: 'world' }
+            ]);
         spyOn(HttpUtility, 'hasBody').and.callFake(() => false);
-        spyOn(ctrl, 'getModelFromBody').and.callFake(() => null);
         spyOn(ctrl, 'attachResultToDino')
             .and.callFake((sendsResponse, result) => {
                 expect(result).toBe(45);
             });
 
-        ctrl.invoke('test', 'get', 'sample');
-        expect(ctrl.getModelFromBody).toHaveBeenCalledTimes(1);
+        ctrl.invoke('test');
         expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(1);
         expect(val[0]).toBe('hello');
         expect(val[1]).toBe('world');
@@ -169,18 +184,25 @@ describe('modules.core.dino.controller.spec', () => {
             }
         } as any;
 
-        let ctrl = new DinoController(ctx, {});
+        let ctrl = new DinoController(ctx, {
+            actionAttributes: {
+                route: '/test',
+                actionArguments: []
+            }
+        });
         spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
-            .and.callFake(() => [undefined, 'hello', 'world']);
+            .and.callFake(() => [
+                { key: 'body', value: undefined },
+                { key: 'a', value: 'hello' },
+                { key: 'b', value: 'world' }
+            ]);
         spyOn(HttpUtility, 'hasBody').and.callFake(() => true);
-        spyOn(ctrl, 'getModelFromBody').and.callFake(() => null);
         spyOn(ctrl, 'attachResultToDino')
             .and.callFake((sendsResponse, result) => {
                 expect(result).toBe(45);
             });
 
-        ctrl.invoke('test', 'get', 'sample');
-        expect(ctrl.getModelFromBody).toHaveBeenCalledTimes(1);
+        ctrl.invoke('test');
         expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(1);
         expect(val[0]).toBe(ctx.request.body);
         expect(val[1]).toBe('hello');
@@ -197,18 +219,21 @@ describe('modules.core.dino.controller.spec', () => {
             }
         } as any;
 
-        let ctrl = new DinoController(ctx, {});
+        let ctrl = new DinoController(ctx, {
+            actionAttributes: {
+                route: '/test',
+                actionArguments: []
+            }
+        });
         spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
             .and.callFake(() => []);
         spyOn(HttpUtility, 'hasBody').and.callFake(() => false);
-        spyOn(ctrl, 'getModelFromBody').and.callFake(() => null);
         spyOn(ctrl, 'attachResultToDino')
             .and.callFake((sendsResponse, result) => {
                 expect(result).toBe(45);
             });
 
-        await ctrl.invokeAsync('test', 'get', 'sample');
-        expect(ctrl.getModelFromBody).toHaveBeenCalledTimes(1);
+        await ctrl.invokeAsync('test');
         expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(1);
         expect(val[0]).toBeUndefined();
     });
@@ -225,18 +250,23 @@ describe('modules.core.dino.controller.spec', () => {
             }
         } as any;
 
-        let ctrl = new DinoController(ctx, {});
+        let ctrl = new DinoController(ctx, {
+            actionAttributes: {
+                route: '/test',
+                actionArguments: []
+            }
+        });
         spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
-            .and.callFake(() => []);
+            .and.callFake(() => [
+                { key: 'body', value: undefined }
+            ]);
         spyOn(HttpUtility, 'hasBody').and.callFake(() => true);
-        spyOn(ctrl, 'getModelFromBody').and.callFake(() => null);
         spyOn(ctrl, 'attachResultToDino')
             .and.callFake((sendsResponse, result) => {
                 expect(result).toBe(45);
             });
 
-        await ctrl.invokeAsync('test', 'get', 'sample');
-        expect(ctrl.getModelFromBody).toHaveBeenCalledTimes(1);
+        await ctrl.invokeAsync('test');
         expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(1);
         expect(val[0]).toBe(ctx.request.body);
     });
@@ -252,18 +282,24 @@ describe('modules.core.dino.controller.spec', () => {
             }
         } as any;
 
-        let ctrl = new DinoController(ctx, {});
+        let ctrl = new DinoController(ctx, {
+            actionAttributes: {
+                route: '/test',
+                actionArguments: []
+            }
+        });
         spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
-            .and.callFake(() => ['hello', 'world']);
+            .and.callFake(() => [
+                { key: 'a', value: 'hello' },
+                { key: 'b', value: 'world' }
+            ]);
         spyOn(HttpUtility, 'hasBody').and.callFake(() => false);
-        spyOn(ctrl, 'getModelFromBody').and.callFake(() => null);
         spyOn(ctrl, 'attachResultToDino')
             .and.callFake((sendsResponse, result) => {
                 expect(result).toBe(45);
             });
 
-        await ctrl.invokeAsync('test', 'get', 'sample');
-        expect(ctrl.getModelFromBody).toHaveBeenCalledTimes(1);
+        await ctrl.invokeAsync('test');
         expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(1);
         expect(val[0]).toBe('hello');
         expect(val[1]).toBe('world');
@@ -283,18 +319,25 @@ describe('modules.core.dino.controller.spec', () => {
             }
         } as any;
 
-        let ctrl = new DinoController(ctx, {});
+        let ctrl = new DinoController(ctx, {
+            actionAttributes: {
+                route: '/test',
+                actionArguments: []
+            }
+        });
         spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
-            .and.callFake(() => [undefined, 'hello', 'world']);
+            .and.callFake(() => [
+                { key: 'body', value: undefined },
+                { key: 'a', value: 'hello' },
+                { key: 'b', value: 'world' }
+            ]);
         spyOn(HttpUtility, 'hasBody').and.callFake(() => true);
-        spyOn(ctrl, 'getModelFromBody').and.callFake(() => null);
         spyOn(ctrl, 'attachResultToDino')
             .and.callFake((sendsResponse, result) => {
                 expect(result).toBe(45);
             });
 
-        await ctrl.invokeAsync('test', 'get', 'sample');
-        expect(ctrl.getModelFromBody).toHaveBeenCalledTimes(1);
+        await ctrl.invokeAsync('test');
         expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(1);
         expect(val[0]).toBe(ctx.request.body);
         expect(val[1]).toBe('hello');
@@ -310,19 +353,25 @@ describe('modules.core.dino.controller.spec', () => {
             next: e => err = e
         } as any;
 
-        let ctrl = new DinoController(ctx, {});
+        let ctrl = new DinoController(ctx, {
+            actionAttributes: {
+                route: '/test',
+                actionArguments: []
+            }
+        });
         spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
-            .and.callFake(() => ['hello', 'world']);
+            .and.callFake(() => [
+                { key: 'a', value: 'hello' },
+                { key: 'b', value: 'world' }
+            ]);
         spyOn(HttpUtility, 'hasBody').and.callFake(() => false);
-        spyOn(ctrl, 'getModelFromBody').and.callFake(() => null);
         spyOn(ctrl, 'attachResultToDino')
             .and.callFake((sendsResponse, result) => {
                 expect(result).toBe(45);
             });
 
-        await ctrl.invokeAsync('test', 'get', 'sample');
+        await ctrl.invokeAsync('test');
         expect(err).toEqual(new Error('TestError'));
-        expect(ctrl.getModelFromBody).toHaveBeenCalledTimes(1);
         expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(0);
     });
 });

@@ -16,3 +16,9 @@ export * from './modules/sequence/deferrer';
 export * from './modules/providers/iuser.identity';
 export * from './modules/types/attribute';
 export * from './modules/types/express';
+export {
+    KeyValuePair,
+    IParseProps,
+    ModelError,
+    IKeyValuePair
+} from './modules/types/types';
