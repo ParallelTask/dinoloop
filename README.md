@@ -126,3 +126,6 @@ Join the dinoloop general discussion on [Gitter](https://gitter.im/dinoloop/Lobb
  ## Planned Releases
  * Middlewares at action level.
  * @ModelBinder on action level for auto binding model from http-request body.
+ 
+ ## Announcements
+ We have a feedback from our community to have an official documentaion with more examples. We are excited to share you that soon we are going to launch an official website for dinoloop. It would be released pretty soon!. Thanks for all your support.
