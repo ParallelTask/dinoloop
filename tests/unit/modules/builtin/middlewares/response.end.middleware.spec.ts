@@ -18,7 +18,7 @@ describe('modules.builtin.response.end.middleware.spec', () => {
             .invoke({}, res, null, result);
 
         expect(responseResult).toBe(result);
-        expect(statusCode).toBe(HttpStatusCode.OK);
+        expect(statusCode).toBe(HttpStatusCode.oK);
     });
     it('invoke.sends_json_response_when_result_undefined', () => {
         let responseResult;
@@ -37,6 +37,6 @@ describe('modules.builtin.response.end.middleware.spec', () => {
             .invoke({}, res, null, result);
 
         expect(responseResult).toBe(undefined);
-        expect(statusCode).toBe(HttpStatusCode.NoContent);
+        expect(statusCode).toBe(HttpStatusCode.noContent);
     });
 });

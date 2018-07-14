@@ -10,7 +10,7 @@ export class RouteExceptionMiddleware extends ErrorMiddleware {
         if (err instanceof RouteNotFoundException) {
             let ex: RouteNotFoundException = err;
             response
-                .status(HttpStatusCode.NotFound)
+                .status(HttpStatusCode.notFound)
                 .json(`Cannot ${ex.httpVerb} ${ex.requestUrl}`);
         } else {
             next(err);
