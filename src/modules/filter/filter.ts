@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from '../types';
 import { DinoResponse } from '../entities';
 
 /**
- * Extend this class to create ErrorMiddleware
+ * Extend this class to create ServerErrorMiddleware
  */
 export abstract class ErrorMiddleware {
     abstract invoke(
@@ -10,7 +10,7 @@ export abstract class ErrorMiddleware {
 }
 
 /**
- * Extend this class to create ErrorMiddlewareAsync
+ * Extend this class to create ServerErrorMiddlewareAsync
  */
 export abstract class ErrorMiddlewareAsync {
     abstract async invoke(
@@ -21,7 +21,8 @@ export abstract class ErrorMiddlewareAsync {
  * Extend this class to create RequestStartMiddleware
  */
 export abstract class RequestStartMiddleware {
-    abstract invoke(request: Request, response: Response, next: NextFunction): void;
+    abstract invoke(
+        request: Request, response: Response, next: NextFunction): void;
 }
 
 /**

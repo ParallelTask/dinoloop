@@ -1,12 +1,17 @@
 import { ApiController, ControllerAction } from '../controller';
-import { Request, Response, NextFunction, IDinoProperties, IKeyValuePair } from '../types';
+import {
+    Request,
+    Response,
+    NextFunction,
+    IDinoProperties,
+    IKeyValuePair
+} from '../types';
 import {
     RouteUtility,
     HttpUtility,
     DataUtility
 } from '../utility';
 import { DinoModel } from '../entities';
-import { InvalidModelException } from '../builtin/exceptions';
 import { IDinoController } from '../interfaces';
 
 export class DinoController implements IDinoController {

@@ -1,18 +1,25 @@
 import { Reflector } from '../lib';
 import { Attribute } from '../constants';
 import { DataUtility, FunctionUtility } from '../utility';
-import { InvalidRouteException, InvalidArgumentException } from '../builtin/exceptions';
+import {
+    InvalidRouteException,
+    InvalidArgumentException
+} from '../builtin/exceptions';
 import {
     IControllerAttribute,
     IControllerAttributeExtended,
     IBindModelAttributeExtended,
     IBindModelAttribute,
     IParseAttribute,
-    IParseHandler
+    IParseHandler,
+    IParseProps
 } from '../types';
 
 export abstract class AttributeMetadata {
 
+    /**
+     * @Throws InvalidRouteException
+     */
     private static defineHttpVerbMetadata(
         route: string | RegExp,
         verb: string,
@@ -28,6 +35,9 @@ export abstract class AttributeMetadata {
     }
 
     // we are creating an array of parameter values and saving it to metadata
+    /**
+     * @Throws InvalidArgumentException
+     */
     static parse = (cb: IParseHandler, data?: any):
         (target: any, propertyKey: string, parameterIndex: number) => void => {
 
@@ -36,31 +46,33 @@ export abstract class AttributeMetadata {
             let args = FunctionUtility.getParamNames(target[propertyKey]);
             let parameterKey = args[parameterIndex];
 
-            if (!DataUtility.isUndefinedOrNull(parameterKey)) {
+            if (!DataUtility.isFunction(cb)) {
+                throw new InvalidArgumentException(cb,
+                    `Controller: ${target.constructor.name}, Action: ${propertyKey}, Key: ${parameterKey}`);
+            }
 
-                // get already added metadata
-                let meta: IParseAttribute[] = Reflector.getMetadata(Attribute.parse,
+            // get already added metadata
+            let meta: IParseAttribute[] = Reflector.getMetadata(Attribute.parse,
+                target.constructor.prototype, propertyKey);
+
+            const parseAttribute: IParseAttribute = {
+                handler: cb,
+                key: parameterKey,
+                controller: target,
+                action: propertyKey,
+                data: data
+            };
+
+            if (!DataUtility.isUndefinedOrNull(meta)) {
+                meta.push(parseAttribute);
+
+                // rewrite metadata by adding it to existing array
+                Reflector.defineMetadata(Attribute.parse, meta,
                     target.constructor.prototype, propertyKey);
-
-                const parseAttribute: IParseAttribute = {
-                    handler: cb,
-                    key: parameterKey,
-                    controller: target,
-                    action: propertyKey,
-                    data: data
-                };
-
-                if (!DataUtility.isUndefinedOrNull(meta)) {
-                    meta.push(parseAttribute);
-
-                    // rewrite metadata by adding it to existing array
-                    Reflector.defineMetadata(Attribute.parse, meta,
-                        target.constructor.prototype, propertyKey);
-                } else {
-                    // must be set as array for first save
-                    Reflector.defineMetadata(Attribute.parse, [parseAttribute],
-                        target.constructor.prototype, propertyKey);
-                }
+            } else {
+                // must be set as array for first save
+                Reflector.defineMetadata(Attribute.parse, [parseAttribute],
+                    target.constructor.prototype, propertyKey);
             }
         };
     }
@@ -79,6 +91,9 @@ export abstract class AttributeMetadata {
         };
     }
 
+    /**
+     * @Throws InvalidRouteException
+     */
     static httpGet = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
             AttributeMetadata
@@ -86,6 +101,9 @@ export abstract class AttributeMetadata {
         };
     }
 
+    /**
+     * @Throws InvalidRouteException
+     */
     static httpPost = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
             AttributeMetadata
@@ -93,6 +111,9 @@ export abstract class AttributeMetadata {
         };
     }
 
+    /**
+     * @Throws InvalidRouteException
+     */
     static httpDelete = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
             AttributeMetadata
@@ -100,6 +121,9 @@ export abstract class AttributeMetadata {
         };
     }
 
+    /**
+     * @Throws InvalidRouteException
+     */
     static httpPatch = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
             AttributeMetadata
@@ -107,6 +131,9 @@ export abstract class AttributeMetadata {
         };
     }
 
+    /**
+     * @Throws InvalidRouteException
+     */
     static httpPut = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
             AttributeMetadata
@@ -114,6 +141,9 @@ export abstract class AttributeMetadata {
         };
     }
 
+    /**
+     * @Throws InvalidRouteException
+     */
     static httpHead = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
             AttributeMetadata
@@ -121,6 +151,9 @@ export abstract class AttributeMetadata {
         };
     }
 
+    /**
+     * @Throws InvalidRouteException
+     */
     static httpAll = (route: string | RegExp): (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
             AttributeMetadata
@@ -129,6 +162,9 @@ export abstract class AttributeMetadata {
     }
 
     // handle null/undefined values, cleanse the data and pass onto inner methods
+    /**
+     * @Throws InvalidRouteException
+     */
     static controller = (prefix: string, attr?: IControllerAttribute):
         (target: any, propertyKey: string) => void => {
         return (target: any, propertyKey: string): void => {
