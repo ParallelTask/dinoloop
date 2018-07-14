@@ -2,11 +2,9 @@ import {
     ApiController,
     Controller,
     HttpGet,
-    SendsResponse,
     HttpPost,
     HttpAll,
     Parse,
-    IParseHandler,
     Async
 } from '../../../../index';
 import {
@@ -35,7 +33,7 @@ export class HomeController extends ApiController {
     }
 
     // converts first argument to number 
-    // ands transformation to second arguments as jpg extension
+    // and transforms second argument with jpg extension
     @HttpGet('/withParse/:id/:photo')
     withParse(@Parse(toNumber) id: number, @Parse(toJPG) photo: string): any {
         return {
@@ -63,7 +61,6 @@ export class HomeController extends ApiController {
         return '.jpg added to photo, and id must be converted to number';
     }
 
-    // verifies if built-in response middleware is working
     // ignores what is passed, always transforms id value to 10
     @HttpGet('/getTen/:id')
     getTen(@Parse(toNumberTen) id: number): any {

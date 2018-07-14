@@ -1,12 +1,12 @@
 {
-    "name": "dinoloop-http-verb-example",
+    "name": "dinoloop-parse-api-example",
     "version": "1.0.0",
     "private": true,
     "scripts": {
         "build": "npm run clean && tsc --p ./tsconfig.json",
         "clean": "rimraf dist",
         "lint": "tslint -p ./tsconfig.json -c ./tslint.json \"./src/**/*.ts*\"",
-        "serve": "node ./dist/examples/basic_start/src/app/app.js",
+        "serve": "node ./dist/examples/parse_api/src/app/app.js",
         "start": "npm run build && npm run serve"
     },
     "dependencies": {

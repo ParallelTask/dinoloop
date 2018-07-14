@@ -14,7 +14,7 @@ import { ControllerParseErrorMiddleware } from '../middlewares/filters';
 export class AboutController extends ApiController {
 
     // If exception is thrown by @Parse, then it bubbles up error middleware chain
-    // Response will be sent by ServerParseErrorMiddleware
+    // Response will be sent by ControllerParseErrorMiddleware
     @HttpGet('/parseException/:id')
     parseException(@Parse(throwException) id: number): any {
         return {
@@ -24,7 +24,7 @@ export class AboutController extends ApiController {
 
     // Async version
     // If exception is thrown by @Parse, then it bubbles up error middleware chain
-    // Response will be sent by ServerParseErrorMiddleware
+    // Response will be sent by ControllerParseErrorMiddleware
     @Async()
     @HttpGet('/asyncParseException/:id')
     async asyncParseException(@Parse(throwException) id: number): Promise<string> {
