@@ -25,7 +25,7 @@ describe('modules.builtin.route.exception.middleware.spec', () => {
             .invoke(err, {}, res, () => invoked = true);
 
         expect(responseResult).toBe(`Cannot ${httpVerb} ${uri}`);
-        expect(statusCode).toBe(HttpStatusCode.NotFound);
+        expect(statusCode).toBe(HttpStatusCode.notFound);
         expect(invoked).toBeFalsy();
     });
     it('invoke.invoked_next_err_handler_when_RouteNotFoundException_not_occurred', () => {

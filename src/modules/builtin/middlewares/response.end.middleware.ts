@@ -13,9 +13,9 @@ export class ResponseEndMiddleware extends RequestEndMiddleware {
     invoke(request, response: Response, next, result): void {
 
         if (DataUtility.isUndefined(result)) {
-            response.status(HttpStatusCode.NoContent).json();
+            response.status(HttpStatusCode.noContent).json();
         } else {
-            response.status(HttpStatusCode.OK).json(result);
+            response.status(HttpStatusCode.oK).json(result);
         }
     }
 }
