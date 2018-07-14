@@ -1,5 +1,5 @@
 import { ApiController, ControllerAction } from '../controller';
-import { Request, Response, NextFunction, IDinoProperties } from '../types';
+import { Request, Response, NextFunction, IDinoProperties, IKeyValuePair } from '../types';
 import {
     RouteUtility,
     HttpUtility,
@@ -13,8 +13,8 @@ export class DinoController implements IDinoController {
     private controller: ApiController;
     private controllerAction: ControllerAction;
 
-    // maps url-segments and query-strings to action arguments
-    private mapSegments(action: Function, requestUrl: string): string[] {
+    // maps url-segments and query-strings
+    private mapSegments(action: Function, requestUrl: string): IKeyValuePair[] {
         let req = this.controller.request;
 
         return RouteUtility.mapSegmentsAndQueryToActionArguments(requestUrl,
@@ -28,43 +28,18 @@ export class DinoController implements IDinoController {
     }
 
     // made public for unit test and not available on interface contract
-    // result returned by an action method, makes it available to next middleware function
+    // result returned by action method, makes available to next middleware
     attachResultToDino(sendsResponse: boolean, result: any): void {
 
         // if action is not decorated with SendsResponse
-        // just capture and attach the result to dino property and invoke the next() handler
+        // just capture and attach the result to dino property
         if (sendsResponse === false) {
-            // conversion required to access result property
-            // which does actually exists on DinoResponse
-            let dino = this.controller.dino as IDinoProperties;
+            // conversion is required to access result property, 
+            // which actually exists on DinoResponse
+            let dino: IDinoProperties = this.controller.dino;
             dino.result = result;
             this.controller.next();
         }
-    }
-
-    // made public for unit test and not available on interface contract
-    // reads http-request body and parses the body as per the model in BindModel attribute
-    // validates the object and writes back the validation errors and values to ctx.model property
-    getModelFromBody(httpVerb: string): DinoModel {
-        let ctx = this.controller;
-        let bModel = this.controllerAction.bindsModel;
-        let dinoModel = new DinoModel();
-
-        // TODO when @ModelBinder is added
-        // if (HttpUtility.hasBody(httpVerb) && !DataUtility.isUndefinedOrNull(bModel)) {
-        //     dinoModel.type = bModel.model;
-        //     dinoModel.value = ctx.request.body;
-        //     dinoModel.errors = Validator.tryValidateWithType(ctx.request.body,
-        //         bModel.model, bModel.options.stopOnError);
-        //     dinoModel.isValid = dinoModel.errors.length === 0;
-
-        //     if (bModel.options.raiseModelError) {
-        //         ctx.next(new InvalidModelException(dinoModel.value, dinoModel.errors,
-        //             dinoModel.type));
-        //     }
-        // }
-
-        return dinoModel;
     }
 
     patch(req: Request, res: Response, next: NextFunction): void {
@@ -91,49 +66,79 @@ export class DinoController implements IDinoController {
         this.controller.dino.proceed = (result: any) => {
             // conversion required to access result property
             // which does actually exists on DinoResponse
-            let dino = this.controller.dino as IDinoProperties;
+            let dino: IDinoProperties = this.controller.dino;
             dino.result = result;
             this.controller.next();
         };
     }
 
     // If controller action is synchronous - invoke this
-    invoke(
-        actionName: string,
-        httpVerb: string,
-        requestUrl: string
-    ): void {
+    invoke(actionName: string): void {
 
         let ctx = this.controller;
         let cta = this.controllerAction;
-        let values = this.mapSegments(ctx[actionName], requestUrl);
-        ctx.model = this.getModelFromBody(httpVerb);
-        // If http-request has body, first parameter in action argument list
-        // gets request-body injected
-        if (HttpUtility.hasBody(httpVerb)) values[0] = ctx.request.body;
-        let result = values.length > 0 ? ctx[actionName].apply(ctx, values) : ctx[actionName]();
-        this.attachResultToDino(cta.sendsResponse, result);
+        let values =
+            this.mapSegments(ctx[actionName], cta.actionAttributes.route);
+
+        // If http-request has body, first parameter gets request-body injected
+        if (HttpUtility.hasBody(cta.actionAttributes.httpVerb)
+            && values.length > 0) {
+            values[0].value = ctx.request.body;
+        }
+
+        for (const arg of cta.actionAttributes.actionArguments) {
+            for (const value of values) {
+                if (arg.key === value.key) {
+                    value.value = arg.handler({
+                        action: arg.action,
+                        controller: arg.controller,
+                        key: arg.key,
+                        data: arg.data,
+                        value: value.value
+                    }, ctx.model);
+                }
+            }
+        }
+
+        let result = values.length > 0
+            ? ctx[actionName].apply(ctx, values.map(val => val.value)) : ctx[actionName]();
+        this.attachResultToDino(cta.actionAttributes.sendsResponse, result);
     }
 
     // if controller action is async - invoke this
-    async invokeAsync(
-        actionName: string,
-        httpVerb: string,
-        requestUrl: string): Promise<void> {
+    async invokeAsync(actionName: string): Promise<void> {
 
         let ctx = this.controller;
         let cta = this.controllerAction;
+        let values =
+            this.mapSegments(ctx[actionName], cta.actionAttributes.route);
+
+        // If http-request has body, first parameter gets request-body injected
+        if (HttpUtility.hasBody(cta.actionAttributes.httpVerb)
+            && values.length > 0) {
+            values[0].value = ctx.request.body;
+        }
 
         try {
-            let values = this.mapSegments(ctx[actionName], requestUrl);
-            ctx.model = this.getModelFromBody(httpVerb);
-            // If http-request has body, first parameter in action argument list
-            // gets request-body injected
-            if (HttpUtility.hasBody(httpVerb)) values[0] = ctx.request.body;
+
+            for (const arg of cta.actionAttributes.actionArguments) {
+                for (const value of values) {
+                    if (arg.key === value.key) {
+                        value.value = arg.handler({
+                            action: arg.action,
+                            controller: arg.controller,
+                            key: arg.key,
+                            data: arg.data,
+                            value: value.value
+                        }, ctx.model);
+                    }
+                }
+            }
+
             let result = values.length > 0 ?
-                await ctx[actionName].apply(ctx, values)
+                await ctx[actionName].apply(ctx, values.map(val => val.value))
                 : await ctx[actionName]();
-            this.attachResultToDino(cta.sendsResponse, result);
+            this.attachResultToDino(cta.actionAttributes.sendsResponse, result);
         } catch (ex) {
             ctx.next(ex);
         }

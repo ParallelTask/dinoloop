@@ -29,6 +29,7 @@
         "build:example:dinoapi": "cd ./examples/dino_api && npm run build",
         "build:example:httpverb": "cd ./examples/http_verb && npm run build",
         "build:example:inversifybasic": "cd ./examples/inversify_basic && npm run build",
+        "build:example:parseapi": "cd ./examples/parse_api && npm run build",
         "build:example:taskcontext": "cd ./examples/task_context && npm run build",
         "init:jasmine": "jasmine-ts init",
         "build": "npm run clean && tsc --p ./tsconfig.app.json",

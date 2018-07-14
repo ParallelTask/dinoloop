@@ -15,7 +15,9 @@ export abstract class DinoParser {
         let middlewareClass: IMiddlewareClass = middleware as any;
 
         // if provider is non-function and has custom data, it should be using .useClass
-        if (!DataUtility.isFunction(middleware) && !DataUtility.isUndefinedOrNull(middlewareClass)) {
+        if (!DataUtility.isFunction(middleware)
+            && !DataUtility.isUndefinedOrNull(middlewareClass)) {
+
             // data must be available only if .useClass is valid func
             if (DataUtility.isFunction(middlewareClass.useClass)) {
                 middlewareFunction = middlewareClass.useClass;

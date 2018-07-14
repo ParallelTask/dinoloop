@@ -4,7 +4,7 @@ import { IDinoProperties, Response } from '../../types';
 
 /**
  * Sets context property to UserIdentity instance for every request start.
- * If UserPrinciple is enabled, this would be the second built-in RequestStart middleware to register
+ * If UserPrinciple enabled, this would be second built-in RequestStart middleware
  */
 export class TaskContextMiddleware extends RequestStartMiddleware {
     invoke(req, res: Response, next): void {

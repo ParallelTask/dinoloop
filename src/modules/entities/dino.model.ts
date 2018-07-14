@@ -1,6 +1,7 @@
+import { KeyValuePair, ModelError } from '../types';
+
 export class DinoModel {
-    isValid?: boolean;
-    value?: any;
-    errors: string[];
-    type: Function;
+    isValid?: boolean = true;
+    values?: KeyValuePair[] = [];
+    modelErrors: ModelError[] = [];
 }

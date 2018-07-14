@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from '../types';
 import { DinoResponse, DinoModel } from '../entities';
 
-// Base class that should be extended by every controller for it work as api controller
+// Base class that should be extended by every controller
 /**
  * Every API Controller must extend this class
  */
@@ -18,9 +18,12 @@ export abstract class ApiController {
      * Express.NextFunction
      */
     next: NextFunction;
+    /**
+     * Dinoloop properties
+     */
     dino: DinoResponse;
     /**
-     * Reserved for future
+     * Validations set by @Parse handlers are injected into this property
      */
     model: DinoModel;
 }

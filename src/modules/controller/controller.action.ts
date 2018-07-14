@@ -1,17 +1,13 @@
-import { IBindModelAttributeExtended } from '../types';
+import { IBindModelAttributeExtended, IActionMethodAttribute } from '../types';
 
 export class ControllerAction {
-    sendsResponse?: boolean;
-    bindsModel?: IBindModelAttributeExtended;
-    constructor(sendsResponse: boolean,
-        bindsModel: IBindModelAttributeExtended) {
+    actionAttributes?: IActionMethodAttribute;
 
-        this.sendsResponse = sendsResponse;
-        this.bindsModel = bindsModel;
+    constructor(actionAttributes: IActionMethodAttribute) {
+        this.actionAttributes = actionAttributes;
     }
 
-    static create(sendsResponse: boolean,
-        bindsModel: IBindModelAttributeExtended): ControllerAction {
-        return new ControllerAction(sendsResponse, bindsModel);
+    static create(actionAttributes: IActionMethodAttribute): ControllerAction {
+        return new ControllerAction(actionAttributes);
     }
 }

@@ -1,27 +1,30 @@
 export const Attribute = {
-    sendsResponse: 'sendsResponseAttribute',
-    asyncAttr: 'asyncAttribute',
-    controller: 'controllerAttribute',
-    bindModel: 'bindModelAttribute',
-    errorControllerDefaultMethod: 'internalServerError',
-    httpGet: 'httpGetAttribute',
-    httpPost: 'httpPostAttribute',
-    httpPatch: 'httpPatchAttribute',
-    httpPut: 'httpPutAttribute',
-    httpDelete: 'httpDeleteAttribute',
-    httpHead: 'httpHeadAttribute',
-    httpAll: 'httpAllAttribute'
+    sendsResponse: 'sendsResponse_ActionAttribute',
+    asyncAttr: 'async_ActionAttribute',
+    controller: 'controller_ControllerAttribute',
+    httpGet: 'httpGet_ActionAttribute',
+    httpPost: 'httpPost_ActionAttribute',
+    httpPatch: 'httpPatch_ActionAttribute',
+    httpPut: 'httpPut_ActionAttribute',
+    httpDelete: 'httpDelete_ActionAttribute',
+    httpHead: 'httpHead_ActionAttribute',
+    httpAll: 'httpAll_ActionAttribute',
+    parse: 'parse_ParameterAttribute'
 };
 
 // Currently, we are supporting the basic HTTP verbs
 // We can define advanced HTTP verbs later in the development
 export const RouteAttribute = {
     // keys should be identical to values of Attribute.httpGet, Attribute.httpPost ...
-    httpGetAttribute: 'get',
-    httpPostAttribute: 'post',
-    httpDeleteAttribute: 'delete',
-    httpPutAttribute: 'put',
-    httpPatchAttribute: 'patch',
-    httpHeadAttribute: 'head',
-    httpAllAttribute: 'all'
+    httpGet_ActionAttribute: 'get',
+    httpPost_ActionAttribute: 'post',
+    httpDelete_ActionAttribute: 'delete',
+    httpPut_ActionAttribute: 'put',
+    httpPatch_ActionAttribute: 'patch',
+    httpHead_ActionAttribute: 'head',
+    httpAll_ActionAttribute: 'all'
+};
+
+export const Constants = {
+    errControllerDefaultMethod: 'internalServerError'
 };

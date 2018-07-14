@@ -20,7 +20,8 @@ import { ObjectUtility } from './object.utility';
 import { DataUtility } from './data.utility';
 
 /**
- * Wrapper methods to test the datatype of the components registered with Dino instance
+ * Wrapper methods to test the datatype of components 
+ * registered with Dino instance
  */
 export abstract class DinoUtility {
 

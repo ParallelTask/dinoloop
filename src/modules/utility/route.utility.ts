@@ -1,9 +1,3 @@
-// Refer: https://github.com/rcs/route-parser
-// tslint:disable-next-line:no-require-imports
-// import Route = require('route-parser');
-// Refer: https://github.com/snd/url-pattern
-// tslint:disable-next-line:no-require-imports
-// import UrlParser = require('url-pattern');
 // Refer: https://github.com/pillarjs/path-to-regexp
 // tslint:disable-next-line:no-require-imports
 import pathToRegexp = require('path-to-regexp');
@@ -11,6 +5,7 @@ import { Key, Path } from 'path-to-regexp';
 import { FunctionUtility } from './function.utility';
 import { ObjectUtility } from './object.utility';
 import { DataUtility } from './data.utility';
+import { IKeyValuePair } from '../types';
 
 export abstract class RouteUtility {
 
@@ -52,9 +47,10 @@ export abstract class RouteUtility {
         originalUri: string,
         requestedUri: string,
         queryString: any,
-        fn: Function): string[] {
+        fn: Function): IKeyValuePair[] {
         let params = FunctionUtility.getParamNames(fn);
         let arr: string[] = [];
+        let paramKeyValues: IKeyValuePair[] = [];
 
         // check if action has any arguments list to map to
         if (params.length > 0) {
@@ -69,9 +65,14 @@ export abstract class RouteUtility {
                     let index = params.findIndex(e => e === key);
                     arr[index] = values[key];
                 });
+
+                paramKeyValues =
+                    params.map((val: string, index: number) => {
+                        return { key: val, value: arr[index] };
+                    });
             }
         }
 
-        return arr;
+        return paramKeyValues;
     }
 }
