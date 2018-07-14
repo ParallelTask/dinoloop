@@ -1,5 +1,6 @@
 import { UserException } from '../../exception';
 import { DataUtility } from '../../utility';
+import { HttpStatusCode } from '../../constants';
 
 /**
  * Passing Invalid values for arguments invokes this exception
@@ -61,20 +62,44 @@ export class RouteNotFoundException extends UserException {
 }
 
 /**
- * When HttpRequest body is not a valid instance to the binded model invokes this exception
+ * @Parse invokes ParseParamException for invalid values
  */
-export class InvalidModelException extends UserException {
+export class ParseParamException extends UserException {
     value: any;
-    errors: string[];
-    model: any;
+    key: string;
+    action: string;
+    controller: string;
 
-    constructor(value: any, errors: string[], model: any, msg?: any) {
+    constructor(
+        value: any,
+        key: string,
+        action: string,
+        controller: string,
+        msg?: string) {
+
         super(msg);
         this.value = value;
-        this.errors = errors;
-        this.model = model;
-        this.type = InvalidModelException.name;
+        this.key = key;
+        this.action = action;
+        this.controller = controller;
+        this.type = ParseParamException.name;
         this.message = DataUtility.isEmpty(msg)
-            ? InvalidModelException.name : msg;
+            ? ParseParamException.name : msg;
+    }
+}
+/**
+ * An Exception that allows to respond to client with HttpStatusCode
+ */
+export class HttpResponseException<T> extends UserException {
+    statusCode: HttpStatusCode;
+    content: T;
+
+    constructor(
+        { statusCode = HttpStatusCode.oK, content = undefined }:
+            { statusCode?: HttpStatusCode, content?: T }
+            = { statusCode: HttpStatusCode.oK, content: undefined }) {
+        super(HttpResponseException.name);
+        this.statusCode = statusCode;
+        this.content = content;
     }
 }

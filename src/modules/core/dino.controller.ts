@@ -1,12 +1,16 @@
 import { ApiController, ControllerAction } from '../controller';
-import { Request, Response, NextFunction, IDinoProperties, IKeyValuePair } from '../types';
+import {
+    Request,
+    Response,
+    NextFunction,
+    IDinoProperties,
+    IKeyValuePair
+} from '../types';
 import {
     RouteUtility,
-    HttpUtility,
-    DataUtility
+    HttpUtility
 } from '../utility';
 import { DinoModel } from '../entities';
-import { InvalidModelException } from '../builtin/exceptions';
 import { IDinoController } from '../interfaces';
 
 export class DinoController implements IDinoController {
@@ -34,7 +38,7 @@ export class DinoController implements IDinoController {
         // if action is not decorated with SendsResponse
         // just capture and attach the result to dino property
         if (sendsResponse === false) {
-            // conversion is required to access result property, 
+            // conversion is required to access result property,
             // which actually exists on DinoResponse
             let dino: IDinoProperties = this.controller.dino;
             dino.result = result;

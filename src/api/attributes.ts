@@ -2,7 +2,8 @@ import { IControllerAttribute, IParseHandler } from '../modules/types';
 import { AttributeMetadata } from '../modules/metadata';
 
 /**
- *  Decorate on Action Parameters to validate and transform the values
+ * Decorate on Action Parameters to validate and transform the values
+ * @Throws InvalidArgumentException
  */
 export function Parse(cb: IParseHandler, data?: any)
     : (target: any, propertyKey: string, parameterIndex: number) => void {
@@ -31,6 +32,7 @@ export function Async(): (target: any, propertyKey: string) => void {
 
 /**
  * Responds to HttpGet
+ * @Throws InvalidRouteException
  */
 export function HttpGet(route: string | RegExp): (target: any, propertyKey: string) => void {
     return AttributeMetadata.httpGet(route);
@@ -38,6 +40,7 @@ export function HttpGet(route: string | RegExp): (target: any, propertyKey: stri
 
 /**
  * Responds to HttpPost
+ * @Throws InvalidRouteException
  */
 export function HttpPost(route: string | RegExp): (target: any, propertyKey: string) => void {
     return AttributeMetadata.httpPost(route);
@@ -45,6 +48,7 @@ export function HttpPost(route: string | RegExp): (target: any, propertyKey: str
 
 /**
  * Responds to HttpDelete
+ * @Throws InvalidRouteException
  */
 export function HttpDelete(route: string | RegExp): (target: any, propertyKey: string) => void {
     return AttributeMetadata.httpDelete(route);
@@ -52,6 +56,7 @@ export function HttpDelete(route: string | RegExp): (target: any, propertyKey: s
 
 /**
  * Responds to HttpPatch
+ * @Throws InvalidRouteException
  */
 export function HttpPatch(route: string | RegExp): (target: any, propertyKey: string) => void {
     return AttributeMetadata.httpPatch(route);
@@ -59,6 +64,7 @@ export function HttpPatch(route: string | RegExp): (target: any, propertyKey: st
 
 /**
  * Responds to HttpPut
+ * @Throws InvalidRouteException
  */
 export function HttpPut(route: string | RegExp): (target: any, propertyKey: string) => void {
     return AttributeMetadata.httpPut(route);
@@ -66,6 +72,7 @@ export function HttpPut(route: string | RegExp): (target: any, propertyKey: stri
 
 /**
  * Responds to HttpHead
+ * @Throws InvalidRouteException
  */
 export function HttpHead(route: string | RegExp): (target: any, propertyKey: string) => void {
     return AttributeMetadata.httpHead(route);
@@ -73,6 +80,7 @@ export function HttpHead(route: string | RegExp): (target: any, propertyKey: str
 
 /**
  * Responds to HttpAll
+ * @Throws InvalidRouteException
  */
 export function HttpAll(route: string | RegExp): (target: any, propertyKey: string) => void {
     return AttributeMetadata.httpAll(route);
@@ -80,6 +88,7 @@ export function HttpAll(route: string | RegExp): (target: any, propertyKey: stri
 
 /**
  * Decorate on API Controller
+ * @Throws InvalidRouteException
  */
 export function Controller(prefix: string, attr?: IControllerAttribute): any {
     return AttributeMetadata.controller(prefix, attr);

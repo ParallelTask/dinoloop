@@ -83,7 +83,7 @@ export class Dino implements IDino {
     // It guarantees to retain task/user context data across all services/middlewares for entire request.
     // Note: Inject IUserPrincipal in constructor dependencies and it maintains data for the entire request.
     /**
-     * Enable UserIdentity Principle
+     * Reserved for future use
      */
     enableUserIdentity(): void {
         this.appContainer.enableTaskContext = true;
@@ -105,6 +105,8 @@ export class Dino implements IDino {
     // since container is already created and bound to express instance
     /**
      * Binds the dino instance to express app
+     * @Throws Error(Errors.routerNotRegistered) 
+     * @Throws Error(Errors.dinoAlreadyBinded)
      */
     bind(): void {
         if (this.isBinded) throw new Error(Errors.dinoAlreadyBinded);
