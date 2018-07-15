@@ -9,6 +9,7 @@ import { IRouteTable } from '../../interfaces';
 // if valid route is not found, it fires error middleware chain
 /**
  * Compares the requested route against the registered routes
+ * @Throws RouteNotFoundException
  */
 export class RouteNotFoundMiddleware extends RequestStartMiddleware {
     private routes: RegExp[] = [];

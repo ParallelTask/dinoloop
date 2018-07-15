@@ -1,7 +1,6 @@
 import {
     InvalidRouteException,
     RouteNotFoundException,
-    InvalidModelException,
     InvalidArgumentException
 } from '../../../index';
 
@@ -46,22 +45,6 @@ describe('modules.builtin.exceptions.spec', () => {
         expect(o.httpVerb).toBe('a');
         expect(o.requestUrl).toBe('b');
         expect(o.type).toBe(RouteNotFoundException.name);
-        expect(o.message).toBe('test');
-    });
-    it('InvalidModelException.verify_properties', () => {
-        let o = new InvalidModelException('a', ['b'], 'c');
-        expect(o.value).toBe('a');
-        expect(o.errors).toEqual(['b']);
-        expect(o.model).toBe('c');
-        expect(o.type).toBe(InvalidModelException.name);
-        expect(o.message).toBe(InvalidModelException.name);
-    });
-    it('InvalidModelException.verify_properties_with_msg', () => {
-        let o = new InvalidModelException('a', ['b'], 'c', 'test');
-        expect(o.value).toBe('a');
-        expect(o.errors).toEqual(['b']);
-        expect(o.model).toBe('c');
-        expect(o.type).toBe(InvalidModelException.name);
         expect(o.message).toBe('test');
     });
 });

@@ -5,7 +5,10 @@ import {
     DinoStartMiddleware,
     TaskContextMiddleware,
     ResponseEndMiddleware,
-    RouteExceptionMiddleware
+    RouteExceptionMiddleware,
+    ParseParamExceptionMiddleware,
+    HttpResponseExceptionMiddleware,
+    HttpResponseMessageMiddleware
 } from '../builtin/middlewares';
 import { IAppContainer } from '../interfaces';
 
@@ -63,13 +66,25 @@ export class AppContainer implements IAppContainer {
             dinoContainer.requestEndMiddleware(middleware);
         }
 
-        // register ResponseEndMiddleware as the last RequestEndMiddleware
-        // must be registered after registering user requestEndMiddlewares
+        // Note:- built-in RequestEndMiddleware must be registered 
+        // after registering user requestEndMiddlewares
+
+        // register built-in RequestEndMiddleware
+        dinoContainer.builtInRequestEndMiddleware(HttpResponseMessageMiddleware);
+
+        // register ResponseEndMiddleware as the last built-in RequestEndMiddleware
         dinoContainer.builtInRequestEndMiddleware(ResponseEndMiddleware);
 
         for (const middleware of this.errorMiddleware) {
             dinoContainer.registerErrorMiddleware(middleware);
         }
+
+        // Note:- built-in ErrorMiddleware must be registered 
+        // after registering user ErrorMiddlewares
+
+        dinoContainer.builtInErrorMiddleware(RouteExceptionMiddleware);
+        dinoContainer.builtInErrorMiddleware(HttpResponseExceptionMiddleware);
+        dinoContainer.builtInErrorMiddleware(ParseParamExceptionMiddleware);
 
         // Register the application error controller
         // This would be the last error middleware to handle error object
@@ -77,10 +92,6 @@ export class AppContainer implements IAppContainer {
         if (!DataUtility.isUndefinedOrNull(this.errorController)) {
             dinoContainer.registerErrorController(this.errorController);
         }
-
-        // register RouteExceptionMiddleware as the last ErrorMiddleware
-        // must be registered after registering user ErrorMiddlewares
-        dinoContainer.builtInErrorMiddleware(RouteExceptionMiddleware);
     }
 
     static create(app: Express): AppContainer {

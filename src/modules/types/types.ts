@@ -20,3 +20,8 @@ export interface IParseProps {
     data: any;
     value: any;
 }
+
+export interface IConversionValidation<T> {
+    isValid: boolean;
+    value: T;
+}
