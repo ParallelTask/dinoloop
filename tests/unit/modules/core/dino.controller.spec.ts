@@ -6,7 +6,6 @@ import {
     DinoModel,
     RouteUtility,
     HttpUtility,
-    InvalidModelException,
     IDinoProperties,
     IKeyValuePair
 } from '../../index';

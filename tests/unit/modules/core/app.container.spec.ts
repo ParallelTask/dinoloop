@@ -7,7 +7,10 @@ import {
     RouteNotFoundMiddleware,
     DataUtility,
     ResponseEndMiddleware,
-    RouteExceptionMiddleware
+    RouteExceptionMiddleware,
+    HttpResponseExceptionMiddleware,
+    ParseParamExceptionMiddleware,
+    HttpResponseMessageMiddleware
 } from '../../index';
 
 describe('modules.core.app.container.spec', () => {
@@ -160,7 +163,9 @@ describe('modules.core.app.container.spec', () => {
         app.errorMiddleware = [Boolean, String];
 
         let obj: IDinoContainer = {} as IDinoContainer;
-        let builtIn = [];
+        let builtInRequestStart = [];
+        let builtInRequestEnd = [];
+        let builtInError = [];
         let requestStart = [];
         let controllers = [];
         let requestEnd = [];
@@ -174,19 +179,19 @@ describe('modules.core.app.container.spec', () => {
             if (DataUtility.isUndefined(methodOrder.builtInRequestStartMiddleWare)) {
                 methodOrder.builtInRequestStartMiddleWare = ++i;
             }
-            builtIn.push(m.name);
+            builtInRequestStart.push(m.name);
         };
         obj.builtInRequestEndMiddleware = m => {
             if (DataUtility.isUndefined(methodOrder.builtInRequestEndMiddleWare)) {
                 methodOrder.builtInRequestEndMiddleWare = ++i;
             }
-            builtIn.push(m.name);
+            builtInRequestEnd.push(m.name);
         };
         obj.builtInErrorMiddleware = m => {
             if (DataUtility.isUndefined(methodOrder.builtInErrorMiddleWare)) {
                 methodOrder.builtInErrorMiddleWare = ++i;
             }
-            builtIn.push(m.name);
+            builtInError.push(m.name);
         };
         obj.routeNotFoundMiddleware = m => {
             if (DataUtility.isUndefined(methodOrder.routeNotFoundMiddleware)) {
@@ -244,14 +249,18 @@ describe('modules.core.app.container.spec', () => {
         expect(methodOrder.requestEndMiddleWare).toBe(5);
         expect(methodOrder.builtInRequestEndMiddleWare).toBe(6);
         expect(methodOrder.registerErrorMiddleWare).toBe(7);
-        expect(methodOrder.registerErrorController).toBe(8);
-        expect(methodOrder.builtInErrorMiddleWare).toBe(9);
+        expect(methodOrder.builtInErrorMiddleWare).toBe(8);
+        expect(methodOrder.registerErrorController).toBe(9);
 
         // Verifies whether middlewares are registered exactly
-        expect(builtIn.includes(DinoStartMiddleware.name)).toBeTruthy();
-        expect(builtIn.includes(TaskContextMiddleware.name)).toBeTruthy();
-        expect(builtIn.includes(ResponseEndMiddleware.name)).toBeTruthy();
-        expect(builtIn.includes(RouteExceptionMiddleware.name)).toBeTruthy();
+        expect(builtInRequestStart[0]).toBe(DinoStartMiddleware.name);
+        expect(builtInRequestStart.includes(TaskContextMiddleware.name)).toBeTruthy();
+        expect(builtInRequestEnd.includes(HttpResponseMessageMiddleware.name)).toBeTruthy();
+        expect(builtInRequestEnd[builtInRequestEnd.length - 1]).toBe(ResponseEndMiddleware.name);
+        expect(builtInError[0]).toBe(RouteExceptionMiddleware.name);
+        expect(builtInError.includes(HttpResponseExceptionMiddleware.name)).toBeTruthy();
+        expect(builtInError.includes(ParseParamExceptionMiddleware.name)).toBeTruthy();
+
         expect(requestStart.includes(app.startMiddleware[0].name)).toBeTruthy();
         expect(requestStart.includes(app.startMiddleware[1].name)).toBeTruthy();
         expect(controllers.includes(app.controllers[0].name)).toBeTruthy();

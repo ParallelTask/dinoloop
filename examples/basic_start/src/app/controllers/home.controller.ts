@@ -4,7 +4,10 @@ import {
     HttpGet,
     SendsResponse,
     HttpPost,
-    HttpAll
+    HttpAll,
+    HttpResponseException,
+    HttpStatusCode,
+    HttpResponseMessage
 } from '../../../../index';
 
 @Controller('/home')
@@ -24,5 +27,21 @@ export class HomeController extends ApiController {
             data: 'testing',
             role: 'admin'
         };
+    }
+
+    @HttpGet('/httpException')
+    httpException(): void {
+        throw new HttpResponseException<string>({
+            statusCode: HttpStatusCode.internalServerError,
+            content: 'TestContent'
+        });
+    }
+
+    @HttpGet('/httpResponse')
+    httpResponse(): HttpResponseMessage<string> {
+        return new HttpResponseMessage<string>({
+            statusCode: HttpStatusCode.oK,
+            content: 'TestData'
+        });
     }
 }

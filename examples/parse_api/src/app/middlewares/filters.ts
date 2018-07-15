@@ -1,13 +1,23 @@
-import { ErrorMiddleware, ExceptionFilter } from '../../../../index';
+import {
+    ErrorMiddleware,
+    ExceptionFilter,
+    ParseParamException
+} from '../../../../index';
 
 export class ServerParseErrorMiddleware extends ErrorMiddleware {
     invoke(err: Error, request, response, next): void {
-        response.json(`${err.message} - Ended by Server level middleware`);
+        if (err instanceof ParseParamException) next(err);
+        else {
+            response.json(`${err.message} - Ended by Server level middleware`);
+        }
     }
 }
 
 export class ControllerParseErrorMiddleware extends ExceptionFilter {
     invoke(err: Error, request, response, next): void {
-        response.json(`${err.message} - Ended by Controller Exception Filter`);
+        if (err instanceof ParseParamException) next(err);
+        else {
+            response.json(`${err.message} - Ended by Controller Exception Filter`);
+        }
     }
 }
