@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from '../types';
-import { DinoResponse } from '../entities';
 
 /**
  * Extend this class to create ServerErrorMiddleware

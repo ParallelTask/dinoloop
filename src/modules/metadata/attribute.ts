@@ -8,11 +8,8 @@ import {
 import {
     IControllerAttribute,
     IControllerAttributeExtended,
-    IBindModelAttributeExtended,
-    IBindModelAttribute,
     IParseAttribute,
-    IParseHandler,
-    IParseProps
+    IParseHandler
 } from '../types';
 
 export abstract class AttributeMetadata {
