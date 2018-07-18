@@ -55,10 +55,11 @@ export abstract class RouteUtility {
         // check if action has any arguments list to map to
         if (params.length > 0) {
 
-            let val = RouteUtility.getNamedSegmentKeyValues(originalUri, requestedUri);
+            let namedSegments = RouteUtility.getNamedSegmentKeyValues(originalUri, requestedUri);
 
-            if (!DataUtility.isUndefinedOrNull(val)) {
-                let values = Object.assign(queryString, val);
+            if (!DataUtility.isUndefinedOrNull(namedSegments)) {
+                // queryString is used as override in case of identical namedSegments keys
+                let values = Object.assign(namedSegments, queryString);
 
                 // map the action argument and its value from url
                 ObjectUtility.keys(values).forEach(key => {

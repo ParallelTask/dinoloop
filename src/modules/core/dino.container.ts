@@ -276,7 +276,6 @@ export class DinoContainer implements IDinoContainer {
         let sendsResponse = Reflector.hasMetadata(Attribute.sendsResponse, controller, actionName);
         let actionArgs: IParseAttribute[] =
             Reflector.getMetadata(Attribute.parse, controller, actionName);
-        let c = DataUtility.isUndefinedOrNull(actionArgs);
 
         let obj = {
             route: route,

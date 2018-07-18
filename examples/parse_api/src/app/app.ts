@@ -1,10 +1,10 @@
 // tslint:disable-next-line:no-require-imports
-import express = require('express');
+const express = require('express');
 // tslint:disable-next-line:no-require-imports
 import cors = require('cors');
 // tslint:disable-next-line:no-require-imports
 import bodyParser = require('body-parser');
-import { ApiController, Dino } from '../../../index';
+import { Dino } from '../../../index';
 import { HomeController } from './controllers/home.controller';
 import { ServerParseErrorMiddleware } from './middlewares/filters';
 import { AboutController } from './controllers/about.controller';

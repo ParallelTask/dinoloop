@@ -4,6 +4,7 @@ import {
     HttpGet,
     Async,
     Parse,
+    QueryParam,
     toInteger,
     toNumber,
     toBoolean
@@ -58,6 +59,16 @@ export class AboutController extends ApiController {
     // API: /toBoolean/abc - throws exception
     @HttpGet('/toBoolean/:id')
     toBoolean(@Parse(toBoolean) id: boolean): any {
+        return {
+            id: id,
+            msg: 'Built-in Converter to boolean'
+        };
+    }
+
+    // API: /toBoolean/true - should work
+    // API: /toBoolean/abc - throws exception
+    @HttpGet('/toBoolean/:id')
+    toBoolean2(@QueryParam(toBoolean) id: boolean): any {
         return {
             id: id,
             msg: 'Built-in Converter to boolean'
