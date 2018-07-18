@@ -6,15 +6,14 @@ import {
     ApiController,
     Dino,
     HttpGet,
-    bodyParser,
     request
 } from '../index';
 
 @Controller('/testcontroller')
 class TestControllerFake extends ApiController {
     @HttpGet('/sample')
-    sample(): string {
-        return 'testcontroller';
+    sample(): any {
+        return { data: 'testcontroller' };
     }
 }
 
@@ -24,11 +23,13 @@ describe('attribute.spec', () => {
         let dino = new Dino(app, '/api');
 
         dino.registerController(TestControllerFake);
+        dino.useRouter(() => express.Router());
         dino.bind();
 
         request(app)
-            .get('/user')
+            .get('/api/testcontroller/sample')
             .expect('Content-Type', /json/)
-            .expect(200, done);
+            .expect(200, { data: 'testcontroller' });
+        done();
     });
 });

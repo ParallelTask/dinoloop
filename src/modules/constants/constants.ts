@@ -9,7 +9,8 @@ export const Attribute = {
     httpDelete: 'httpDelete_ActionAttribute',
     httpHead: 'httpHead_ActionAttribute',
     httpAll: 'httpAll_ActionAttribute',
-    parse: 'parse_ParameterAttribute'
+    parse: 'parse_ParameterAttribute',
+    queryParam: 'queryParam_ParameterAttribute'
 };
 
 // Currently, we are supporting the basic HTTP verbs

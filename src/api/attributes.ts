@@ -10,6 +10,15 @@ export function Parse(cb: IParseHandler, data?: any)
     return AttributeMetadata.parse(cb, data);
 }
 
+/**
+ * Decorate on Action Parameters to validate and transform the query parameters
+ * @Throws InvalidArgumentException
+ */
+export function QueryParam(cb: IParseHandler, data?: any)
+    : (target: any, propertyKey: string, parameterIndex: number) => void {
+    return AttributeMetadata.queryParam(cb, data);
+}
+
 // if an API action wants to send response on its own, decorate @SendsResponse()
 // this is used when action method directly sends response using express response object.
 // ex: like read, download file contents must be decorated with @SendsResponse

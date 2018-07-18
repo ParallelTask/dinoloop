@@ -53,6 +53,14 @@ export interface IParseAttribute {
     data?: any;
 }
 
+export interface IQueryParamAttribute {
+    key?: string;
+    handler?: IParseHandler;
+    controller?: any;
+    action?: string;
+    data?: any;
+}
+
 export interface IActionMethodAttribute {
     route?: string;
     httpVerb?: string;

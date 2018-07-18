@@ -9,6 +9,7 @@ import {
     IControllerAttribute,
     IControllerAttributeExtended,
     IParseAttribute,
+    IQueryParamAttribute,
     IParseHandler
 } from '../types';
 
@@ -69,6 +70,49 @@ export abstract class AttributeMetadata {
             } else {
                 // must be set as array for first save
                 Reflector.defineMetadata(Attribute.parse, [parseAttribute],
+                    target.constructor.prototype, propertyKey);
+            }
+        };
+    }
+
+    // we are creating an array of parameter values and saving it to metadata
+    /**
+     * @Throws InvalidArgumentException
+     */
+    static queryParam = (cb: IParseHandler, data?: any):
+        (target: any, propertyKey: string, parameterIndex: number) => void => {
+
+        return (target: any, propertyKey: string, parameterIndex: number): void => {
+
+            let args = FunctionUtility.getParamNames(target[propertyKey]);
+            let parameterKey = args[parameterIndex];
+
+            if (!DataUtility.isFunction(cb)) {
+                throw new InvalidArgumentException(cb,
+                    `Controller: ${target.constructor.name}, Action: ${propertyKey}, Key: ${parameterKey}`);
+            }
+
+            // get already added metadata
+            let meta: IParseAttribute[] = Reflector.getMetadata(Attribute.queryParam,
+                target.constructor.prototype, propertyKey);
+
+            const queryParamAttribute: IQueryParamAttribute = {
+                handler: cb,
+                key: parameterKey,
+                controller: target,
+                action: propertyKey,
+                data: data
+            };
+
+            if (!DataUtility.isUndefinedOrNull(meta)) {
+                meta.push(queryParamAttribute);
+
+                // rewrite metadata by adding it to existing array
+                Reflector.defineMetadata(Attribute.queryParam, meta,
+                    target.constructor.prototype, propertyKey);
+            } else {
+                // must be set as array for first save
+                Reflector.defineMetadata(Attribute.queryParam, [queryParamAttribute],
                     target.constructor.prototype, propertyKey);
             }
         };
