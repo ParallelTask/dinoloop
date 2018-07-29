@@ -2,9 +2,7 @@ import {
     ApiController,
     Controller,
     HttpGet,
-    SendsResponse,
     HttpPost,
-    HttpAll,
     HttpResponseException,
     HttpStatusCode,
     HttpResponseMessage

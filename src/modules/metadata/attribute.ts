@@ -35,7 +35,7 @@ export abstract class AttributeMetadata {
     /**
      * @Throws InvalidArgumentException
      */
-    static parse = (cb: IParseHandler, data?: any):
+    static parse = (cb: IParseHandler, data: any, isQueryParam: boolean):
         (target: any, propertyKey: string, parameterIndex: number) => void => {
 
         return (target: any, propertyKey: string, parameterIndex: number): void => {
@@ -57,7 +57,8 @@ export abstract class AttributeMetadata {
                 key: parameterKey,
                 controller: target,
                 action: propertyKey,
-                data: data
+                data: data,
+                isQueryParam: isQueryParam
             };
 
             if (!DataUtility.isUndefinedOrNull(meta)) {

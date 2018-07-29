@@ -1,14 +1,9 @@
 import {
     Reflector,
-    SendsResponse,
-    Async,
-    HttpGet,
     Attribute,
     AttributeMetadata,
     InvalidRouteException,
-    IControllerAttributeExtended,
-    InvalidArgumentException,
-    IBindModelAttributeExtended
+    IControllerAttributeExtended
 } from '../../index';
 
 describe('modules.metadata.attributes.spec', () => {

@@ -8,7 +8,8 @@ import {
 } from '../types';
 import {
     RouteUtility,
-    HttpUtility
+    HttpUtility,
+    DataUtility
 } from '../utility';
 import { DinoModel } from '../entities';
 import { IDinoController } from '../interfaces';
@@ -18,11 +19,27 @@ export class DinoController implements IDinoController {
     private controllerAction: ControllerAction;
 
     // maps url-segments and query-strings
-    private mapSegments(action: Function, requestUrl: string): IKeyValuePair[] {
+    private mapSegments(
+        actionName: Function,
+        requestUrl: string): IKeyValuePair[] {
+
         let req = this.controller.request;
+        let queryParams =
+            this.controllerAction
+                .actionAttributes
+                .actionArguments
+                .map(x => x.isQueryParam ? x.key : null)
+                .filter(x => !DataUtility.isNull(x));
+
+        let queryString = {};
+
+        for (const queryParam of queryParams) {
+            // We are assigning key = value
+            queryString[queryParam] = req.query[queryParam];
+        }
 
         return RouteUtility.mapSegmentsAndQueryToActionArguments(requestUrl,
-            req.path, req.query, action);
+            req.path, queryString, actionName);
     }
 
     constructor(controller: ApiController,

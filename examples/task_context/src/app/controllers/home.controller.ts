@@ -1,10 +1,8 @@
 import {
     ApiController,
     Controller,
-    HttpGet,
     SendsResponse,
-    HttpPost,
-    HttpAll
+    HttpPost
 } from '../../../../index';
 import { IOrderService } from '../services/order.service';
 import {

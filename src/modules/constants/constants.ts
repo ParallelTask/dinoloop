@@ -16,6 +16,7 @@ export const Attribute = {
 // We can define advanced HTTP verbs later in the development
 export const RouteAttribute = {
     // keys should be identical to values of Attribute.httpGet, Attribute.httpPost ...
+    // values must match express http-verbs, ex: app.get(), app.post()
     httpGet_ActionAttribute: 'get',
     httpPost_ActionAttribute: 'post',
     httpDelete_ActionAttribute: 'delete',

@@ -1,5 +1,7 @@
 import { IControllerAttribute, IParseHandler } from '../modules/types';
 import { AttributeMetadata } from '../modules/metadata';
+import { DataUtility } from '../modules/utility';
+import { toValue } from '../modules/builtin/parse_handlers';
 
 /**
  * Decorate on Action Parameters to validate and transform the values
@@ -7,7 +9,17 @@ import { AttributeMetadata } from '../modules/metadata';
  */
 export function Parse(cb: IParseHandler, data?: any)
     : (target: any, propertyKey: string, parameterIndex: number) => void {
-    return AttributeMetadata.parse(cb, data);
+    return AttributeMetadata.parse(cb, data, false);
+}
+
+/**
+ * Decorate on Action Parameters to validate and transform the query parameters
+ * @Throws InvalidArgumentException
+ */
+export function QueryParam(cb?: IParseHandler, data?: any)
+    : (target: any, propertyKey: string, parameterIndex: number) => void {
+    return AttributeMetadata.parse(
+        DataUtility.isUndefined(cb) ? toValue : cb, data, true);
 }
 
 // if an API action wants to send response on its own, decorate @SendsResponse()

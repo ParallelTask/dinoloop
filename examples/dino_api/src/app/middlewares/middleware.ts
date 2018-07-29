@@ -7,7 +7,6 @@ import {
     RequestStartMiddlewareAsync,
     Deferrer,
     RequestEndMiddleware,
-    RequestEndMiddlewareAsync,
     ErrorMiddleware,
     RouteNotFoundException,
     ErrorMiddlewareAsync

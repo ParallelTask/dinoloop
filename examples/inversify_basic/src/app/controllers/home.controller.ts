@@ -1,5 +1,11 @@
 import { injectable } from 'inversify';
-import { ApiController, Controller, HttpGet, SendsResponse, Async } from '../../../../index';
+import {
+    ApiController,
+    Controller,
+    HttpGet,
+    SendsResponse,
+    Async
+} from '../../../../index';
 import { IAboutService } from '../services/about.service';
 import { About } from '../model/about.model';
 

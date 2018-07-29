@@ -11,6 +11,7 @@ import { InversifyContainer } from './container/container';
 import { StartMiddleware, ResponseMiddleware } from './services/middleware';
 
 const app = express();
+const port = process.env.PORT || 8088;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -29,4 +30,4 @@ dino.dependencyResolver<Container>(InversifyContainer,
     });
 
 dino.bind();
-app.listen(8088, () => console.log('Server started on port 8088'));
+app.listen(port, () => console.log(`Server started on port ${port}`));

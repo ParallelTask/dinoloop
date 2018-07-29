@@ -1,20 +1,13 @@
 import {
     ApiController,
     Controller,
-    HttpGet,
-    SendsResponse,
-    HttpPost,
-    HttpAll,
-    Async,
-    Deferrer
+    HttpGet
 } from '../../../../index';
 import {
     RequestMiddleware,
     RequestMiddlewareAsync,
     RequestFilter,
-    LogFilterAsync,
-    NExceptionFilter,
-    NExceptionFilterAsync
+    LogFilterAsync
 } from '../middlewares/filter';
 
 @Controller('/index', {

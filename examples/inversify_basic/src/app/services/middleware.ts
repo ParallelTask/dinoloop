@@ -1,5 +1,11 @@
 import { injectable } from 'inversify';
-import { RequestStartMiddleware, Request, Response, NextFunction, RequestEndMiddleware } from '../../../../index';
+import {
+    RequestStartMiddleware,
+    Request,
+    Response,
+    NextFunction,
+    RequestEndMiddleware
+} from '../../../../index';
 
 @injectable()
 export class StartMiddleware extends RequestStartMiddleware {

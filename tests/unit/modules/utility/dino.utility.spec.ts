@@ -1,4 +1,4 @@
-import { DinoUtility, IMiddlewareProvider } from '../../index';
+import { DinoUtility } from '../../index';
 import {
     MiddlewareFake, MiddlewareAsyncFake,
     RequestStartMiddlewareFake,

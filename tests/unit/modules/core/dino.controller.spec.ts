@@ -2,12 +2,10 @@ import {
     DinoController,
     ApiController,
     ControllerAction,
-    DinoResponse,
     DinoModel,
     RouteUtility,
     HttpUtility,
-    IDinoProperties,
-    IKeyValuePair
+    IDinoProperties
 } from '../../index';
 
 class Test { }

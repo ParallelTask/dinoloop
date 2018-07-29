@@ -1,4 +1,4 @@
-import { DinoErrorController, ErrorController } from '../../index';
+import { DinoErrorController } from '../../index';
 
 describe('modules.core.dino.error.controller.spec', () => {
     it('patch.verify_properties_are_mapped', () => {

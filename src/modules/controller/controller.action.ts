@@ -1,4 +1,4 @@
-import { IBindModelAttributeExtended, IActionMethodAttribute } from '../types';
+import { IActionMethodAttribute } from '../types';
 
 export class ControllerAction {
     actionAttributes?: IActionMethodAttribute;

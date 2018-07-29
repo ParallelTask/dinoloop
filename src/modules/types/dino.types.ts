@@ -1,4 +1,4 @@
-import { IRouterCallBack, IBindModelAttributeExtended } from './attribute';
+import { IRouterCallBack } from './attribute';
 import { IDIContainer } from '../interfaces';
 import { Express } from './express';
 

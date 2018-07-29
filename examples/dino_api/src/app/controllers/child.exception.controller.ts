@@ -1,5 +1,4 @@
 import {
-    ApiController,
     Controller,
     HttpGet
 } from '../../../../index';

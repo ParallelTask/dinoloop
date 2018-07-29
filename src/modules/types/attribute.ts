@@ -16,18 +16,8 @@ export interface IControllerAttribute {
     use?: any[];
 }
 
-export interface IBindModelAttribute {
-    stopOnError?: boolean;
-    raiseModelError?: boolean;
-}
-
 export interface IControllerAttributeExtended extends IControllerAttribute {
     prefix?: string;
-}
-
-export interface IBindModelAttributeExtended {
-    model?: Function;
-    options?: IBindModelAttribute;
 }
 
 export interface IControllerAttributeProvider {
@@ -51,6 +41,7 @@ export interface IParseAttribute {
     controller?: any;
     action?: string;
     data?: any;
+    isQueryParam?: boolean;
 }
 
 export interface IActionMethodAttribute {
