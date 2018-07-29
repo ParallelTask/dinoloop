@@ -10,13 +10,13 @@ import { IKeyValuePair } from '../types';
 export abstract class RouteUtility {
 
     // @returns {} when no segmented values are matched
-    // @returns { key1: value1, key2: value2 } for the matched segments values
+    // @returns { key1: value1, id: 45 } for the matched segments values
     // parses the named segment values in the url
     static getNamedSegmentKeyValues(
-        // the original url which has place holders i.e. named segments
+        // holds the original url which has place holders i.e. named segments
         // ex: user/:id
         originalUri: string,
-        // the requested url which has values
+        // holds the requested url which has values
         // user/45
         requestedUrl: string): any {
 
@@ -56,21 +56,17 @@ export abstract class RouteUtility {
         if (params.length > 0) {
 
             let val = RouteUtility.getNamedSegmentKeyValues(originalUri, requestedUri);
+            let values = Object.assign(val, queryString);
 
-            if (!DataUtility.isUndefinedOrNull(val)) {
-                let values = Object.assign(queryString, val);
+            // map the action argument and its value from url
+            ObjectUtility.keys(values).forEach(key => {
+                let index = params.findIndex(e => e === key);
+                arr[index] = values[key];
+            });
 
-                // map the action argument and its value from url
-                ObjectUtility.keys(values).forEach(key => {
-                    let index = params.findIndex(e => e === key);
-                    arr[index] = values[key];
-                });
-
-                paramKeyValues =
-                    params.map((val: string, index: number) => {
-                        return { key: val, value: arr[index] };
-                    });
-            }
+            return params.map((val: string, index: number) => {
+                return { key: val, value: arr[index] };
+            });
         }
 
         return paramKeyValues;

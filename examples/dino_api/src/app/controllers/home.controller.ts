@@ -3,8 +3,6 @@ import {
     Controller,
     HttpGet,
     SendsResponse,
-    HttpPost,
-    HttpAll,
     Async,
     Deferrer
 } from '../../../../index';

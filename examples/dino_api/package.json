@@ -1,5 +1,5 @@
 {
-    "name": "dinoloop-http-verb-example",
+    "name": "dinoloop-dino-api-example",
     "version": "1.0.0",
     "private": true,
     "scripts": {
@@ -16,7 +16,7 @@
         "injection-js": "^2.2.1",
         "lodash.clone": "^4.5.0",
         "reflect-metadata": "^0.1.12",
-        "path-to-regexp": "~2.2.1"
+        "path-to-regexp": "^2.2.1"
     },
     "devDependencies": {
         "@types/body-parser": "^1.16.8",

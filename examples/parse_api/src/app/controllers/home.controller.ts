@@ -3,9 +3,9 @@ import {
     Controller,
     HttpGet,
     HttpPost,
-    HttpAll,
     Parse,
-    Async
+    Async,
+    QueryParam
 } from '../../../../index';
 import {
     toNumberTen,
@@ -120,6 +120,59 @@ export class HomeController extends ApiController {
             isValid: this.model.isValid,
             modelErrors: this.model.modelErrors,
             values: this.model.values
+        };
+    }
+
+    // GET /queryParam?search=john
+    // without parser
+    @HttpGet('/queryParam')
+    withQueryParam(@QueryParam() search: string): any {
+        return {
+            search: search
+        };
+    }
+
+    // GET /queryParam?id=45
+    // with parser
+    @HttpGet('/queryParamParse')
+    withQueryParamParse(@QueryParam(toNumber) id: number): any {
+        return {
+            id: id
+        };
+    }
+
+    // GET /queryParam/45?search=john
+    // with parser
+    @HttpGet('/queryParam/:id')
+    withQueryParamAndParse(@Parse(toNumber) id: number,
+        @QueryParam() search: string): any {
+        return {
+            id: id,
+            search: search
+        };
+    }
+
+    // GET /queryParam/45?id=32
+    // with parser
+    @HttpGet('/queryParamAndParse/:id')
+    queryParamAndParse(@QueryParam() id: string): any {
+        return {
+            id: id,
+            req: 'Perform GET /queryParam/45?id=32',
+            msg:
+                'should map from query string. Should return 32'
+        };
+    }
+
+    // GET /queryParam/45?id=32
+    // with parser
+    @HttpGet('/paramParser/:id')
+    paramParser(id: string): any {
+        return {
+            id: id,
+            req: 'Perform GET /queryParam/45?id=32',
+            msg:
+                'should map from variable segment. Should return 45'
         };
     }
 }

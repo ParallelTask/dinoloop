@@ -15,9 +15,7 @@ import {
     ErrorMiddlewareAsync
 } from '../filter';
 import { ErrorController, ApiController } from '../controller';
-import { IMiddlewareProvider, IMiddlewareClass } from '../types';
 import { ObjectUtility } from './object.utility';
-import { DataUtility } from './data.utility';
 
 /**
  * Wrapper methods to test the datatype of components 

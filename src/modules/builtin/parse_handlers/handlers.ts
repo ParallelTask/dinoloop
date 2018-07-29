@@ -62,3 +62,10 @@ export const toBoolean: IParseHandler = (props: IParseProps) => {
 
     return val.value;
 };
+
+/**
+ * Does not perform any conversion or validation. Retrieves the original value.
+ */
+export const toValue: IParseHandler = (props: IParseProps) => {
+    return props.value;
+};

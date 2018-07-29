@@ -1,7 +1,6 @@
 import {
     ApiController,
-    Controller,
-    HttpGet
+    Controller
 } from '../../../../index';
 import {
     NExceptionFilter,

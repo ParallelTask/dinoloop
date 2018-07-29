@@ -120,20 +120,25 @@ describe('modules.utility.route.utility.spec', () => {
         expect(result[2].key).toBe(testKeys[2]);
         expect(result[2].value).toBe('65');
     });
-    it('mapSegmentsAndQueryToActionArguments.map_values_when_no_url_matched_and_querystring_valid', () => {
+    it('mapSegmentsAndQueryToActionArguments.map_values_when_no_variable_and_querystring_valid', () => {
         let queryString = {
             delay: '65',
             log: 'persistent'
         };
         let originalUrl = '/get';
-        let reqUrl = '/met';
-        let action = (log, id, delay) => null;
+        let reqUrl = '/get';
+        let action = (log, delay) => null;
         // order of returning func arg keys is important
-        spyOn(RouteUtility, 'getNamedSegmentKeyValues').and.callFake(() => { });
+        spyOn(RouteUtility, 'getNamedSegmentKeyValues').and.callFake(() => {
+            return {};
+        });
         let result = RouteUtility
             .mapSegmentsAndQueryToActionArguments(originalUrl, reqUrl, queryString, action);
         expect(RouteUtility.getNamedSegmentKeyValues).toHaveBeenCalledTimes(1);
-        expect(result).toEqual([]);
+        expect(result.filter(x => x.key === 'log')).toBeTruthy();
+        expect(result.filter(x => x.key === 'persistent')).toBeTruthy();
+        expect(result.filter(x => x.key === 'delay')).toBeTruthy();
+        expect(result.filter(x => x.value === '65')).toBeTruthy();
     });
     it('mapSegmentsAndQueryToActionArguments.map_values_when_valid_segment_and_querystring_no_action_args', () => {
         let queryString = {

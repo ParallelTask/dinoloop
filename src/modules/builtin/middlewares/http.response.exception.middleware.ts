@@ -1,6 +1,5 @@
 import { ErrorMiddleware } from '../../filter';
 import { HttpResponseException } from '../exceptions';
-import { HttpStatusCode } from '../../constants';
 
 /**
  * Built-in HttpResponseException Handler

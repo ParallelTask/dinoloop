@@ -1,5 +1,4 @@
 import { RequestEndMiddleware } from '../../filter';
-import { HttpStatusCode } from '../../constants';
 import { HttpResponseMessage } from '../../entities';
 import { Response } from '../../types';
 

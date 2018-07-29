@@ -1,8 +1,6 @@
 import {
     IRouteTable,
     RouteNotFoundMiddleware,
-    Request,
-    DataUtility,
     RouteNotFoundException,
     Mock
 } from '../../../index';

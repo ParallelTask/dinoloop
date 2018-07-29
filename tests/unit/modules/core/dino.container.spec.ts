@@ -8,7 +8,6 @@ import {
     RequestStartMiddleware,
     IRouteTable,
     DinoErrorController,
-    Attribute,
     ControllerAction,
     DinoController,
     RequestEndMiddleware,

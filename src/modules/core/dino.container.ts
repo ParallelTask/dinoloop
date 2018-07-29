@@ -23,7 +23,6 @@ import {
     IRouterCallBack,
     IControllerAttributeProvider,
     IControllerAttributeExtended,
-    IBindModelAttributeExtended,
     IActionMethodAttribute,
     IDinoContainerConfig,
     IDinoProperties,
@@ -51,14 +50,12 @@ export class DinoContainer implements IDinoContainer {
     private app: Express;
     private baseUri: string;
     private routeTable: IRouteTable;
-    private raiseModelError: boolean;
     private enableTaskContext: boolean;
     private useRouterCb: IRouterCallBack;
 
     constructor(config: IDinoContainerConfig) {
         this.app = config.app;
         this.baseUri = config.baseUri;
-        this.raiseModelError = config.raiseModelError;
         this.enableTaskContext = config.enableTaskContext;
         this.useRouterCb = config.routerCallback;
         this.diContainer = DIContainer.create(config.diContainer, config.diResolveCb);
@@ -276,7 +273,6 @@ export class DinoContainer implements IDinoContainer {
         let sendsResponse = Reflector.hasMetadata(Attribute.sendsResponse, controller, actionName);
         let actionArgs: IParseAttribute[] =
             Reflector.getMetadata(Attribute.parse, controller, actionName);
-        let c = DataUtility.isUndefinedOrNull(actionArgs);
 
         let obj = {
             route: route,

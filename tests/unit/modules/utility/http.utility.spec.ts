@@ -1,4 +1,4 @@
-import { DinoParser, IMiddlewareProvider, HttpUtility } from '../../index';
+import { HttpUtility } from '../../index';
 
 describe('modules.utility.http.utility.spec', () => {
     it('hasBody.returns_false_when_null', () => {

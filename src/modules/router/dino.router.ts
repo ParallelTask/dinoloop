@@ -3,9 +3,7 @@ import {
     Express,
     IRouterConfig,
     IDinoProperties,
-    IMiddlewareProvider,
-    IMiddlewareClass,
-    IRouterCallBack
+    IMiddlewareProvider
 } from '../types';
 import { DinoUtility, ObjectUtility, DinoParser } from '../utility';
 import { IDIContainer, IDinoRouter } from '../interfaces';

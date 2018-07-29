@@ -30,7 +30,7 @@ describe('modules.builtin.response.end.middleware.spec', () => {
 
                 return res;
             },
-            json: data => responseResult = data
+            end: data => responseResult = data
         };
         let invoked = false;
         new ResponseEndMiddleware()

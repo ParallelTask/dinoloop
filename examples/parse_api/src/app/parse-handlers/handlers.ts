@@ -1,7 +1,6 @@
 import {
     IParseHandler,
     IParseProps,
-    Parse,
     DinoModel
 } from '../../../../index';
 

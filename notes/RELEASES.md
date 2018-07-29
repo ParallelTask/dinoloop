@@ -5,5 +5,5 @@
 2. @FromUri, @FromBody attributes. 
 3. Middlewares at action level.
 4. Interceptors support using @InterceptBy.
-5. Constraints in named segments.
-6. **enableUserIdentity()** for specific types.
+5. **enableUserIdentity()** for specific types.
+6. Swagger UI
