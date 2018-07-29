@@ -42,7 +42,8 @@ import {
     RequestEndMiddleware,
     RequestEndMiddlewareAsync,
     ErrorMiddleware,
-    ErrorMiddlewareAsync
+    ErrorMiddlewareAsync,
+    AppStartMiddleware
 } from '../filter';
 
 export class DinoContainer implements IDinoContainer {
@@ -65,6 +66,10 @@ export class DinoContainer implements IDinoContainer {
     // made public for unit test and not available on interface contract
     resolve<T>(middleware: Function, dino: IDinoProperties): T {
         let o = this.diContainer.resolve<T>(middleware);
+
+        if (DataUtility.isUndefinedOrNull(dino)) {
+            return o;
+        }
 
         // walk-through the entire object chain and replace IUserIdentity instance References
         return this.enableTaskContext ?
@@ -109,6 +114,13 @@ export class DinoContainer implements IDinoContainer {
             this.app.use(this.baseUri, (err, req, res, next) => {
                 mw.invoke(err, req, res, next);
             });
+        }
+    }
+
+    appStartMiddleware(middleware: Function): void {
+        if (DinoUtility.isSyncAppStartMiddleware(middleware)) {
+            let mw = this.resolve<AppStartMiddleware>(middleware, null);
+            mw.invoke();
         }
     }
 

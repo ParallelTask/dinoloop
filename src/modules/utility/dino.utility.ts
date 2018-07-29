@@ -12,7 +12,8 @@ import {
     RequestStartMiddlewareAsync,
     RequestEndMiddlewareAsync,
     ExceptionFilterAsync,
-    ErrorMiddlewareAsync
+    ErrorMiddlewareAsync,
+    AppStartMiddleware
 } from '../filter';
 import { ErrorController, ApiController } from '../controller';
 import { ObjectUtility } from './object.utility';
@@ -31,6 +32,11 @@ export abstract class DinoUtility {
     static isAsyncMiddleWare(type: Function): boolean {
         return ObjectUtility.create(type.prototype)
             instanceof MiddlewareAsync;
+    }
+
+    static isSyncAppStartMiddleware(type: Function): boolean {
+        return ObjectUtility.create(type.prototype)
+            instanceof AppStartMiddleware;
     }
 
     static isSyncRequestStartMiddleware(type: Function): boolean {

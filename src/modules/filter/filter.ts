@@ -17,6 +17,13 @@ export abstract class ErrorMiddlewareAsync {
 }
 
 /**
+ * Extend this class to create ApplicationStartMiddleware
+ */
+export abstract class AppStartMiddleware {
+    abstract invoke(): void;
+}
+
+/**
  * Extend this class to create RequestStartMiddleware
  */
 export abstract class RequestStartMiddleware {

@@ -50,6 +50,13 @@ export class Dino implements IDino {
         this.appContainer.errorMiddleware.push(middleware);
     }
 
+    /**
+     * Register ApplicationStart middleware
+     */
+    applicationStart<T>(middleware: Function & { prototype: T }): void {
+        this.appContainer.appStartMiddleware.push(middleware);
+    }
+
     // Unlike others, We support only one application error controller
     /**
      * Register ApplicationError controller

@@ -18,6 +18,7 @@ export class AppContainer implements IAppContainer {
     baseUri: string = '';
     startMiddleware: Function[] = [];
     endMiddleware: Function[] = [];
+    appStartMiddleware: Function[] = [];
     diContainer: any;
     diResolveCallback: any;
     errorController: Function;
@@ -91,6 +92,12 @@ export class AppContainer implements IAppContainer {
         // make sure to register only after registering ErrorMiddleWares
         if (!DataUtility.isUndefinedOrNull(this.errorController)) {
             dinoContainer.registerErrorController(this.errorController);
+        }
+
+        // After binding to express
+        // Start executing initialization code using appStartMiddleware
+        for (const middleware of this.appStartMiddleware) {
+            dinoContainer.appStartMiddleware(middleware);
         }
     }
 
