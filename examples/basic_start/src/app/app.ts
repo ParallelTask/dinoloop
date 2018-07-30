@@ -6,6 +6,9 @@ import cors = require('cors');
 import bodyParser = require('body-parser');
 import { Dino } from '../../../index';
 import { HomeController } from './controllers/home.controller';
+import {
+    InitMiddleware
+} from './filters/app.start';
 
 const app = express();
 const port = process.env.PORT || 8088;
@@ -18,5 +21,6 @@ let dino = new Dino(app, '/api');
 
 dino.useRouter(() => express.Router());
 dino.registerController(HomeController);
+dino.applicationStart(InitMiddleware);
 dino.bind();
 app.listen(port, () => console.log(`Server started on port ${port}`));

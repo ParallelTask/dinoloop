@@ -15,9 +15,10 @@ export interface IDino {
     requestStart<T>(middleware: Function & { prototype: T }): void;
     requestEnd<T>(middleware: Function & { prototype: T }): void;
     serverError<T>(middleware: Function & { prototype: T }): void;
+    applicationStart<T>(middleware: Function & { prototype: T }): void;
     dependencyResolver<T>(
         injector: T, cb: (injector: T, type: any) => any): void;
-    bind(): void
+    bind(): void;
     useRouter(cb: () => any): void;
 }
 
@@ -26,6 +27,7 @@ export interface IAppContainer {
     baseUri: string;
     startMiddleware: Function[];
     endMiddleware: Function[];
+    appStartMiddleware: Function[];
     diContainer: any;
     diResolveCallback: any;
     errorController: Function;
@@ -46,6 +48,7 @@ export interface IDinoContainer {
     builtInErrorMiddleware(middleware: Function): void;
     builtInRequestStartMiddleware(middleware: Function): void;
     routeNotFoundMiddleware(middleware: Function): void;
+    appStartMiddleware(middleware: Function): void;
     requestStartMiddleware(middleware: Function): void;
     requestEndMiddleware(middleware: Function): void;
     registerErrorMiddleware(middleware: Function): void;
@@ -66,7 +69,7 @@ export interface IDinoController {
 
 export interface IDinoErrorController {
     patch(err: Error, req: Request, res: Response, next: NextFunction): void;
-    invoke(actionName: string): void
+    invoke(actionName: string): void;
 }
 
 export interface IDinoRouter {
