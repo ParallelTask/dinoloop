@@ -13,7 +13,8 @@ import {
     ErrorMiddlewareAsync,
     ExceptionFilter,
     ExceptionFilterAsync,
-    ApiController
+    ApiController,
+    AppStartMiddleware
 } from '../index';
 
 export class MiddlewareFake extends Middleware {
@@ -23,6 +24,9 @@ export class MiddlewareAsyncFake extends MiddlewareAsync {
     async invoke(request: any, response: any, next: any, data?: any): Promise<void> {
         throw new Error('Method not implemented.');
     }
+}
+export class AppStartMiddlewareFake extends AppStartMiddleware {
+    invoke(): void { }
 }
 export class RequestStartMiddlewareFake extends RequestStartMiddleware {
     invoke(request: any, response: any, next: any): void { }

@@ -18,12 +18,14 @@ export class DinoController implements IDinoController {
     private controller: ApiController;
     private controllerAction: ControllerAction;
 
-    // maps url-segments and query-strings
-    private mapSegments(
-        actionName: Function,
-        requestUrl: string): IKeyValuePair[] {
+    constructor(controller: ApiController,
+        controllerAction: ControllerAction) {
+        this.controller = controller;
+        this.controllerAction = controllerAction;
+    }
 
-        let req = this.controller.request;
+    // made public for unit-test, not available on contract
+    getQueryParams(): any {
         let queryParams =
             this.controllerAction
                 .actionAttributes
@@ -35,17 +37,42 @@ export class DinoController implements IDinoController {
 
         for (const queryParam of queryParams) {
             // We are assigning key = value
-            queryString[queryParam] = req.query[queryParam];
+            queryString[queryParam] = this.controller.request.query[queryParam];
         }
 
-        return RouteUtility.mapSegmentsAndQueryToActionArguments(requestUrl,
-            req.path, queryString, actionName);
+        return queryString;
     }
 
-    constructor(controller: ApiController,
-        controllerAction: ControllerAction) {
-        this.controller = controller;
-        this.controllerAction = controllerAction;
+    // made public for unit-test, not available on contract
+    // maps url-segments and query-strings
+    mapSegments(
+        action: Function,
+        requestUrl: string): IKeyValuePair[] {
+
+        let req = this.controller.request;
+
+        return RouteUtility.mapSegmentsAndQueryToActionArguments(requestUrl,
+            req.path, this.getQueryParams(), action);
+    }
+
+    // made public for unit-test, not available on contract
+    raiseActionParamsHandlers(values: IKeyValuePair[]): void {
+        let ctx = this.controller;
+        let cta = this.controllerAction;
+
+        for (const arg of cta.actionAttributes.actionArguments) {
+            for (const value of values) {
+                if (arg.key === value.key) {
+                    value.value = arg.handler({
+                        action: arg.action,
+                        controller: arg.controller,
+                        key: arg.key,
+                        data: arg.data,
+                        value: value.value
+                    }, ctx.model);
+                }
+            }
+        }
     }
 
     // made public for unit test and not available on interface contract
@@ -107,19 +134,7 @@ export class DinoController implements IDinoController {
             values[0].value = ctx.request.body;
         }
 
-        for (const arg of cta.actionAttributes.actionArguments) {
-            for (const value of values) {
-                if (arg.key === value.key) {
-                    value.value = arg.handler({
-                        action: arg.action,
-                        controller: arg.controller,
-                        key: arg.key,
-                        data: arg.data,
-                        value: value.value
-                    }, ctx.model);
-                }
-            }
-        }
+        this.raiseActionParamsHandlers(values);
 
         let result = values.length > 0
             ? ctx[actionName].apply(ctx, values.map(val => val.value)) : ctx[actionName]();
@@ -142,19 +157,7 @@ export class DinoController implements IDinoController {
 
         try {
 
-            for (const arg of cta.actionAttributes.actionArguments) {
-                for (const value of values) {
-                    if (arg.key === value.key) {
-                        value.value = arg.handler({
-                            action: arg.action,
-                            controller: arg.controller,
-                            key: arg.key,
-                            data: arg.data,
-                            value: value.value
-                        }, ctx.model);
-                    }
-                }
-            }
+            this.raiseActionParamsHandlers(values);
 
             let result = values.length > 0 ?
                 await ctx[actionName].apply(ctx, values.map(val => val.value))

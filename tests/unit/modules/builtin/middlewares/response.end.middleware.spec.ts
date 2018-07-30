@@ -1,6 +1,6 @@
 import { ResponseEndMiddleware, HttpStatusCode } from '../../../index';
 
-describe('modules.builtin.response.end.middleware.spec', () => {
+describe('modules.builtin.middlewares.response.end.middleware.spec', () => {
     it('invoke.sends_json_response_when_result_exists', () => {
         let responseResult;
         let statusCode;
@@ -16,7 +16,6 @@ describe('modules.builtin.response.end.middleware.spec', () => {
         let invoked = false;
         new ResponseEndMiddleware()
             .invoke({}, res, null, result);
-
         expect(responseResult).toBe(result);
         expect(statusCode).toBe(HttpStatusCode.oK);
     });
@@ -35,7 +34,6 @@ describe('modules.builtin.response.end.middleware.spec', () => {
         let invoked = false;
         new ResponseEndMiddleware()
             .invoke({}, res, null, result);
-
         expect(responseResult).toBe(undefined);
         expect(statusCode).toBe(HttpStatusCode.noContent);
     });

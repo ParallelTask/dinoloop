@@ -4,7 +4,7 @@ import {
     HttpStatusCode
 } from '../../../index';
 
-describe('modules.builtin.route.exception.middleware.spec', () => {
+describe('modules.builtin.middlewares.route.exception.middleware.spec', () => {
     it('invoke.sends_response_when_RouteNotFoundException_occurred', () => {
         let responseResult;
         let statusCode;
@@ -23,7 +23,6 @@ describe('modules.builtin.route.exception.middleware.spec', () => {
 
         new RouteExceptionMiddleware()
             .invoke(err, {}, res, () => invoked = true);
-
         expect(responseResult).toBe(`Cannot ${httpVerb} ${uri}`);
         expect(statusCode).toBe(HttpStatusCode.notFound);
         expect(invoked).toBeFalsy();
@@ -37,7 +36,6 @@ describe('modules.builtin.route.exception.middleware.spec', () => {
 
         new RouteExceptionMiddleware()
             .invoke(new Error('TestError'), {}, {}, () => invoked = true);
-
         expect(invoked).toBeTruthy();
         expect(responseResult).toBeUndefined();
     });
@@ -50,7 +48,6 @@ describe('modules.builtin.route.exception.middleware.spec', () => {
 
         new RouteExceptionMiddleware()
             .invoke(null, {}, {}, () => invoked = true);
-
         expect(invoked).toBeTruthy();
         expect(responseResult).toBeUndefined();
     });
