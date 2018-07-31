@@ -1,6 +1,6 @@
 import { TaskContextMiddleware, UserIdentity } from '../../../index';
 
-describe('modules.builtin.task.context.middleware.spec', () => {
+describe('modules.builtin.middlewares.task.context.middleware.spec', () => {
     it('invoke.context_must_be_instanceof_UserIdentity_and_invokes_next', () => {
         let res: any = { locals: { dino: {} } };
         let invoked = false;

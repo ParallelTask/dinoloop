@@ -14,11 +14,11 @@ export class ModelError {
 }
 
 export interface IParseProps {
-    action: string;
-    controller: any;
-    key: string;
-    data: any;
-    value: any;
+    action?: string;
+    controller?: any;
+    key?: string;
+    data?: any;
+    value?: any;
 }
 
 export interface IConversionValidation<T> {

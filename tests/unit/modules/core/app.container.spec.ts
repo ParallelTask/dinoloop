@@ -20,6 +20,7 @@ describe('modules.core.app.container.spec', () => {
         expect(app.baseUri).toEqual('');
         expect(app.startMiddleware).toEqual([]);
         expect(app.endMiddleware).toEqual([]);
+        expect(app.appStartMiddleware).toEqual([]);
         expect(app.diContainer).toBeUndefined();
         expect(app.diResolveCallback).toBeUndefined();
         expect(app.errorController).toBeUndefined();
@@ -161,12 +162,14 @@ describe('modules.core.app.container.spec', () => {
         app.controllers = [Function, Number];
         app.endMiddleware = [Array, Function];
         app.errorMiddleware = [Boolean, String];
+        app.appStartMiddleware = [Array, String];
 
         let obj: IDinoContainer = {} as IDinoContainer;
         let builtInRequestStart = [];
         let builtInRequestEnd = [];
         let builtInError = [];
         let requestStart = [];
+        let appStart = [];
         let controllers = [];
         let requestEnd = [];
         let errorMiddleware = [];
@@ -229,6 +232,12 @@ describe('modules.core.app.container.spec', () => {
             }
             expect(m.name).toEqual(Number.name);
         };
+        obj.appStartMiddleware = m => {
+            if (DataUtility.isUndefined(methodOrder.appStartMiddleware)) {
+                methodOrder.appStartMiddleware = ++i;
+            }
+            appStart.push(m.name);
+        };
 
         spyOn(obj, 'builtInRequestStartMiddleware').and.callThrough();
         spyOn(obj, 'builtInRequestEndMiddleware').and.callThrough();
@@ -239,6 +248,7 @@ describe('modules.core.app.container.spec', () => {
         spyOn(obj, 'requestEndMiddleware').and.callThrough();
         spyOn(obj, 'registerErrorMiddleware').and.callThrough();
         spyOn(obj, 'registerErrorController').and.callThrough();
+        spyOn(obj, 'appStartMiddleware').and.callThrough();
         app.build();
 
         // Verifies the order of registration of middlewares
@@ -251,7 +261,7 @@ describe('modules.core.app.container.spec', () => {
         expect(methodOrder.registerErrorMiddleWare).toBe(7);
         expect(methodOrder.builtInErrorMiddleWare).toBe(8);
         expect(methodOrder.registerErrorController).toBe(9);
-
+        expect(methodOrder.appStartMiddleware).toBe(10);
         // Verifies whether middlewares are registered exactly
         expect(builtInRequestStart[0]).toBe(DinoStartMiddleware.name);
         expect(builtInRequestStart.includes(TaskContextMiddleware.name)).toBeTruthy();
@@ -260,7 +270,6 @@ describe('modules.core.app.container.spec', () => {
         expect(builtInError[0]).toBe(RouteExceptionMiddleware.name);
         expect(builtInError.includes(HttpResponseExceptionMiddleware.name)).toBeTruthy();
         expect(builtInError.includes(ParseParamExceptionMiddleware.name)).toBeTruthy();
-
         expect(requestStart.includes(app.startMiddleware[0].name)).toBeTruthy();
         expect(requestStart.includes(app.startMiddleware[1].name)).toBeTruthy();
         expect(controllers.includes(app.controllers[0].name)).toBeTruthy();
@@ -269,5 +278,7 @@ describe('modules.core.app.container.spec', () => {
         expect(requestEnd.includes(app.endMiddleware[1].name)).toBeTruthy();
         expect(errorMiddleware.includes(app.errorMiddleware[0].name)).toBeTruthy();
         expect(errorMiddleware.includes(app.errorMiddleware[1].name)).toBeTruthy();
+        expect(appStart.includes(app.appStartMiddleware[0].name)).toBeTruthy();
+        expect(appStart.includes(app.appStartMiddleware[1].name)).toBeTruthy();
     });
 });

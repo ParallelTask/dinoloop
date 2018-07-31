@@ -17,14 +17,23 @@ export abstract class ObjectUtility {
         });
     }
 
+    /**
+     * Works exactly => Object.create(obj)
+     */
     static create(obj: any): any {
         return Object.create(obj);
     }
 
+    /**
+     * Works exactly => Object.keys(obj)
+     */
     static keys(obj: any): string[] {
         return Object.keys(obj);
     }
 
+    /**
+     * Works exactly => Object.getPrototypeOf(obj)
+     */
     static getPrototypeOf(obj: any): any {
         return Object.getPrototypeOf(obj);
     }

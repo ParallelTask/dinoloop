@@ -3,7 +3,11 @@ import {
     Attribute,
     AttributeMetadata,
     InvalidRouteException,
-    IControllerAttributeExtended
+    IControllerAttributeExtended,
+    FunctionUtility,
+    InvalidArgumentException,
+    IParseAttribute,
+    DataUtility
 } from '../../index';
 
 describe('modules.metadata.attributes.spec', () => {
@@ -52,6 +56,54 @@ describe('modules.metadata.attributes.spec', () => {
             .toThrowError(InvalidRouteException);
         expect(Reflector.defineMetadata).toHaveBeenCalledTimes(0);
     });
+    it('parse.throws_InvalidArgumentException_when_cb_not_function', () => {
+        spyOn(Reflector, 'defineMetadata').and.callFake(() => []);
+        spyOn(DataUtility, 'isFunction').and.callFake(() => false);
+        spyOn(FunctionUtility, 'getParamNames').and.callFake(() => []);
+        expect(() => AttributeMetadata.parse(undefined, {}, true)(Function, 'test', 2))
+            .toThrowError(InvalidArgumentException);
+        expect(Reflector.defineMetadata).toHaveBeenCalledTimes(0);
+        expect(DataUtility.isFunction).toHaveBeenCalledTimes(1);
+    });
+    it('parse.when_cb_is_function_metadata_defined_first_time', () => {
+        let handler = () => null;
+        spyOn(Reflector, 'defineMetadata').and
+            .callFake((key, data, target, paramKey) => {
+                let attr: IParseAttribute = data[0];
+                expect(attr.handler).toBe(handler);
+                expect(attr.isQueryParam).toBe(true);
+                expect(attr.data).toEqual({ id: 45 });
+            });
+        spyOn(Reflector, 'getMetadata').and.callFake(() => undefined);
+        spyOn(DataUtility, 'isFunction').and.callFake(() => true);
+        spyOn(FunctionUtility, 'getParamNames').and.callFake(() => []);
+        AttributeMetadata.parse(handler, { id: 45 }, true)(Function, 'test', 2);
+        expect(Reflector.getMetadata).toHaveBeenCalledTimes(1);
+        expect(Reflector.defineMetadata).toHaveBeenCalledTimes(1);
+        expect(DataUtility.isFunction).toHaveBeenCalledTimes(1);
+    });
+
+    it('parse.when_cb_is_function_metadata_defined_second_time', () => {
+        let handler = () => null;
+        let att: IParseAttribute[] = [{
+
+        }];
+        spyOn(Reflector, 'defineMetadata').and
+            .callFake((key, data, target, paramKey) => {
+                let attr: IParseAttribute = data[1];
+                expect(attr.handler).toBe(handler);
+                expect(attr.isQueryParam).toBe(false);
+                expect(attr.data).toEqual({ id: 45 });
+            });
+        spyOn(Reflector, 'getMetadata').and.callFake(() => att);
+        spyOn(DataUtility, 'isFunction').and.callFake(() => true);
+        spyOn(FunctionUtility, 'getParamNames').and.callFake(() => []);
+        AttributeMetadata.parse(handler, { id: 45 }, false)(Function, 'test', 2);
+        expect(Reflector.getMetadata).toHaveBeenCalledTimes(1);
+        expect(Reflector.defineMetadata).toHaveBeenCalledTimes(1);
+        expect(DataUtility.isFunction).toHaveBeenCalledTimes(1);
+    });
+
     it('httpPost.verify_metadata', () => {
         spyOn(Reflector, 'defineMetadata').and.callFake(
             (key, value, target, property) => {

@@ -10,19 +10,66 @@ import {
     HttpHead,
     HttpAll,
     Controller,
-    Parse
+    Parse,
+    QueryParam,
+    toValue
 } from '../../index';
 
 describe('api.attributes.spec', () => {
-    it('Parse.invoke_AttributeMetadata.parse_exact_once', () => {
+    it('Parse.invoke_AttributeMetadata.parse()_without_data', () => {
+        let testHandler = () => 45;
+        spyOn(AttributeMetadata, 'parse')
+            .and.callFake((cb, data, isQueryParam) => {
+                expect(cb).toBe(testHandler);
+                expect(data).toBe(undefined);
+                expect(isQueryParam).toBeFalsy();
+            });
+        Parse(testHandler);
+        expect(AttributeMetadata.parse).toHaveBeenCalledTimes(1);
+    });
+    it('Parse.invoke_AttributeMetadata.parse()_with_data', () => {
         let testHandler = () => 45;
         let testData = Function;
         spyOn(AttributeMetadata, 'parse')
-            .and.callFake((cb, data) => {
-                expect(data).toBe(testData);
+            .and.callFake((cb, data, isQueryParam) => {
                 expect(cb).toBe(testHandler);
+                expect(data).toBe(testData);
+                expect(isQueryParam).toBeFalsy();
             });
         Parse(testHandler, testData);
+        expect(AttributeMetadata.parse).toHaveBeenCalledTimes(1);
+    });
+    it('QueryParam.invoke_AttributeMetadata.parse()_without_parse_handler', () => {
+        spyOn(AttributeMetadata, 'parse')
+            .and.callFake((cb, data, isQueryParam) => {
+                expect(cb).toBe(toValue);
+                expect(data).toBe(undefined);
+                expect(isQueryParam).toBeTruthy();
+            });
+        QueryParam();
+        expect(AttributeMetadata.parse).toHaveBeenCalledTimes(1);
+    });
+    it('QueryParam.invoke_AttributeMetadata.parse()_with_parse_handler_no_data', () => {
+        let testHandler = () => 45;
+        spyOn(AttributeMetadata, 'parse')
+            .and.callFake((cb, data, isQueryParam) => {
+                expect(cb).toBe(testHandler);
+                expect(data).toBe(undefined);
+                expect(isQueryParam).toBeTruthy();
+            });
+        QueryParam(testHandler);
+        expect(AttributeMetadata.parse).toHaveBeenCalledTimes(1);
+    });
+    it('QueryParam.invoke_AttributeMetadata.parse()_with_parse_handler_and_data', () => {
+        let testHandler = () => 45;
+        let testData = Function;
+        spyOn(AttributeMetadata, 'parse')
+            .and.callFake((cb, data, isQueryParam) => {
+                expect(cb).toBe(testHandler);
+                expect(data).toBe(testData);
+                expect(isQueryParam).toBeTruthy();
+            });
+        QueryParam(testHandler, testData);
         expect(AttributeMetadata.parse).toHaveBeenCalledTimes(1);
     });
     it('SendsResponse.invoke_AttributeMetadata.sendsResponse_exact_once', () => {

@@ -13,10 +13,61 @@ import {
     RequestEndMiddleware,
     ErrorMiddleware,
     Constants,
-    IActionMethodAttribute
+    IActionMethodAttribute,
+    AppStartMiddleware
 } from '../../index';
 
 describe('modules.core.dino.container.spec', () => {
+    it('resolve.dino_properties_undefined', () => {
+        let config: IDinoContainerConfig = { enableTaskContext: false } as any;
+        spyOn(DIContainer, 'create').and.callFake(() => {
+            return {
+                resolve: m => {
+                    expect(m).toBe(String);
+
+                    return 'resolved';
+                }
+            };
+        });
+        spyOn(RouteTable, 'create').and.callFake(() => null);
+        spyOn(ObjectUtility, 'replaceObjectReferences').and.callFake(() => 'replaced');
+
+        let dinoContainer = new DinoContainer(config);
+        let obj = dinoContainer.resolve(String, undefined);
+
+        // following expects are common for every constructor execution
+        // do not delete these test case
+        expect(RouteTable.create).toHaveBeenCalledTimes(1);
+        expect(DIContainer.create).toHaveBeenCalledTimes(1);
+
+        expect(obj).toBe('resolved');
+        expect(ObjectUtility.replaceObjectReferences).toHaveBeenCalledTimes(0);
+    });
+    it('resolve.dino_properties_null', () => {
+        let config: IDinoContainerConfig = { enableTaskContext: false } as any;
+        spyOn(DIContainer, 'create').and.callFake(() => {
+            return {
+                resolve: m => {
+                    expect(m).toBe(String);
+
+                    return 'resolved';
+                }
+            };
+        });
+        spyOn(RouteTable, 'create').and.callFake(() => null);
+        spyOn(ObjectUtility, 'replaceObjectReferences').and.callFake(() => 'replaced');
+
+        let dinoContainer = new DinoContainer(config);
+        let obj = dinoContainer.resolve(String, undefined);
+
+        // following expects are common for every constructor execution
+        // do not delete these test case
+        expect(RouteTable.create).toHaveBeenCalledTimes(1);
+        expect(DIContainer.create).toHaveBeenCalledTimes(1);
+
+        expect(obj).toBe('resolved');
+        expect(ObjectUtility.replaceObjectReferences).toHaveBeenCalledTimes(0);
+    });
     it('resolve.enableTaskContext_false', () => {
         let config: IDinoContainerConfig = { enableTaskContext: false } as any;
         spyOn(DIContainer, 'create').and.callFake(() => {
@@ -180,6 +231,40 @@ describe('modules.core.dino.container.spec', () => {
         dinoContainer.builtInRequestStartMiddleware(Function);
         expect(callback).toBeUndefined();
         expect(DinoUtility.isSyncRequestStartMiddleware).toHaveBeenCalledTimes(1);
+    });
+    it('appStartMiddleware.when_isSyncAppStartMiddleware_true', () => {
+        let invoked = false;
+        class AppStartFake extends AppStartMiddleware {
+            invoke(): void {
+                invoked = true;
+            }
+        }
+        let obj = new AppStartFake();
+        spyOn(DIContainer, 'create').and.callFake(() => null);
+        spyOn(RouteTable, 'create').and.callFake(() => null);
+        spyOn(DinoUtility, 'isSyncAppStartMiddleware')
+            .and.callFake(m => {
+                expect(m).toBe(AppStartFake);
+
+                return true;
+            });
+
+        let dinoContainer = new DinoContainer({} as any);
+        spyOn(dinoContainer, 'resolve').and.callFake(() => obj);
+        dinoContainer.appStartMiddleware(AppStartFake);
+        expect(DinoUtility.isSyncAppStartMiddleware).toHaveBeenCalledTimes(1);
+        expect(invoked).toBeTruthy();
+    });
+    it('appStartMiddleware.when_isSyncAppStartMiddleware_false', () => {
+        let config: IDinoContainerConfig = {} as any;
+        spyOn(DIContainer, 'create').and.callFake(() => null);
+        spyOn(RouteTable, 'create').and.callFake(() => null);
+        spyOn(DinoUtility, 'isSyncAppStartMiddleware')
+            .and.callFake(m => false);
+
+        let dinoContainer = new DinoContainer(config);
+        dinoContainer.appStartMiddleware(Function);
+        expect(DinoUtility.isSyncAppStartMiddleware).toHaveBeenCalledTimes(1);
     });
     it('builtInRequestEndMiddleWare.when_isSyncRequestEndMiddleware_true', () => {
         const _req = { req: 'uri' };

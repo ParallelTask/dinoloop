@@ -1,6 +1,7 @@
 import { DinoUtility } from '../../index';
 import {
-    MiddlewareFake, MiddlewareAsyncFake,
+    MiddlewareFake,
+    MiddlewareAsyncFake,
     RequestStartMiddlewareFake,
     RequestStartMiddlewareAsyncFake,
     RequestEndMiddlewareFake,
@@ -14,7 +15,8 @@ import {
     ErrorMiddlewareAsyncFake,
     ExceptionFilterFake,
     ExceptionFilterAsyncFake,
-    ApiControllerFake
+    ApiControllerFake,
+    AppStartMiddlewareFake
 } from '../../../fakes/index';
 
 describe('modules.utility.dino.utility.spec', () => {
@@ -46,6 +48,14 @@ describe('modules.utility.dino.utility.spec', () => {
     });
     it('isAsyncMiddleWare.return_false_when_MiddlewareFake', () => {
         let result = DinoUtility.isAsyncMiddleWare(MiddlewareFake);
+        expect(result).toBeFalsy();
+    });
+    it('isSyncAppStartMiddleware.return_true_when_RequestStartMiddlewareFake', () => {
+        let result = DinoUtility.isSyncAppStartMiddleware(AppStartMiddlewareFake);
+        expect(result).toBeTruthy();
+    });
+    it('isSyncAppStartMiddleware.return_false_when_MiddlewareFake', () => {
+        let result = DinoUtility.isSyncRequestStartMiddleware(MiddlewareFake);
         expect(result).toBeFalsy();
     });
     it('isSyncRequestStartMiddleware.return_true_when_RequestStartMiddlewareFake', () => {

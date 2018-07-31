@@ -20,7 +20,8 @@ describe('api.dino.spec', () => {
         app.registerController(Boolean);
         expect(obj.controllers[0]).toBe(Function);
         expect(obj.controllers[1]).toBe(Boolean);
-        // Following expects are common for most of the tests, should not be deleted easily
+        // Following expects are common for most of the tests, 
+        // should not be deleted easily
         expect(express).toEqual({ expressInstance: true });
         expect(obj.baseUri).toBe('/test');
         expect(obj.routeNotFoundMiddleware).toBe(RouteNotFoundMiddleware);
@@ -33,6 +34,15 @@ describe('api.dino.spec', () => {
         app.requestStart(Boolean);
         expect(obj.startMiddleware[0]).toBe(Function);
         expect(obj.startMiddleware[1]).toBe(Boolean);
+    });
+    it('applicationStart.verify_applicationStart_middlewares', () => {
+        let obj: IAppContainer = { appStartMiddleware: [] } as IAppContainer;
+        spyOn(AppContainer, 'create').and.callFake(() => obj);
+        let app = new Dino({ expressInstance: true } as any, '/test');
+        app.applicationStart(Function);
+        app.applicationStart(Boolean);
+        expect(obj.appStartMiddleware[0]).toBe(Function);
+        expect(obj.appStartMiddleware[1]).toBe(Boolean);
     });
     it('requestEnd.verify_requestEnd_middlewares', () => {
         let obj: IAppContainer = { endMiddleware: [] } as IAppContainer;
@@ -59,7 +69,7 @@ describe('api.dino.spec', () => {
         app.registerApplicationError(Function);
         expect(obj.errorController).toBe(Function);
     });
-    it('registerApplicationError.should_have_last_registered_as_registerApplicationError', () => {
+    it('registerApplicationError.last_registered_must_be_registerApplicationError', () => {
         let obj: IAppContainer = { errorController: undefined } as IAppContainer;
         spyOn(AppContainer, 'create').and.callFake(() => obj);
         let app = new Dino({ expressInstance: true } as any, '/test');
@@ -117,7 +127,7 @@ describe('api.dino.spec', () => {
         expect(() => app.bind())
             .toThrow(new Error(Errors.dinoAlreadyBinded));
     });
-    it('bind.invoke_app.build_when_bind_called_once', () => {
+    it('bind.invoke_app.build()_when_bind_called_once', () => {
         let obj: IAppContainer = {} as IAppContainer;
         let invoked = false;
         obj.useRouter = () => null;

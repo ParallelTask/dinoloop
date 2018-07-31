@@ -95,11 +95,12 @@ export class HttpResponseException<T> extends UserException {
     content: T;
 
     constructor(
-        { statusCode = HttpStatusCode.oK, content = undefined }:
+        { statusCode = HttpStatusCode.internalServerError, content = undefined }:
             { statusCode?: HttpStatusCode, content?: T }
-            = { statusCode: HttpStatusCode.oK, content: undefined }) {
+            = { statusCode: HttpStatusCode.internalServerError, content: undefined }) {
         super(HttpResponseException.name);
         this.statusCode = statusCode;
         this.content = content;
+        this.type = HttpResponseException.name;
     }
 }

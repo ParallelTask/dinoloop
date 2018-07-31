@@ -5,12 +5,72 @@ import {
     DinoModel,
     RouteUtility,
     HttpUtility,
-    IDinoProperties
+    IDinoProperties,
+    IParseAttribute,
+    IKeyValuePair
 } from '../../index';
 
-class Test { }
-
 describe('modules.core.dino.controller.spec', () => {
+    it('getQueryParams.returns_{ id: 45 }_when_?id=45', () => {
+        let actionParams: IParseAttribute[] = [{
+            key: 'id',
+            isQueryParam: true
+        }, {
+            key: 'b',
+            isQueryParam: false
+        }];
+        let obj = {
+            request: {
+                query: {
+                    id: 45
+                }
+            }
+        } as ApiController;
+        let ca = {
+            actionAttributes: {
+                actionArguments: actionParams
+            }
+        } as ControllerAction;
+        let ctrl = new DinoController(obj, ca);
+        const result = ctrl.getQueryParams();
+        expect(result.id).toBe(45);
+        expect(result.b).toBe(undefined);
+    });
+    it('raiseActionParamsHandlers.invoke_for_matched_keys', () => {
+        let user;
+        let id;
+        let uuid;
+        let values: IKeyValuePair[] = [{
+            key: 'id',
+            value: '45'
+        }, {
+            key: 'user',
+            value: 'john'
+        }];
+        let actionParams: IParseAttribute[] = [{
+            key: 'id',
+            handler: () => id = 45
+        }, {
+            key: 'user',
+            handler: () => user = 'john'
+        }, {
+            key: 'uuid',
+            handler: () => uuid = 'xyz'
+        }];
+        let obj = {
+            model: new DinoModel()
+        } as ApiController;
+        let ca = {
+            actionAttributes: {
+                actionArguments: actionParams
+            }
+        } as ControllerAction;
+        let ctrl = new DinoController(obj, ca);
+        ctrl.raiseActionParamsHandlers(values);
+        expect(user).toBe('john');
+        expect(id).toBe(45);
+        expect(uuid).toBe(undefined);
+    });
     it('patch.verify_values_are_attached', () => {
         let throwInvokedNext = false;
         let proceedInvokedNext = false;
