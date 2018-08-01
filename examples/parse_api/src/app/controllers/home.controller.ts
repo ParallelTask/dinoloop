@@ -16,7 +16,8 @@ import {
     convertToProvidedData,
     numValidation,
     boolValidation,
-    returnProps
+    returnProps,
+    toUserAdd
 } from '../parse-handlers/handlers';
 import { User } from './user';
 
@@ -76,6 +77,38 @@ export class HomeController extends ApiController {
             user: user,
             id: id,
             message: 'No matter what you post in body, user will be null and id is ten'
+        };
+    }
+
+    @HttpPost('/postUser/:id')
+    postUser(@Parse(toUserAdd) user: User, @Parse(toNumberTen) id: number): any {
+        return {
+            user: user,
+            id: id,
+            message: 'Provide { "name": "dino" } as body and name is prepended with "hello"'
+        };
+    }
+
+    // If the first parameter key is provided in variable segment
+    // dino still injects the http-body into first parameter 
+    // and not the variable segment value
+    @HttpPost('/pickPost/:user')
+    pickPost(@Parse(toUserAdd) user: User): any {
+        return {
+            user: user,
+            message: 'user is picked from http-body and not from segment'
+        };
+    }
+
+    // If the first parameter key is provided in variable segment
+    // dino still injects the http-body into first parameter 
+    // and not the variable segment value
+    @HttpPost('/pickPostUser/:user')
+    pickPostUser(@Parse(toUserAdd) body: User, @Parse(toNumber) user: number): any {
+        return {
+            body: body,
+            user: user,
+            message: 'user is picked from the segment and body from http-body'
         };
     }
 
