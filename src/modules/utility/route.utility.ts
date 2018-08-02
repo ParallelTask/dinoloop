@@ -47,34 +47,29 @@ export abstract class RouteUtility {
         originalUri: string,
         requestedUri: string,
         queryString: any,
-        fn: Function): IKeyValuePair[] {
+        params: string[]): IKeyValuePair[] {
 
-        let params = FunctionUtility.getParamNames(fn);
         let arr: string[] = [];
-        let paramKeyValues: IKeyValuePair[] = [];
 
-        // check if action method has any parameters
-        if (params.length > 0) {
+        if (params.length === 0) return [];
 
-            let val = RouteUtility.getNamedSegmentKeyValues(originalUri, requestedUri);
+        let val = RouteUtility
+            .getNamedSegmentKeyValues(originalUri, requestedUri);
 
-            // If variable segment and query param have same keys
-            // it overwrites with query string, since we are passing the query-keys 
-            // which are explicitly set using @QueryParam
-            let values = Object.assign(val, queryString);
+        // If variable segment and query param have same keys
+        // it overwrites with query string, since we are passing the query-keys 
+        // which are explicitly set using @QueryParam
+        let values = Object.assign(val, queryString);
 
-            // find the index of action parameter and
-            // insert the value from url at matched index
-            ObjectUtility.keys(values).forEach(key => {
-                let index = params.findIndex(e => e === key);
-                arr[index] = values[key];
-            });
+        // find the index of action parameter and
+        // insert the value from url at matched index
+        ObjectUtility.keys(values).forEach(key => {
+            let index = params.findIndex(e => e === key);
+            arr[index] = values[key];
+        });
 
-            return params.map((val: string, index: number) => {
-                return { key: val, value: arr[index] };
-            });
-        }
-
-        return paramKeyValues;
+        return params.map((val: string, index: number) => {
+            return { key: val, value: arr[index] };
+        });
     }
 }

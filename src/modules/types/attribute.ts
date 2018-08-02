@@ -42,6 +42,7 @@ export interface IParseAttribute {
     action?: string;
     data?: any;
     isQueryParam?: boolean;
+    paramIndex?: number;
 }
 
 export interface IActionMethodAttribute {

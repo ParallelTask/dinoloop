@@ -3,6 +3,7 @@ import {
     IParseProps,
     DinoModel
 } from '../../../../index';
+import { User } from '../controllers/user';
 
 export const toNumberTen: IParseHandler = (props: IParseProps) => {
     return 10;
@@ -18,6 +19,12 @@ export const toJPG: IParseHandler = (props: IParseProps) => {
 
 export const toUser: IParseHandler = (props: IParseProps) => {
     return null;
+};
+
+export const toUserAdd: IParseHandler = (props: IParseProps) => {
+    const dino: User = props.value;
+
+    return `hello ${dino.name}`;
 };
 
 export const throwException: IParseHandler = (props: IParseProps) => {

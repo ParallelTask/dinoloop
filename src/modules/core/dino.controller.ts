@@ -9,12 +9,14 @@ import {
 import {
     RouteUtility,
     HttpUtility,
-    DataUtility
+    DataUtility,
+    FunctionUtility
 } from '../utility';
 import { DinoModel } from '../entities';
 import { IDinoController } from '../interfaces';
 
 export class DinoController implements IDinoController {
+
     private controller: ApiController;
     private controllerAction: ControllerAction;
 
@@ -25,6 +27,8 @@ export class DinoController implements IDinoController {
     }
 
     // made public for unit-test, not available on contract
+    // gets query string object and maps the value with corresponding key
+    // for (@QueryParam() id) returns { id: 45 }
     getQueryParams(): any {
         let queryParams =
             this.controllerAction
@@ -36,8 +40,9 @@ export class DinoController implements IDinoController {
         let queryString = {};
 
         for (const queryParam of queryParams) {
-            // We are assigning key = value
-            queryString[queryParam] = this.controller.request.query[queryParam];
+            // create new object, key = value
+            queryString[queryParam] =
+                this.controller.request.query[queryParam];
         }
 
         return queryString;
@@ -46,21 +51,24 @@ export class DinoController implements IDinoController {
     // made public for unit-test, not available on contract
     // maps url-segments and query-strings
     mapSegments(
-        action: Function,
+        params: string[],
         requestUrl: string): IKeyValuePair[] {
-
-        let req = this.controller.request;
-
         return RouteUtility.mapSegmentsAndQueryToActionArguments(requestUrl,
-            req.path, this.getQueryParams(), action);
+            this.controller.request.path, this.getQueryParams(), params);
     }
 
     // made public for unit-test, not available on contract
+    // invokes handlers for segments and query params
     raiseActionParamsHandlers(values: IKeyValuePair[]): void {
-        let ctx = this.controller;
-        let cta = this.controllerAction;
+        let attr = this.controllerAction.actionAttributes;
 
-        for (const arg of cta.actionAttributes.actionArguments) {
+        // if request has http-body then ignore first param
+        // since it is handled by .handleHttpBody()
+        const params = HttpUtility.hasBody(attr.httpVerb) ?
+            attr.actionArguments.filter(x => x.paramIndex !== 0) :
+            attr.actionArguments;
+
+        for (const arg of params) {
             for (const value of values) {
                 if (arg.key === value.key) {
                     value.value = arg.handler({
@@ -69,9 +77,32 @@ export class DinoController implements IDinoController {
                         key: arg.key,
                         data: arg.data,
                         value: value.value
-                    }, ctx.model);
+                    }, this.controller.model);
                 }
             }
+        }
+    }
+
+    // made public for unit-test, not available on contract
+    // invokes handler only for http-body
+    handleHttpBody(values: IKeyValuePair[]): void {
+        let attr = this.controllerAction.actionAttributes;
+
+        // If http-request has body, first parameter gets request-body injected
+        if (HttpUtility.hasBody(attr.httpVerb)) {
+
+            // http-body injected to first parameter i.e. index == 0
+            let arg =
+                attr.actionArguments
+                    .filter(x => x.paramIndex === 0)[0];
+            values[0] = { key: arg.key };
+            values[0].value = arg.handler({
+                action: arg.action,
+                controller: arg.controller,
+                key: arg.key,
+                data: arg.data,
+                value: this.controller.request.body
+            }, this.controller.model);
         }
     }
 
@@ -120,51 +151,45 @@ export class DinoController implements IDinoController {
         };
     }
 
+    invokeSetUp(actionName: string): IKeyValuePair[] {
+        let ctx = this.controller;
+        let cta = this.controllerAction;
+        let values: IKeyValuePair[] = [];
+        let params = FunctionUtility.getParamNames(ctx[actionName]);
+
+        if (params.length > 0) {
+            values =
+                this.mapSegments(params, cta.actionAttributes.route);
+            this.handleHttpBody(values);
+            this.raiseActionParamsHandlers(values);
+        }
+
+        return values;
+    }
+
     // If controller action is synchronous - invoke this
     invoke(actionName: string): void {
 
         let ctx = this.controller;
-        let cta = this.controllerAction;
-        let values =
-            this.mapSegments(ctx[actionName], cta.actionAttributes.route);
-
-        // If http-request has body, first parameter gets request-body injected
-        if (HttpUtility.hasBody(cta.actionAttributes.httpVerb)
-            && values.length > 0) {
-            values[0].value = ctx.request.body;
-        }
-
-        this.raiseActionParamsHandlers(values);
+        let values: IKeyValuePair[] = this.invokeSetUp(actionName);
 
         let result = values.length > 0
             ? ctx[actionName].apply(ctx, values.map(val => val.value)) : ctx[actionName]();
-        this.attachResultToDino(cta.actionAttributes.sendsResponse, result);
+        this.attachResultToDino(this.controllerAction.actionAttributes.sendsResponse, result);
     }
 
     // if controller action is async - invoke this
     async invokeAsync(actionName: string): Promise<void> {
-
-        let ctx = this.controller;
-        let cta = this.controllerAction;
-        let values =
-            this.mapSegments(ctx[actionName], cta.actionAttributes.route);
-
-        // If http-request has body, first parameter gets request-body injected
-        if (HttpUtility.hasBody(cta.actionAttributes.httpVerb)
-            && values.length > 0) {
-            values[0].value = ctx.request.body;
-        }
-
         try {
-
-            this.raiseActionParamsHandlers(values);
+            let ctx = this.controller;
+            let values: IKeyValuePair[] = this.invokeSetUp(actionName);
 
             let result = values.length > 0 ?
                 await ctx[actionName].apply(ctx, values.map(val => val.value))
                 : await ctx[actionName]();
-            this.attachResultToDino(cta.actionAttributes.sendsResponse, result);
+            this.attachResultToDino(this.controllerAction.actionAttributes.sendsResponse, result);
         } catch (ex) {
-            ctx.next(ex);
+            this.controller.next(ex);
         }
     }
 

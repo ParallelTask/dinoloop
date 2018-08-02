@@ -58,7 +58,8 @@ export abstract class AttributeMetadata {
                 controller: target,
                 action: propertyKey,
                 data: data,
-                isQueryParam: isQueryParam
+                isQueryParam: isQueryParam,
+                paramIndex: parameterIndex
             };
 
             if (!DataUtility.isUndefinedOrNull(meta)) {

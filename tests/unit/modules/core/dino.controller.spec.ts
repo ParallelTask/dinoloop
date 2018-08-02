@@ -7,7 +7,8 @@ import {
     HttpUtility,
     IDinoProperties,
     IParseAttribute,
-    IKeyValuePair
+    IKeyValuePair,
+    FunctionUtility
 } from '../../index';
 
 describe('modules.core.dino.controller.spec', () => {
@@ -175,18 +176,20 @@ describe('modules.core.dino.controller.spec', () => {
         let ctrl = new DinoController(ctx, {
             actionAttributes: {
                 route: '/test',
-                actionArguments: []
+                actionArguments: [{
+                    paramIndex: 0,
+                    handler: () => 'testBody'
+                }]
             }
         });
-        spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
-            .and.callFake(() => [
-                { key: 'body', value: undefined }
-            ]);
+        spyOn(FunctionUtility, 'getParamNames').and.callFake(() => ['body']);
         spyOn(HttpUtility, 'hasBody').and.callFake(() => true);
         spyOn(ctrl, 'attachResultToDino')
             .and.callFake((sendsResponse, result) => {
                 expect(result).toBe(45);
             });
+        spyOn(ctrl, 'mapSegments')
+            .and.callFake(() => []);
 
         ctrl.invoke('test');
         expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(1);
@@ -244,9 +247,23 @@ describe('modules.core.dino.controller.spec', () => {
         let ctrl = new DinoController(ctx, {
             actionAttributes: {
                 route: '/test',
-                actionArguments: []
+                actionArguments: [
+                    {
+                        paramIndex: 0,
+                        handler: () => 'testBody'
+                    },
+                    {
+                        key: 'b',
+                        handler: () => 'world'
+                    },
+                    {
+                        key: 'a',
+                        handler: () => 'hello'
+                    }
+                ]
             }
         });
+        spyOn(FunctionUtility, 'getParamNames').and.callFake(() => ['body', 'a', 'b']);
         spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
             .and.callFake(() => [
                 { key: 'body', value: undefined },
@@ -264,6 +281,54 @@ describe('modules.core.dino.controller.spec', () => {
         expect(val[0]).toBe(ctx.request.body);
         expect(val[1]).toBe('hello');
         expect(val[2]).toBe('world');
+    });
+    it('invoke.when_mappedSegments_has_body_key_and_also_body_true', () => {
+        let val = [];
+        let ctx = {
+            request: {
+                body: 'testBody'
+            },
+            test: (a, b) => {
+                val[0] = a;
+                val[1] = b;
+
+                return 45;
+            }
+        } as any;
+
+        let ctrl = new DinoController(ctx, {
+            actionAttributes: {
+                route: '/test',
+                actionArguments: [
+                    {
+                        key: 'body',
+                        paramIndex: 0,
+                        handler: () => 'testBody'
+                    },
+                    {
+                        key: 'a',
+                        paramIndex: 1,
+                        handler: () => 'hello'
+                    }
+                ]
+            }
+        });
+        spyOn(FunctionUtility, 'getParamNames').and.callFake(() => ['body', 'a']);
+        spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
+            .and.callFake(() => [
+                { key: 'body', value: 'segment-body' },
+                { key: 'a', value: 'hello' }
+            ]);
+        spyOn(HttpUtility, 'hasBody').and.callFake(() => true);
+        spyOn(ctrl, 'attachResultToDino')
+            .and.callFake((sendsResponse, result) => {
+                expect(result).toBe(45);
+            });
+
+        ctrl.invoke('test');
+        expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(1);
+        expect(val[0]).toBe(ctx.request.body);
+        expect(val[1]).toBe('hello');
     });
     it('invokeAsync.when_mappedSegments_[]_has_body_is_false', async () => {
         let val = [];
@@ -310,18 +375,20 @@ describe('modules.core.dino.controller.spec', () => {
         let ctrl = new DinoController(ctx, {
             actionAttributes: {
                 route: '/test',
-                actionArguments: []
+                actionArguments: [{
+                    paramIndex: 0,
+                    handler: () => 'testBody'
+                }]
             }
         });
-        spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
-            .and.callFake(() => [
-                { key: 'body', value: undefined }
-            ]);
+        spyOn(FunctionUtility, 'getParamNames').and.callFake(() => ['body']);
         spyOn(HttpUtility, 'hasBody').and.callFake(() => true);
         spyOn(ctrl, 'attachResultToDino')
             .and.callFake((sendsResponse, result) => {
                 expect(result).toBe(45);
             });
+        spyOn(ctrl, 'mapSegments')
+            .and.callFake(() => []);
 
         await ctrl.invokeAsync('test');
         expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(1);
@@ -379,9 +446,23 @@ describe('modules.core.dino.controller.spec', () => {
         let ctrl = new DinoController(ctx, {
             actionAttributes: {
                 route: '/test',
-                actionArguments: []
+                actionArguments: [
+                    {
+                        paramIndex: 0,
+                        handler: () => 'testBody'
+                    },
+                    {
+                        key: 'b',
+                        handler: () => 'world'
+                    },
+                    {
+                        key: 'a',
+                        handler: () => 'hello'
+                    }
+                ]
             }
         });
+        spyOn(FunctionUtility, 'getParamNames').and.callFake(() => ['body', 'a', 'b']);
         spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
             .and.callFake(() => [
                 { key: 'body', value: undefined },
@@ -399,6 +480,54 @@ describe('modules.core.dino.controller.spec', () => {
         expect(val[0]).toBe(ctx.request.body);
         expect(val[1]).toBe('hello');
         expect(val[2]).toBe('world');
+    });
+    it('invokeAsync.when_mappedSegments_has_body_key_and_also_body_true', async () => {
+        let val = [];
+        let ctx = {
+            request: {
+                body: 'testBody'
+            },
+            test: (a, b) => {
+                val[0] = a;
+                val[1] = b;
+
+                return 45;
+            }
+        } as any;
+
+        let ctrl = new DinoController(ctx, {
+            actionAttributes: {
+                route: '/test',
+                actionArguments: [
+                    {
+                        key: 'body',
+                        paramIndex: 0,
+                        handler: () => 'testBody'
+                    },
+                    {
+                        key: 'a',
+                        paramIndex: 1,
+                        handler: () => 'hello'
+                    }
+                ]
+            }
+        });
+        spyOn(FunctionUtility, 'getParamNames').and.callFake(() => ['body', 'a']);
+        spyOn(RouteUtility, 'mapSegmentsAndQueryToActionArguments')
+            .and.callFake(() => [
+                { key: 'body', value: 'segment-body' },
+                { key: 'a', value: 'hello' }
+            ]);
+        spyOn(HttpUtility, 'hasBody').and.callFake(() => true);
+        spyOn(ctrl, 'attachResultToDino')
+            .and.callFake((sendsResponse, result) => {
+                expect(result).toBe(45);
+            });
+
+        await ctrl.invoke('test');
+        expect(ctrl.attachResultToDino).toHaveBeenCalledTimes(1);
+        expect(val[0]).toBe(ctx.request.body);
+        expect(val[1]).toBe('hello');
     });
     it('invokeAsync.throws_error', async () => {
         let err;
