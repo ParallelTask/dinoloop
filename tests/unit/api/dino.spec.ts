@@ -20,7 +20,7 @@ describe('api.dino.spec', () => {
         app.registerController(Boolean);
         expect(obj.controllers[0]).toBe(Function);
         expect(obj.controllers[1]).toBe(Boolean);
-        // Following expects are common for most of the tests, 
+        // Following expects are common for most of the tests,
         // should not be deleted easily
         expect(express).toEqual({ expressInstance: true });
         expect(obj.baseUri).toBe('/test');
@@ -136,5 +136,23 @@ describe('api.dino.spec', () => {
         let app = new Dino({ expressInstance: true } as any, '/test');
         app.bind();
         expect(invoked).toBeTruthy();
+    });
+    it('bind.throws_error_when_null_baseUri_provided', () => {
+        let obj: IAppContainer = {} as IAppContainer;
+        obj.useRouter = () => null;
+        obj.build = () => null;
+        spyOn(AppContainer, 'create').and.callFake(() => obj);
+        let app = new Dino({ expressInstance: true } as any, null);
+        expect(() => app.bind())
+            .toThrow(new Error(Errors.baseUriInvalid));
+    });
+    it('bind.throws_error_when_undefined_baseUri_provided', () => {
+        let obj: IAppContainer = {} as IAppContainer;
+        obj.useRouter = () => null;
+        obj.build = () => null;
+        spyOn(AppContainer, 'create').and.callFake(() => obj);
+        let app = new Dino({ expressInstance: true } as any, undefined);
+        expect(() => app.bind())
+            .toThrow(new Error(Errors.baseUriInvalid));
     });
 });
