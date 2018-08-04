@@ -112,11 +112,13 @@ export class Dino implements IDino {
     // since container is already created and bound to express instance
     /**
      * Binds the dino instance to express app
-     * @Throws Error(Errors.routerNotRegistered) 
+     * @Throws Error(Errors.routerNotRegistered)
      * @Throws Error(Errors.dinoAlreadyBinded)
+     * @Throws Error(Errors.baseUriInvalid)
      */
     bind(): void {
         if (this.isBinded) throw new Error(Errors.dinoAlreadyBinded);
+        if (DataUtility.isUndefinedOrNull(this.appContainer.baseUri)) throw new Error(Errors.baseUriInvalid);
         if (DataUtility.isUndefinedOrNull(this.appContainer.useRouter)) {
             throw new Error(Errors.routerNotRegistered);
         }
