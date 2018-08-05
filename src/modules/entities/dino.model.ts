@@ -12,5 +12,5 @@ export class DinoModel {
     /**
      * Key - Param key, Value - List of validation errors
      */
-    modelErrors: ModelError[] = [];
+    errors: ModelError[] = [];
 }

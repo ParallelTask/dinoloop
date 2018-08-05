@@ -50,7 +50,7 @@ export const numValidation: IParseHandler =
             key: props.key,
             value: props.value
         });
-        model.modelErrors.push({
+        model.errors.push({
             key: props.key,
             value: ['Should be Number', 'Max is 10']
         });
@@ -66,7 +66,7 @@ export const boolValidation: IParseHandler =
             key: props.key,
             value: props.value
         });
-        model.modelErrors.push({
+        model.errors.push({
             key: props.key,
             value: ['Should be boolean', 'Only true is allowed']
         });

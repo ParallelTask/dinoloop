@@ -10,7 +10,7 @@ export abstract class Deferrer {
      * Register the callback either the eventual value is resolved or rejected
      */
     static run<T>(cb: (resolve: (value?: T | PromiseLike<T>) => void,
-        reject: (reason?: any) => void) => void): Promise<T> {
+        reject: (reason?: Error) => void) => void): Promise<T> {
         return new Promise((resolve, reject) => {
             cb(resolve, reject);
         });
