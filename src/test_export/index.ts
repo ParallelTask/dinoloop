@@ -9,7 +9,7 @@ export * from '../modules/builtin/middlewares/route.notfound.middleware';
 export * from '../modules/builtin/middlewares/task.context.middleware';
 export * from '../modules/builtin/middlewares/http.response.exception.middleware';
 export * from '../modules/builtin/middlewares/http.response.message.middleware';
-export * from '../modules/builtin/middlewares/parse.exception.middleware';
+export * from '../modules/builtin/middlewares/action.exception.middleware';
 export * from '../modules/builtin/parse_handlers';
 export * from '../modules/builtin/providers/user.identity';
 export * from '../modules/constants';

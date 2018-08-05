@@ -1,14 +1,14 @@
 import { ErrorMiddleware } from '../../filter';
-import { ParseParamException } from '../exceptions';
+import { ActionParamException } from '../exceptions';
 import { HttpStatusCode } from '../../constants';
 
 /**
- * Built-in ParseParamException Handler
+ * Built-in ActionParamException Handler
  */
-export class ParseParamExceptionMiddleware extends ErrorMiddleware {
+export class ActionParamExceptionMiddleware extends ErrorMiddleware {
     invoke(err, request, response, next): void {
-        if (err instanceof ParseParamException) {
-            let ex: ParseParamException = err;
+        if (err instanceof ActionParamException) {
+            let ex: ActionParamException = err;
             response
                 .status(HttpStatusCode.badRequest)
                 .json(`Value: ${ex.value}, Message: ${ex.message}`);

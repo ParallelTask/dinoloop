@@ -1,17 +1,17 @@
 import { IParseHandler, IParseProps } from '../../types';
 import { DataUtility } from '../../utility';
-import { ParseParamException } from '../exceptions';
+import { ActionParamException } from '../exceptions';
 import { HandlerConstants } from './constants';
 
 /**
  * Converts the parameter to integer
- * @Throws ParseParamException
+ * @Throws ActionParamException
  */
 export const toInteger: IParseHandler = (props: IParseProps) => {
     const val = DataUtility.toInteger(props.value);
 
     if (!(val.isValid)) {
-        throw new ParseParamException(
+        throw new ActionParamException(
             props.value,
             props.key,
             props.action,
@@ -25,13 +25,13 @@ export const toInteger: IParseHandler = (props: IParseProps) => {
 
 /**
  * Converts the parameter to number
- * @Throws ParseParamException
+ * @Throws ActionParamException
  */
 export const toNumber: IParseHandler = (props: IParseProps) => {
     const val = DataUtility.toNumber(props.value);
 
     if (!(val.isValid)) {
-        throw new ParseParamException(
+        throw new ActionParamException(
             props.value,
             props.key,
             props.action,
@@ -45,13 +45,13 @@ export const toNumber: IParseHandler = (props: IParseProps) => {
 
 /**
  * Converts the parameter to boolean
- * @Throws ParseParamException
+ * @Throws ActionParamException
  */
 export const toBoolean: IParseHandler = (props: IParseProps) => {
     const val = DataUtility.toBoolean(props.value);
 
     if (!(val.isValid)) {
-        throw new ParseParamException(
+        throw new ActionParamException(
             props.value,
             props.key,
             props.action,

@@ -1,11 +1,11 @@
 import {
     HttpStatusCode,
-    ParseParamExceptionMiddleware,
-    ParseParamException
+    ActionParamExceptionMiddleware,
+    ActionParamException
 } from '../../../index';
 
 describe('modules.builtin.middlewares.parse.exception.middleware.spec', () => {
-    it('invoke.sends_json_when_err_instanceof_ParseParamException', () => {
+    it('invoke.sends_json_when_err_instanceof_ActionParamException', () => {
         let responseResult;
         let statusCode;
         let invoked = false;
@@ -18,14 +18,14 @@ describe('modules.builtin.middlewares.parse.exception.middleware.spec', () => {
             },
             json: data => responseResult = data
         };
-        let err = new ParseParamException('a', 'b', 'c', 'd');
-        new ParseParamExceptionMiddleware()
+        let err = new ActionParamException('a', 'b', 'c', 'd');
+        new ActionParamExceptionMiddleware()
             .invoke(err, null, res, next);
         expect(responseResult).toBe(`Value: ${err.value}, Message: ${err.message}`);
         expect(statusCode).toBe(HttpStatusCode.badRequest);
         expect(invoked).toBeFalsy();
     });
-    it('invoke.next(err)_when_result_not_instanceof_ParseParamException', () => {
+    it('invoke.next(err)_when_result_not_instanceof_ActionParamException', () => {
         let responseResult;
         let statusCode;
         let ex;
@@ -38,7 +38,7 @@ describe('modules.builtin.middlewares.parse.exception.middleware.spec', () => {
             },
             json: data => responseResult = data
         };
-        new ParseParamExceptionMiddleware()
+        new ActionParamExceptionMiddleware()
             .invoke({ test: 'true' }, null, res, next);
         expect(responseResult).toBe(undefined);
         expect(statusCode).toBe(undefined);
