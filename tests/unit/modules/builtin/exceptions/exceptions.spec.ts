@@ -2,7 +2,7 @@ import {
     InvalidRouteException,
     RouteNotFoundException,
     InvalidArgumentException,
-    ParseParamException,
+    ActionParamException,
     HttpResponseException,
     HttpStatusCode
 } from '../../../index';
@@ -50,22 +50,22 @@ describe('modules.builtin.exceptions.spec', () => {
         expect(o.type).toBe(RouteNotFoundException.name);
         expect(o.message).toBe('test');
     });
-    it('ParseParamException.verify_properties', () => {
-        let o = new ParseParamException('a', 'b', 'c', 'd');
+    it('ActionParamException.verify_properties', () => {
+        let o = new ActionParamException('a', 'b', 'c', 'd');
         expect(o.value).toBe('a');
         expect(o.key).toBe('b');
         expect(o.action).toBe('c');
         expect(o.controller).toBe('d');
-        expect(o.type).toBe(ParseParamException.name);
-        expect(o.message).toBe(ParseParamException.name);
+        expect(o.type).toBe(ActionParamException.name);
+        expect(o.message).toBe(ActionParamException.name);
     });
-    it('ParseParamException.verify_properties_with_msg', () => {
-        let o = new ParseParamException('a', 'b', 'c', 'd', 'test');
+    it('ActionParamException.verify_properties_with_msg', () => {
+        let o = new ActionParamException('a', 'b', 'c', 'd', 'test');
         expect(o.value).toBe('a');
         expect(o.key).toBe('b');
         expect(o.action).toBe('c');
         expect(o.controller).toBe('d');
-        expect(o.type).toBe(ParseParamException.name);
+        expect(o.type).toBe(ActionParamException.name);
         expect(o.message).toBe('test');
     });
     it('HttpResponseException.verify_properties', () => {

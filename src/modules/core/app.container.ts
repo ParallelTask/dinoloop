@@ -6,7 +6,7 @@ import {
     TaskContextMiddleware,
     ResponseEndMiddleware,
     RouteExceptionMiddleware,
-    ParseParamExceptionMiddleware,
+    ActionParamExceptionMiddleware,
     HttpResponseExceptionMiddleware,
     HttpResponseMessageMiddleware
 } from '../builtin/middlewares';
@@ -85,7 +85,7 @@ export class AppContainer implements IAppContainer {
 
         dinoContainer.builtInErrorMiddleware(RouteExceptionMiddleware);
         dinoContainer.builtInErrorMiddleware(HttpResponseExceptionMiddleware);
-        dinoContainer.builtInErrorMiddleware(ParseParamExceptionMiddleware);
+        dinoContainer.builtInErrorMiddleware(ActionParamExceptionMiddleware);
 
         // Register the application error controller
         // This would be the last error middleware to handle error object

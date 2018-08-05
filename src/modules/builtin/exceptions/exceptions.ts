@@ -62,9 +62,9 @@ export class RouteNotFoundException extends UserException {
 }
 
 /**
- * @Parse invokes ParseParamException for invalid values
+ * @Parse invokes ActionParamException for invalid values
  */
-export class ParseParamException extends UserException {
+export class ActionParamException extends UserException {
     value: any;
     key: string;
     action: string;
@@ -82,9 +82,9 @@ export class ParseParamException extends UserException {
         this.key = key;
         this.action = action;
         this.controller = controller;
-        this.type = ParseParamException.name;
+        this.type = ActionParamException.name;
         this.message = DataUtility.isEmpty(msg)
-            ? ParseParamException.name : msg;
+            ? ActionParamException.name : msg;
     }
 }
 /**

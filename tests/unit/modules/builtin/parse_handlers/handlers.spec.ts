@@ -2,7 +2,7 @@ import {
     toValue,
     IParseProps,
     toInteger,
-    ParseParamException,
+    ActionParamException,
     HandlerConstants,
     toBoolean,
     toNumber
@@ -27,7 +27,7 @@ describe('modules.builtin.parse_handlers.handlers.spec', () => {
     });
     it('toInteger.throws_error_when_"45.67"', () => {
         let props: IParseProps = { value: '45.67', controller: String };
-        let err = new ParseParamException(
+        let err = new ActionParamException(
             props.value,
             props.key,
             props.action,
@@ -38,7 +38,7 @@ describe('modules.builtin.parse_handlers.handlers.spec', () => {
     });
     it('toInteger.throws_error_when_"hello"', () => {
         let props: IParseProps = { value: 'hello', controller: String };
-        let err = new ParseParamException(
+        let err = new ActionParamException(
             props.value,
             props.key,
             props.action,
@@ -65,7 +65,7 @@ describe('modules.builtin.parse_handlers.handlers.spec', () => {
     });
     it('toNumber.throws_error_when_"hello"', () => {
         let props: IParseProps = { value: 'hello', controller: String };
-        let err = new ParseParamException(
+        let err = new ActionParamException(
             props.value,
             props.key,
             props.action,
@@ -92,7 +92,7 @@ describe('modules.builtin.parse_handlers.handlers.spec', () => {
     });
     it('toBoolean.throws_error_when_invalid_string', () => {
         let props: IParseProps = { value: 'hello', controller: String };
-        let err = new ParseParamException(
+        let err = new ActionParamException(
             props.value,
             props.key,
             props.action,
@@ -103,7 +103,7 @@ describe('modules.builtin.parse_handlers.handlers.spec', () => {
     });
     it('toBoolean.throws_error_when_number', () => {
         let props: IParseProps = { value: 45, controller: String };
-        let err = new ParseParamException(
+        let err = new ActionParamException(
             props.value,
             props.key,
             props.action,

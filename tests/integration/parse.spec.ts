@@ -41,27 +41,7 @@ describe('parse_handlers', () => {
         request(app)
             .get('/api/testcontroller/toBoolean/true')
             .expect('Content-Type', /json/)
-            .expect(200, { data: true });
-        request(app)
-            .get('/api/testcontroller/toBoolean/True')
-            .expect('Content-Type', /json/)
-            .expect(200, { data: true });
-        request(app)
-            .get('/api/testcontroller/toBoolean/TRUE')
-            .expect('Content-Type', /json/)
-            .expect(200, { data: true });
-        request(app)
-            .get('/api/testcontroller/toBoolean/false')
-            .expect('Content-Type', /json/)
-            .expect(200, { data: false });
-        request(app)
-            .get('/api/testcontroller/toBoolean/false')
-            .expect('Content-Type', /json/)
-            .expect(200, { data: false });
-        request(app)
-            .get('/api/testcontroller/toBoolean/FALSE')
-            .expect('Content-Type', /json/)
-            .expect(200, { data: false }, done);
+            .expect(200, { data: true }, done);
     });
 
     it('parse.toInteger.parses_integer', done => {
@@ -75,19 +55,7 @@ describe('parse_handlers', () => {
         request(app)
             .get('/api/testcontroller/toInteger/5')
             .expect('Content-Type', /json/)
-            .expect(200, { data: 5 });
-        request(app)
-            .get('/api/testcontroller/toInteger/5')
-            .expect('Content-Type', /json/)
-            .expect(200, { data: 0 });
-        request(app)
-            .get('/api/testcontroller/toInteger/5.5')
-            .expect('Content-Type', /json/)
-            .expect(400);
-        request(app)
-            .get('/api/testcontroller/toInteger/-5')
-            .expect('Content-Type', /json/)
-            .expect(200, { data: -5 }, done);
+            .expect(200, { data: 5 }, done);
     });
 
     it('parse.toNumber.parses_number', done => {
@@ -98,14 +66,6 @@ describe('parse_handlers', () => {
         dino.useRouter(() => express.Router());
         dino.bind();
 
-        request(app)
-            .get('/api/testcontroller/toNumber/5.5')
-            .expect('Content-Type', /json/)
-            .expect(200, { data: 5.5 });
-        request(app)
-            .get('/api/testcontroller/toNumber/0')
-            .expect('Content-Type', /json/)
-            .expect(200, { data: 0 });
         request(app)
             .get('/api/testcontroller/toNumber/-5.5')
             .expect('Content-Type', /json/)
@@ -120,15 +80,6 @@ describe('parse_handlers', () => {
         request(app)
             .get('/api/testcontroller/toBoolean/true?val=false')
             .expect('Content-Type', /json/)
-            .expect(200, { data: true });
-        request(app)
-            .get('/api/testcontroller/toInteger/5?val=10')
-            .expect('Content-Type', /json/)
-            .expect(200, { data: 5 });
-        request(app)
-            .get('/api/testcontroller/toNumber/5.5?val=15.9')
-            .expect('Content-Type', /json/)
-            .expect(200, { data: 5.5 });
-        done();
+            .expect(200, { data: true }, done);
     });
 });

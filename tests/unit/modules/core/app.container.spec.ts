@@ -9,7 +9,7 @@ import {
     ResponseEndMiddleware,
     RouteExceptionMiddleware,
     HttpResponseExceptionMiddleware,
-    ParseParamExceptionMiddleware,
+    ActionParamExceptionMiddleware,
     HttpResponseMessageMiddleware
 } from '../../index';
 
@@ -269,7 +269,7 @@ describe('modules.core.app.container.spec', () => {
         expect(builtInRequestEnd[builtInRequestEnd.length - 1]).toBe(ResponseEndMiddleware.name);
         expect(builtInError[0]).toBe(RouteExceptionMiddleware.name);
         expect(builtInError.includes(HttpResponseExceptionMiddleware.name)).toBeTruthy();
-        expect(builtInError.includes(ParseParamExceptionMiddleware.name)).toBeTruthy();
+        expect(builtInError.includes(ActionParamExceptionMiddleware.name)).toBeTruthy();
         expect(requestStart.includes(app.startMiddleware[0].name)).toBeTruthy();
         expect(requestStart.includes(app.startMiddleware[1].name)).toBeTruthy();
         expect(controllers.includes(app.controllers[0].name)).toBeTruthy();
