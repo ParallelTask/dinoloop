@@ -151,7 +151,7 @@ export class HomeController extends ApiController {
             name: name,
             message: 'Should return validation errors for model',
             isValid: this.model.isValid,
-            modelErrors: this.model.modelErrors,
+            modelErrors: this.model.errors,
             values: this.model.values
         };
     }

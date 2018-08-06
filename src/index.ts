@@ -7,6 +7,7 @@ export * from './modules/builtin/exceptions/exceptions';
 export * from './modules/builtin/parse_handlers/handlers';
 export * from './modules/builtin/providers/user.identity';
 export * from './modules/constants/http.status.code';
+export * from './modules/exception/custom.exception';
 export { ApiController } from './modules/controller/api.controller';
 export { ErrorController } from './modules/controller/error.controller';
 export { DinoModel } from './modules/entities/dino.model';

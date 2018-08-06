@@ -5,7 +5,7 @@ import cors = require('cors');
 // tslint:disable-next-line:no-require-imports
 import bodyParser = require('body-parser');
 import { Container } from 'inversify';
-import { ApiController, Dino } from '../../../index';
+import { Dino } from '../../../index';
 import { HomeController } from './controllers/home.controller';
 import { InversifyContainer } from './container/container';
 import { StartMiddleware, ResponseMiddleware } from './services/middleware';
