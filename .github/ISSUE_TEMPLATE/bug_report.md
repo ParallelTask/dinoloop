@@ -20,8 +20,10 @@ If applicable, add screenshots to help explain your problem.
 Add any other context about the problem here.
 
 **Environment**
-Node version:
-Platform:
+* Node version:
+* Expressjs version:
+* Typescript version:
+* Platform:
 
 **dinoloop version: X.Y.Z**
 Check whether this is still an issue in the most recent dinoloop version

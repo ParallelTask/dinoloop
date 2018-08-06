@@ -5,8 +5,15 @@ import {
     IDinoProperties,
     IMiddlewareProvider
 } from '../types';
-import { DinoUtility, ObjectUtility, DinoParser } from '../utility';
-import { IDIContainer, IDinoRouter } from '../interfaces';
+import {
+    DinoUtility,
+    ObjectUtility,
+    DinoParser
+} from '../utility';
+import {
+    IDIContainer,
+    IDinoRouter
+} from '../interfaces';
 import { IUserIdentity } from '../providers';
 import {
     Middleware,

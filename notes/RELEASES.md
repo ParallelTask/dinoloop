@@ -1,9 +1,12 @@
 # Releases Planned
 
 ### Future releases
-1. @ModelBinder on action level for auto binding model from http-request body and @Validate() on model to add validations using [joi](https://github.com/hapijs/joi). Add BindModel test project to examples once it is done.
-2. @FromUri, @FromBody attributes. 
+1. @FromUri, @Number, @Boolean, @Integer, @Model parameter decorators. 
+2. Validators in IControllerAttribute to handle validation errors added by IParseHandlers.
 3. Middlewares at action level.
-4. Interceptors support using @InterceptBy.
-5. **enableUserIdentity()** for specific types.
-6. Swagger UI
+4. Swagger UI.
+5. Regex support in @Parse.
+6. Change dependencyResolver to OOP style. 
+7. Interceptors support using @InterceptBy.
+8. **enableUserIdentity()** for specific types.
+9. @Catch decorator for error middlewares.

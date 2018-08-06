@@ -1,10 +1,10 @@
 {
     "name": "dinoloop",
     "version": "1.0.0",
-    "description": "open-source nodejs framework, completely written in typescript project designed to build REST APIs",
+    "description": "A lightweight REST API Library for building scalable Node.js server-side applications powered by Typescript",
     "main": "index.js",
     "typings": "index.d.ts",
-    "homepage": "https://github.com/ParallelTask/dinoloop",
+    "homepage": "http://dinoloop.com",
     "bugs": "https://github.com/ParallelTask/dinoloop/issues",
     "author": "Dinoloop Team",
     "license": "MIT",
@@ -20,7 +20,10 @@
         "node-api",
         "rest-api",
         "express",
+        "expressjs",
         "framework",
+        "mvc",
+        "dependency-injection",
         "web",
         "rest",
         "restful",
@@ -29,8 +32,8 @@
         "node-express"
     ],
     "dependencies": {
-        "reflect-metadata": "^0.1.12",
-        "path-to-regexp": "^2.2.1"
+        "reflect-metadata": "~0.1.12",
+        "path-to-regexp": "~2.2.1"
     },
     "engines": {
         "node": ">= 8.10.x",

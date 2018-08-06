@@ -1,19 +1,16 @@
 [![npm version](https://img.shields.io/npm/v/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
 [![dependencies](https://img.shields.io/david/paralleltask/dinoloop.svg)](https://david-dm.org/paralleltask/dinoloop)
 [![node version](https://img.shields.io/node/v/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
-[![downloads](https://img.shields.io/npm/dt/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
-
+[![downloads](https://img.shields.io/npm/dm/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
 
 # Dinoloop
-
-Dinoloop is a Nodejs framework, completely written in Typescript project designed to build REST APIs. Dinoloop adds syntactic sugar on top of expressjs enabling C#/Java programmers to easily write REST APIs with similar coding skills in node.
-
-Dinoloop adds a layer on top of express but the express objects are still carried on to dinoloop. Whatever you might do in express can be done in dinoloop.
+Dinoloop is a REST API library for building scalable Node.js server-side applications powered by TypeScript. Dinoloop uses <a href="https://expressjs.com">Expressjs</a> and has been designed with a simple motto - to reuse similar design patterns of C#/JAVA/OOP minded programmers (OOP practices, SOLID principles and MVC architecture) in Node.js. Dinoloop adds syntactic sugar to Expressjs empowering OOP programmers to easily switch to Node.js without the steep learning curve.
 
 ### Prerequisites
 
-* node 8.10.x or higher 
-* express 4.x.x or higher
+* Node 8.10.x or higher 
+* Express 4.x.x or higher
+* Typescript 2.4.x or higher
 
 ### Install
 
@@ -43,29 +40,27 @@ npm start
 Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get) in browser
 
 ## Features
-* Super easy set-up.
-* Supports express middlewares, completely express compatible.
+*  Super easy set-up. The Dinoloop team provides a recommended starter project so you can start building right away. We want our developers to have the freedom to choose DI or not. You can develop APIs without using DI framework.
+* Supports Expressjs middlewares with a completely Expressjs driven library.
 * Heavily influenced by MVC pattern.
-* Dependency injection support.
-* Proper isolation of controllers and services.
-* Middlewares, ActionFilters, ExceptionFilters, ResultFilters at controller level.
-* Robust Sync/Async middlewares to handle es6 async-await pattern.  
-* UserIdentity principal across request. 
+* Configurable Dependency Injection framework. Choose your favorite DI framework <a href="http://inversify.io/">InversifyJs</a> or build one of your own.
+* Proper isolation of controllers and services for better unit-testing.
+* Controller middlewares - ActionFilters, ExceptionFilters ResultFilters with Robust sync/async (handles es6 async/await pattern).
+* Application middlewares - AppStart, RequestStart, RequestEnd and ServerError with Robust sync/async (handles es6 async/await pattern).
+* UserIdentity principal across requests. Still an experimental feature.
 
 ## Documentation
 
-* Visit the [Wiki](https://github.com/ParallelTask/dinoloop/tree/master/wiki)
+* Visit the [documentation](https://dinoloop.com)
 
-## Philosophy 
+## Principles
 
-Dinoloop lets user to freely upgrade/downgrade expressjs. <span style="text-decoration:underline">Installing dinoloop won't install express</span>. You can install your own version of express. All you have to provide is express app, express router instance to dinoloop.
+Dinoloop has been designed from the start to support gradual adoption so you can use as little or as much as you need. Perhaps you only want to develop some REST APIs using Dinoloop and others with Expressjs. 
 
 ## Motivation
-Typescript (*Javascript now*) supports object oriented programming, these features are great with SOLID design principles. Dinoloop is a tool that helps node developers to write Restful APIs with SOLID principles similar to JAVA and C# coding skills.
+TypeScript (a superset of Javascript) supports object oriented programming (which pairs great with SOLID design principles). Dinoloop has simple motto - to apply SOLID principles and reuse Java and C# design patterns in Node.js. 
 
 ## Community
-Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our [CONTRIBUTING.md](https://github.com/ParallelTask/dinoloop/blob/master/CONTRIBUTING.md)
-
 Join the dinoloop general discussion on [Gitter](https://gitter.im/dinoloop/Lobby).
 
 ## License

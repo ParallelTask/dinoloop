@@ -16,7 +16,7 @@ export class Dino implements IDino {
      * app - ExpressApp
      * , baseUri - application mounted path
      */
-    constructor(app: Express, baseUri: string) {
+    constructor(app: any, baseUri: string) {
         this.appContainer = AppContainer.create(app);
         this.appContainer.baseUri = baseUri;
         this.appContainer.routeNotFoundMiddleware = RouteNotFoundMiddleware;
@@ -117,8 +117,12 @@ export class Dino implements IDino {
      * @Throws Error(Errors.baseUriInvalid)
      */
     bind(): void {
-        if (this.isBinded) throw new Error(Errors.dinoAlreadyBinded);
-        if (DataUtility.isUndefinedOrNull(this.appContainer.baseUri)) throw new Error(Errors.baseUriInvalid);
+        if (this.isBinded) {
+            throw new Error(Errors.dinoAlreadyBinded);
+        }
+        if (DataUtility.isUndefinedOrNull(this.appContainer.baseUri)) {
+            throw new Error(Errors.baseUriInvalid);
+        }
         if (DataUtility.isUndefinedOrNull(this.appContainer.useRouter)) {
             throw new Error(Errors.routerNotRegistered);
         }
