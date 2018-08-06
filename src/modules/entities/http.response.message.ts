@@ -1,7 +1,7 @@
 import { HttpStatusCode } from '../constants';
 
 /**
- * Allows to respond to client with HttpStatusCode and Content
+ * Responds to client with HttpStatusCode and Content
  */
 export class HttpResponseMessage<T> {
     statusCode: HttpStatusCode;
