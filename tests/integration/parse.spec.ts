@@ -11,7 +11,7 @@ import {
     toNumber,
     toBoolean,
     request
-} from '../index';
+} from './index';
 
 @Controller('/testcontroller')
 class TestControllerFake extends ApiController {
