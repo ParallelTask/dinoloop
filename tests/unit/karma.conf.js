@@ -13,8 +13,7 @@ module.exports = function (config) {
         },
         files: [
             "src/**/*.ts",
-            "tests/*.ts",
-            "tests/fakes/*.ts",
+            "tests/index.ts",
             "tests/unit/**/*.ts"
         ],
         preprocessors: {

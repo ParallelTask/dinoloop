@@ -64,18 +64,18 @@ export class DinoController implements IDinoController {
 
         // if request has http-body then ignore first param
         // since it is handled by .handleHttpBody()
-        const params = HttpUtility.hasBody(attr.httpVerb) ?
+        const parseParams = HttpUtility.hasBody(attr.httpVerb) ?
             attr.actionArguments.filter(x => x.paramIndex !== 0) :
             attr.actionArguments;
 
-        for (const arg of params) {
+        for (const param of parseParams) {
             for (const value of values) {
-                if (arg.key === value.key) {
-                    value.value = arg.handler({
-                        action: arg.action,
-                        controller: arg.controller,
-                        key: arg.key,
-                        data: arg.data,
+                if (param.key === value.key) {
+                    value.value = param.handler({
+                        action: param.action,
+                        controller: param.controller,
+                        key: param.key,
+                        data: param.data,
                         value: value.value
                     }, this.controller.model);
                 }
@@ -95,14 +95,20 @@ export class DinoController implements IDinoController {
             let arg =
                 attr.actionArguments
                     .filter(x => x.paramIndex === 0)[0];
-            values[0] = { key: arg.key };
-            values[0].value = arg.handler({
-                action: arg.action,
-                controller: arg.controller,
-                key: arg.key,
-                data: arg.data,
-                value: this.controller.request.body
-            }, this.controller.model);
+            if (DataUtility.isUndefined(arg)) {
+                values[0] = {
+                    value: this.controller.request.body
+                };
+            } else {
+                values[0] = { key: arg.key };
+                values[0].value = arg.handler({
+                    action: arg.action,
+                    controller: arg.controller,
+                    key: arg.key,
+                    data: arg.data,
+                    value: this.controller.request.body
+                }, this.controller.model);
+            }
         }
     }
 
