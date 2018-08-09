@@ -21,7 +21,10 @@ describe('modules.builtin.middlewares.parse.exception.middleware.spec', () => {
         let err = new ActionParamException('a', 'b', 'c', 'd');
         new ActionParamExceptionMiddleware()
             .invoke(err, null, res, next);
-        expect(responseResult).toBe(`Value: ${err.value}, Message: ${err.message}`);
+        expect(responseResult).toEqual({
+            value: err.value,
+            message: err.message
+        });
         expect(statusCode).toBe(HttpStatusCode.badRequest);
         expect(invoked).toBeFalsy();
     });

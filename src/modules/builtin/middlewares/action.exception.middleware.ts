@@ -11,7 +11,10 @@ export class ActionParamExceptionMiddleware extends ErrorMiddleware {
             let ex: ActionParamException = err;
             response
                 .status(HttpStatusCode.badRequest)
-                .json(`Value: ${ex.value}, Message: ${ex.message}`);
+                .json({
+                    value: ex.value,
+                    message: ex.message
+                });
         } else {
             next(err);
         }
