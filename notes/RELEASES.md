@@ -10,3 +10,5 @@
 7. Interceptors support using @InterceptBy.
 8. **enableUserIdentity()** for specific types.
 9. @Catch decorator for error middlewares.
+10. throw new BadRequestException() ..
+11. return Ok(), NotFound() as responses .. 

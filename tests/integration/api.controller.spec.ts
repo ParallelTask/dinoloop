@@ -8,7 +8,9 @@ import {
     HttpGet,
     SendsResponse,
     RequestEndMiddleware,
-    ErrorMiddleware
+    ErrorMiddleware,
+    Injectable,
+    ReflectiveInjector
 } from './index';
 import { initializeTests } from './init';
 
@@ -30,6 +32,25 @@ class ErrEnd extends ErrorMiddleware {
         response: Response,
         next: NextFunction): void {
         response.status(500).json({ data: err.message });
+    }
+}
+
+@Injectable()
+class TestService {
+    name(): string {
+        return 'TestService';
+    }
+}
+
+@Controller('/test')
+class DIController extends ApiController {
+    constructor(private test: TestService) {
+        super();
+    }
+
+    @HttpGet('/get')
+    get(): any {
+        return { data: this.test.name() };
     }
 }
 
@@ -117,5 +138,21 @@ describe('api.controller.e2e.spec', () => {
             .get(`${baseRoute}/query?id=42`)
             .expect('Content-Type', /json/)
             .expect(200, { data: '42' }, done);
+    });
+    it('dependencyResolver.verify_dependency_injection', done => {
+        const x = initializeTests();
+        const app = x.app;
+        const dino = x.dino;
+        dino.registerController(DIController);
+        const injector = ReflectiveInjector.resolveAndCreate([
+            { provide: DIController, useClass: DIController },
+            { provide: TestService, useClass: TestService }
+        ]);
+        dino.dependencyResolver(injector, (i, type) => i.get(type));
+        dino.bind();
+        request(app)
+            .get(`${baseRoute}/get`)
+            .expect('Content-Type', /json/)
+            .expect(200, { data: 'TestService' }, done);
     });
 });

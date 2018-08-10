@@ -102,6 +102,18 @@ describe('attributes.e2e.spec', () => {
             // Refer modules.builtin.middlewares.RouteExceptionMiddleware
             .expect(404, '"Cannot POST /api/test/get"', done);
     });
+    it('In_/getDummy_endpoint_not_defined_returns_404', done => {
+        const x = initializeTests();
+        const app = x.app;
+        const dino = x.dino;
+        register(dino);
+        request(app)
+            .get(`${baseRoute}/getDummy`)
+            .expect('Content-Type', /json/)
+            // Format for 404: 
+            // Refer modules.builtin.middlewares.RouteExceptionMiddleware
+            .expect(404, '"Cannot GET /api/test/getDummy"', done);
+    });
     it('In_/getWithoutData_data_not_returned_$Get_returns_204', done => {
         const x = initializeTests();
         const app = x.app;

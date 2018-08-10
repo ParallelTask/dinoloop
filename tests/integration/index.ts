@@ -7,5 +7,6 @@ import express = require('express');
 import bodyParser = require('body-parser');
 // tslint:disable: no-implicit-dependencies no-require-imports
 import request = require('supertest');
+import { Injectable, ReflectiveInjector } from 'injection-js';
 
-export { bodyParser, request, express };
+export { bodyParser, request, express, Injectable, ReflectiveInjector };
