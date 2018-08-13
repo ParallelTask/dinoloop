@@ -18,10 +18,7 @@ describe('modules.builtin.middlewares.http.exception.middleware.spec', () => {
             },
             json: data => responseResult = data
         };
-        let err = new HttpResponseException({
-            statusCode: HttpStatusCode.badRequest,
-            content: { data: 'test_data' }
-        });
+        let err = new HttpResponseException(HttpStatusCode.badRequest, { data: 'test_data' });
         new HttpResponseExceptionMiddleware()
             .invoke(err, null, res, next);
         expect(responseResult).toBe(err.content);

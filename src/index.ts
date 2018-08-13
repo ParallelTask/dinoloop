@@ -4,6 +4,7 @@
 export * from './api/attributes';
 export { Dino } from './api/dino';
 export * from './modules/builtin/exceptions/exceptions';
+export * from './modules/builtin/http_response/http.response';
 export * from './modules/builtin/parse_handlers/handlers';
 export * from './modules/builtin/providers/user.identity';
 export * from './modules/constants/http.status.code';
