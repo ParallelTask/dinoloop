@@ -18,10 +18,8 @@ describe('modules.builtin.middlewares.http.response.middleware.spec', () => {
             },
             json: data => responseResult = data
         };
-        let result = new HttpResponseMessage({
-            statusCode: HttpStatusCode.oK,
-            content: { data: 'test_data' }
-        });
+        let result = new HttpResponseMessage(HttpStatusCode.oK,
+            { data: 'test_data' });
         new HttpResponseMessageMiddleware()
             .invoke({}, res, next, result);
         expect(responseResult).toBe(result.content);
@@ -41,9 +39,7 @@ describe('modules.builtin.middlewares.http.response.middleware.spec', () => {
             },
             json: data => responseResult = data
         };
-        let result = new HttpResponseMessage({
-            statusCode: HttpStatusCode.noContent
-        });
+        let result = new HttpResponseMessage(HttpStatusCode.noContent);
         new HttpResponseMessageMiddleware()
             .invoke({}, res, next, result);
         expect(responseResult).toBe(undefined);

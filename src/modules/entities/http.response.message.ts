@@ -1,16 +1,13 @@
 import { HttpStatusCode } from '../constants';
 
 /**
- * Responds to client with HttpStatusCode and Content
+ * Creates HttpResponseMessage with the specified status code and value
  */
 export class HttpResponseMessage<T> {
     statusCode: HttpStatusCode;
     content: T;
 
-    constructor(
-        { statusCode = HttpStatusCode.oK, content = undefined }:
-            { statusCode?: HttpStatusCode, content?: T }
-            = { statusCode: HttpStatusCode.oK, content: undefined }) {
+    constructor(statusCode: HttpStatusCode, content?: T) {
         this.statusCode = statusCode;
         this.content = content;
     }

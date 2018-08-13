@@ -62,7 +62,7 @@ export class RouteNotFoundException extends CustomException {
 }
 
 /**
- * @Parse invokes ActionParamException for invalid values
+ * Passing Invalid values for action parameter invokes this exception
  */
 export class ActionParamException extends CustomException {
     value: any;
@@ -87,20 +87,98 @@ export class ActionParamException extends CustomException {
             ? ActionParamException.name : msg;
     }
 }
+
 /**
- * An Exception that allows to respond to client with HttpStatusCode
+ * Creates HttpResponseException with the specified status code and value
  */
 export class HttpResponseException<T> extends CustomException {
     statusCode: HttpStatusCode;
     content: T;
 
-    constructor(
-        { statusCode = HttpStatusCode.internalServerError, content = undefined }:
-            { statusCode?: HttpStatusCode, content?: T }
-            = { statusCode: HttpStatusCode.internalServerError, content: undefined }) {
+    constructor(statusCode: HttpStatusCode, content?: T) {
         super(HttpResponseException.name);
         this.statusCode = statusCode;
         this.content = content;
         this.type = HttpResponseException.name;
+    }
+}
+
+/**
+ * Creates HttpResponseException with HttpStatusCode.badRequest (400)
+ */
+export class BadRequestException<T> extends HttpResponseException<T> {
+    constructor(content?: T) {
+        super(HttpStatusCode.badRequest, content);
+        this.type = BadRequestException.name;
+    }
+}
+
+/**
+ * Creates HttpResponseException with HttpStatusCode.unauthorized (401)
+ */
+export class UnauthorizedException<T> extends HttpResponseException<T> {
+    constructor(content?: T) {
+        super(HttpStatusCode.unauthorized, content);
+        this.type = UnauthorizedException.name;
+    }
+}
+
+/**
+ * Creates HttpResponseException with HttpStatusCode.forbidden (403)
+ */
+export class ForbiddenException<T> extends HttpResponseException<T> {
+    constructor(content?: T) {
+        super(HttpStatusCode.forbidden, content);
+        this.type = ForbiddenException.name;
+    }
+}
+
+/**
+ * Creates HttpResponseException with HttpStatusCode.notFound (404)
+ */
+export class NotFoundException<T> extends HttpResponseException<T> {
+    constructor(content?: T) {
+        super(HttpStatusCode.notFound, content);
+        this.type = NotFoundException.name;
+    }
+}
+
+/**
+ * Creates HttpResponseException with HttpStatusCode.internalServerError (500)
+ */
+export class InternalServerErrorException<T> extends HttpResponseException<T> {
+    constructor(content?: T) {
+        super(HttpStatusCode.internalServerError, content);
+        this.type = InternalServerErrorException.name;
+    }
+}
+
+/**
+ * Creates HttpResponseException with HttpStatusCode.notImplemented (501)
+ */
+export class NotImplementedException<T> extends HttpResponseException<T> {
+    constructor(content?: T) {
+        super(HttpStatusCode.notImplemented, content);
+        this.type = NotImplementedException.name;
+    }
+}
+
+/**
+ * Creates HttpResponseException with HttpStatusCode.badGateway (502)
+ */
+export class BadGatewayException<T> extends HttpResponseException<T> {
+    constructor(content?: T) {
+        super(HttpStatusCode.badGateway, content);
+        this.type = BadGatewayException.name;
+    }
+}
+
+/**
+ * Creates HttpResponseException with HttpStatusCode.serviceUnavailable (503)
+ */
+export class ServiceUnavailableException<T> extends HttpResponseException<T> {
+    constructor(content?: T) {
+        super(HttpStatusCode.serviceUnavailable, content);
+        this.type = ServiceUnavailableException.name;
     }
 }

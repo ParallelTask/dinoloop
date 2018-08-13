@@ -4,7 +4,15 @@ import {
     InvalidArgumentException,
     ActionParamException,
     HttpResponseException,
-    HttpStatusCode
+    HttpStatusCode,
+    BadRequestException,
+    UnauthorizedException,
+    ForbiddenException,
+    NotFoundException,
+    InternalServerErrorException,
+    NotImplementedException,
+    BadGatewayException,
+    ServiceUnavailableException
 } from '../../../index';
 
 describe('modules.builtin.exceptions.spec', () => {
@@ -68,20 +76,74 @@ describe('modules.builtin.exceptions.spec', () => {
         expect(o.type).toBe(ActionParamException.name);
         expect(o.message).toBe('test');
     });
-    it('HttpResponseException.verify_properties', () => {
-        let o = new HttpResponseException({});
+    it('HttpResponseException.verify_properties_when_statusCode_provided', () => {
+        let o = new HttpResponseException(HttpStatusCode.internalServerError);
         expect(o.statusCode).toBe(HttpStatusCode.internalServerError);
         expect(o.content).toBeUndefined();
         // common for HttpResponseException test cases
         expect(o.type).toBe(HttpResponseException.name);
         expect(o.message).toBe(HttpResponseException.name);
     });
-    it('HttpResponseException.verify_properties_when_statusCode_and_Content_provided', () => {
-        let o = new HttpResponseException({
-            statusCode: HttpStatusCode.badRequest,
-            content: 'test'
-        });
+    it('HttpResponseException.verify_properties_when_statusCode_and_content_provided', () => {
+        let o = new HttpResponseException(HttpStatusCode.badRequest, 'test');
         expect(o.statusCode).toBe(HttpStatusCode.badRequest);
         expect(o.content).toBe('test');
+        expect(o.type).toBe(HttpResponseException.name);
+    });
+    it('BadRequestException.verify_properties_when_content_provided', () => {
+        let o = new BadRequestException('test');
+        expect(o.statusCode).toBe(HttpStatusCode.badRequest);
+        expect(o.content).toBe('test');
+        expect(o.message).toBe(HttpResponseException.name);
+        expect(o.type).toBe(BadRequestException.name);
+    });
+    it('UnauthorizedException.verify_properties_when_content_provided', () => {
+        let o = new UnauthorizedException('test');
+        expect(o.statusCode).toBe(HttpStatusCode.unauthorized);
+        expect(o.content).toBe('test');
+        expect(o.message).toBe(HttpResponseException.name);
+        expect(o.type).toBe(UnauthorizedException.name);
+    });
+    it('ForbiddenException.verify_properties_when_content_provided', () => {
+        let o = new ForbiddenException('test');
+        expect(o.statusCode).toBe(HttpStatusCode.forbidden);
+        expect(o.content).toBe('test');
+        expect(o.message).toBe(HttpResponseException.name);
+        expect(o.type).toBe(ForbiddenException.name);
+    });
+    it('NotFoundException.verify_properties_when_content_provided', () => {
+        let o = new NotFoundException('test');
+        expect(o.statusCode).toBe(HttpStatusCode.notFound);
+        expect(o.content).toBe('test');
+        expect(o.message).toBe(HttpResponseException.name);
+        expect(o.type).toBe(NotFoundException.name);
+    });
+    it('InternalServerErrorException.verify_properties_when_content_provided', () => {
+        let o = new InternalServerErrorException('test');
+        expect(o.statusCode).toBe(HttpStatusCode.internalServerError);
+        expect(o.content).toBe('test');
+        expect(o.message).toBe(HttpResponseException.name);
+        expect(o.type).toBe(InternalServerErrorException.name);
+    });
+    it('NotImplementedException.verify_properties_when_content_provided', () => {
+        let o = new NotImplementedException('test');
+        expect(o.statusCode).toBe(HttpStatusCode.notImplemented);
+        expect(o.content).toBe('test');
+        expect(o.message).toBe(HttpResponseException.name);
+        expect(o.type).toBe(NotImplementedException.name);
+    });
+    it('BadGatewayException.verify_properties_when_content_provided', () => {
+        let o = new BadGatewayException('test');
+        expect(o.statusCode).toBe(HttpStatusCode.badGateway);
+        expect(o.content).toBe('test');
+        expect(o.message).toBe(HttpResponseException.name);
+        expect(o.type).toBe(BadGatewayException.name);
+    });
+    it('ServiceUnavailableException.verify_properties_when_content_provided', () => {
+        let o = new ServiceUnavailableException('test');
+        expect(o.statusCode).toBe(HttpStatusCode.serviceUnavailable);
+        expect(o.content).toBe('test');
+        expect(o.message).toBe(HttpResponseException.name);
+        expect(o.type).toBe(ServiceUnavailableException.name);
     });
 });
