@@ -2,6 +2,9 @@ import {
     ApiController,
     Controller,
     HttpGet,
+    BindNumber,
+    BindBoolean,
+    BindInteger,
     HttpPost,
     Parse,
     Async,
@@ -33,7 +36,7 @@ export class HomeController extends ApiController {
         };
     }
 
-    // converts first argument to number 
+    // converts first argument to number
     // and transforms second argument with jpg extension
     @HttpGet('/withParse/:id/:photo')
     withParse(@Parse(toNumber) id: number, @Parse(toJPG) photo: string): any {
@@ -90,7 +93,7 @@ export class HomeController extends ApiController {
     }
 
     // If the first parameter key is provided in variable segment
-    // dino still injects the http-body into first parameter 
+    // dino still injects the http-body into first parameter
     // and not the variable segment value
     @HttpPost('/pickPost/:user')
     pickPost(@Parse(toUserAdd) user: User): any {
@@ -101,7 +104,7 @@ export class HomeController extends ApiController {
     }
 
     // If the first parameter key is provided in variable segment
-    // dino still injects the http-body into first parameter 
+    // dino still injects the http-body into first parameter
     // and not the variable segment value
     @HttpPost('/pickPostUser/:user')
     pickPostUser(@Parse(toUserAdd) body: User, @Parse(toNumber) user: number): any {
@@ -206,6 +209,30 @@ export class HomeController extends ApiController {
             req: 'Perform GET /queryParam/45?id=32',
             msg:
                 'should map from variable segment. Should return 45'
+        };
+    }
+
+    // GET /bindNumber/75
+    @HttpGet('/bindNumber/:id')
+    bindNumber(@BindNumber() id: number): any {
+        return {
+            id
+        };
+    }
+
+    // GET /bindBoolean/true
+    @HttpGet('/bindBoolean/:id')
+    bindBoolean(@BindBoolean() id: boolean): any {
+        return {
+            id
+        };
+    }
+
+    // GET /bindInteger/85
+    @HttpGet('/bindInteger/:id')
+    bindInteger(@BindInteger() id: number): any {
+        return {
+            id
         };
     }
 }
