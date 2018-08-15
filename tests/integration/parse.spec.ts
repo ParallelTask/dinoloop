@@ -6,6 +6,9 @@ import {
     HttpPost,
     Parse,
     QueryParam,
+    BindBoolean,
+    BindInteger,
+    BindNumber,
     toInteger,
     toNumber,
     toBoolean,
@@ -57,6 +60,18 @@ class TestController extends ApiController {
     }
     @HttpGet('/toNumber/:val')
     toNumber(@Parse(toNumber) val: number): any {
+        return { data: val };
+    }
+    @HttpGet('/bindNumber/:val')
+    bindNumber(@BindNumber() val: number): any {
+        return { data: val };
+    }
+    @HttpGet('/bindBoolean/:val')
+    bindBoolean(@BindBoolean() val: boolean): any {
+        return { data: val };
+    }
+    @HttpGet('/bindInteger/:val')
+    bindInteger(@BindInteger() val: number): any {
         return { data: val };
     }
     // Verify with and without parse
@@ -160,6 +175,36 @@ describe('@Parse.e2e.spec', () => {
             .get(`${baseRoute}/toNumber/-5.5`)
             .expect('Content-Type', /json/)
             .expect(200, { data: -5.5 }, done);
+    });
+    it('BindNumber.parses_number', done => {
+        const x = initializeTests();
+        const app = x.app;
+        const dino = x.dino;
+        register(dino);
+        request(app)
+            .get(`${baseRoute}/bindNumber/75.5`)
+            .expect('Content-Type', /json/)
+            .expect(200, { data: 75.5 }, done);
+    });
+    it('BindBoolean.parses_boolean', done => {
+        const x = initializeTests();
+        const app = x.app;
+        const dino = x.dino;
+        register(dino);
+        request(app)
+            .get(`${baseRoute}/bindBoolean/true`)
+            .expect('Content-Type', /json/)
+            .expect(200, { data: true }, done);
+    });
+    it('BindInteger.parses_integer', done => {
+        const x = initializeTests();
+        const app = x.app;
+        const dino = x.dino;
+        register(dino);
+        request(app)
+            .get(`${baseRoute}/toInteger/85`)
+            .expect('Content-Type', /json/)
+            .expect(200, { data: 85 }, done);
     });
     it('parse.when_pathParam_and_querystring_are_same_has_no_@QueryParam_injects_pathParam',
         done => {
