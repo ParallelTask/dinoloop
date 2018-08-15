@@ -1,7 +1,8 @@
 import {
     HttpStatusCode,
     ActionParamExceptionMiddleware,
-    ActionParamException
+    ActionParamException,
+    ActionParamExceptionCode
 } from '../../../index';
 
 describe('modules.builtin.middlewares.parse.exception.middleware.spec', () => {
@@ -18,7 +19,7 @@ describe('modules.builtin.middlewares.parse.exception.middleware.spec', () => {
             },
             json: data => responseResult = data
         };
-        let err = new ActionParamException('a', 'b', 'c', 'd');
+        let err = new ActionParamException('a', 'b', 'c', 'd', ActionParamExceptionCode.boolean);
         new ActionParamExceptionMiddleware()
             .invoke(err, null, res, next);
         expect(responseResult).toEqual({

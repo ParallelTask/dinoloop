@@ -12,7 +12,15 @@ import {
     Controller,
     Parse,
     QueryParam,
-    toValue
+    toValue,
+    toNumber,
+    toBoolean,
+    toInteger,
+    toRegExp,
+    BindNumber,
+    BindBoolean,
+    BindInteger,
+    BindRegExp
 } from '../../index';
 
 describe('api.attributes.spec', () => {
@@ -70,6 +78,46 @@ describe('api.attributes.spec', () => {
                 expect(isQueryParam).toBeTruthy();
             });
         QueryParam(testHandler, testData);
+        expect(AttributeMetadata.parse).toHaveBeenCalledTimes(1);
+    });
+    it('BindNumber.invoke_AttributeMetadata.parse(toNumber)', () => {
+        spyOn(AttributeMetadata, 'parse')
+            .and.callFake((cb, data, isQueryParam) => {
+                expect(cb).toBe(toNumber);
+                expect(data).toBe(undefined);
+                expect(isQueryParam).toBeFalsy();
+            });
+        BindNumber();
+        expect(AttributeMetadata.parse).toHaveBeenCalledTimes(1);
+    });
+    it('BindBoolean.invoke_AttributeMetadata.parse(toBoolean)', () => {
+        spyOn(AttributeMetadata, 'parse')
+            .and.callFake((cb, data, isQueryParam) => {
+                expect(cb).toBe(toBoolean);
+                expect(data).toBe(undefined);
+                expect(isQueryParam).toBeFalsy();
+            });
+        BindBoolean();
+        expect(AttributeMetadata.parse).toHaveBeenCalledTimes(1);
+    });
+    it('BindInteger.invoke_AttributeMetadata.parse(toInteger)', () => {
+        spyOn(AttributeMetadata, 'parse')
+            .and.callFake((cb, data, isQueryParam) => {
+                expect(cb).toBe(toInteger);
+                expect(data).toBe(undefined);
+                expect(isQueryParam).toBeFalsy();
+            });
+        BindInteger();
+        expect(AttributeMetadata.parse).toHaveBeenCalledTimes(1);
+    });
+    it('BindRegExp.invoke_AttributeMetadata.parse(toRegExp)', () => {
+        spyOn(AttributeMetadata, 'parse')
+            .and.callFake((cb, data, isQueryParam) => {
+                expect(cb).toBe(toRegExp);
+                expect(data).toEqual(/s/);
+                expect(isQueryParam).toBeFalsy();
+            });
+        BindRegExp(/s/);
         expect(AttributeMetadata.parse).toHaveBeenCalledTimes(1);
     });
     it('SendsResponse.invoke_AttributeMetadata.sendsResponse_exact_once', () => {

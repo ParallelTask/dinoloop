@@ -9,6 +9,7 @@ import {
     BindBoolean,
     BindInteger,
     BindNumber,
+    BindRegExp,
     toInteger,
     toNumber,
     toBoolean,
@@ -74,6 +75,10 @@ class TestController extends ApiController {
     bindInteger(@BindInteger() val: number): any {
         return { data: val };
     }
+    @HttpGet('/bindRegexp/:val')
+    bindRegExp(@BindRegExp(/^[0-9]+$/) val: string): any {
+        return { data: val };
+    }
     // Verify with and without parse
     @HttpGet('/user/:id/:user/:old')
     userImg(
@@ -123,7 +128,7 @@ class TestController extends ApiController {
     }
 }
 
-describe('@Parse.e2e.spec', () => {
+describe('parse.e2e.spec', () => {
     const baseRoute = '/api/test';
 
     function register(dino: Dino): void {
@@ -202,9 +207,19 @@ describe('@Parse.e2e.spec', () => {
         const dino = x.dino;
         register(dino);
         request(app)
-            .get(`${baseRoute}/toInteger/85`)
+            .get(`${baseRoute}/bindInteger/85`)
             .expect('Content-Type', /json/)
             .expect(200, { data: 85 }, done);
+    });
+    it('BindRegexp.parses_against_regexp', done => {
+        const x = initializeTests();
+        const app = x.app;
+        const dino = x.dino;
+        register(dino);
+        request(app)
+            .get(`${baseRoute}/bindRegexp/85`)
+            .expect('Content-Type', /json/)
+            .expect(200, { data: '85' }, done);
     });
     it('parse.when_pathParam_and_querystring_are_same_has_no_@QueryParam_injects_pathParam',
         done => {

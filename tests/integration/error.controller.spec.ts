@@ -16,13 +16,11 @@ const testErr = 'TestError';
 @Controller('/test')
 class TestController extends ApiController {
 
-    // GET ?id=32
     @HttpGet('/get')
     query(): any {
         throw new Error(testErr);
     }
 
-    // GET ?id=32
     @HttpGet('/next')
     nextErr(): any {
         throw new Error(nextError);

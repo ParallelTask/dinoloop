@@ -1,6 +1,7 @@
 import { CustomException } from '../../exception';
 import { DataUtility } from '../../utility';
 import { HttpStatusCode } from '../../constants';
+import { ActionParamExceptionCode } from '../parse_handlers';
 
 /**
  * Passing Invalid values for arguments invokes this exception
@@ -69,12 +70,14 @@ export class ActionParamException extends CustomException {
     key: string;
     action: string;
     controller: string;
+    exceptionCode: ActionParamExceptionCode;
 
     constructor(
         value: any,
         key: string,
         action: string,
         controller: string,
+        exceptionCode: ActionParamExceptionCode,
         msg?: string) {
 
         super(msg);
@@ -83,6 +86,7 @@ export class ActionParamException extends CustomException {
         this.action = action;
         this.controller = controller;
         this.type = ActionParamException.name;
+        this.exceptionCode = exceptionCode;
         this.message = DataUtility.isEmpty(msg)
             ? ActionParamException.name : msg;
     }

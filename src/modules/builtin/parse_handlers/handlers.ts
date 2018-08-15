@@ -1,7 +1,7 @@
 import { IParseHandler, IParseProps } from '../../types';
 import { DataUtility } from '../../utility';
 import { ActionParamException } from '../exceptions';
-import { HandlerConstants } from './constants';
+import { HandlerConstants, ActionParamExceptionCode } from './constants';
 
 /**
  * Converts the parameter to integer
@@ -16,6 +16,7 @@ export const toInteger: IParseHandler = (props: IParseProps) => {
             props.key,
             props.action,
             props.controller.constructor.name,
+            ActionParamExceptionCode.integer,
             HandlerConstants.toInteger
         );
     }
@@ -36,6 +37,7 @@ export const toNumber: IParseHandler = (props: IParseProps) => {
             props.key,
             props.action,
             props.controller.constructor.name,
+            ActionParamExceptionCode.number,
             HandlerConstants.toNumber
         );
     }
@@ -56,6 +58,7 @@ export const toBoolean: IParseHandler = (props: IParseProps) => {
             props.key,
             props.action,
             props.controller.constructor.name,
+            ActionParamExceptionCode.boolean,
             HandlerConstants.toBoolean
         );
     }
@@ -68,4 +71,21 @@ export const toBoolean: IParseHandler = (props: IParseProps) => {
  */
 export const toValue: IParseHandler = (props: IParseProps) => {
     return props.value;
+};
+
+/**
+ * Validates the parameter with RegExp 
+ * @Throws ActionParamException
+ */
+export const toRegExp: IParseHandler = (props: IParseProps) => {
+    const regex: RegExp = props.data;
+    if (regex.test(props.value)) return props.value;
+    throw new ActionParamException(
+        props.value,
+        props.key,
+        props.action,
+        props.controller.constructor.name,
+        ActionParamExceptionCode.regexp,
+        `${HandlerConstants.toRegExp} ${props.data}`
+    );
 };

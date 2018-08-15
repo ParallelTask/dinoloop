@@ -1,7 +1,13 @@
 import { IControllerAttribute, IParseHandler } from '../modules/types';
 import { AttributeMetadata } from '../modules/metadata';
 import { DataUtility } from '../modules/utility';
-import { toValue, toNumber, toBoolean, toInteger } from '../modules/builtin/parse_handlers';
+import {
+    toValue,
+    toNumber,
+    toBoolean,
+    toInteger,
+    toRegExp
+} from '../modules/builtin/parse_handlers';
 
 /**
  * Decorate on Action Parameters to validate and transform the values
@@ -22,19 +28,36 @@ export function QueryParam(cb?: IParseHandler, data?: any)
         DataUtility.isUndefined(cb) ? toValue : cb, data, true);
 }
 
+/**
+ * Decorate on Action Parameters to transform values to Number
+ */
 export function BindNumber()
     : (target: any, propertyKey: string, parameterIndex: number) => void {
     return AttributeMetadata.parse(toNumber, undefined, false);
 }
 
+/**
+ * Decorate on Action Parameters to transform values to Boolean
+ */
 export function BindBoolean()
     : (target: any, propertyKey: string, parameterIndex: number) => void {
     return AttributeMetadata.parse(toBoolean, undefined, false);
 }
 
+/**
+ * Decorate on Action Parameters to transform values to Integer
+ */
 export function BindInteger()
     : (target: any, propertyKey: string, parameterIndex: number) => void {
     return AttributeMetadata.parse(toInteger, undefined, false);
+}
+
+/**
+ * Decorate on Action Parameters to validate against RegExp
+ */
+export function BindRegExp(regex: RegExp)
+    : (target: any, propertyKey: string, parameterIndex: number) => void {
+    return AttributeMetadata.parse(toRegExp, regex, false);
 }
 
 // if an API action wants to send response on its own, decorate @SendsResponse()
