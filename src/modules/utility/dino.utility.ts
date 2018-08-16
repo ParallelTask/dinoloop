@@ -102,4 +102,20 @@ export abstract class DinoUtility {
     static isApiController(type: Function): boolean {
         return ObjectUtility.create(type.prototype) instanceof ApiController;
     }
+
+    static getControllerProperties(controller: ApiController): string[] {
+        let base = controller;
+        let props: string[] = [];
+
+        while (true) {
+            base = ObjectUtility.getPrototypeOf(base);
+            if (ObjectUtility.create(base) instanceof ApiController) {
+                for (const val of ObjectUtility.getOwnPropertyNames(base)) {
+                    if (val !== 'constructor') props.push(val);
+                }
+            } else break;
+        }
+
+        return props;
+    }
 }
