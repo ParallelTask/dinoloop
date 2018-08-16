@@ -38,6 +38,13 @@ export abstract class ObjectUtility {
         return Object.getPrototypeOf(obj);
     }
 
+    /**
+     * Works exactly => Object.getOwnPropertyNames(obj)
+     */
+    static getOwnPropertyNames(obj: any): any {
+        return Object.getOwnPropertyNames(obj);
+    }
+
     static replaceObjectReferences(obj: any, objToReplace: any, className: Function): any {
 
         if (DataUtility.isUndefinedOrNull(obj) || DataUtility.isString(obj)) return obj;

@@ -23,6 +23,11 @@ describe('modules.utility.object.utility.spec', () => {
         ObjectUtility.getPrototypeOf({ name: 'test' });
         expect(Object.getPrototypeOf).toHaveBeenCalledTimes(1);
     });
+    it('getOwnPropertyNames.invoke_Object.getOwnPropertyNames', () => {
+        spyOn(Object, 'getOwnPropertyNames').and.callFake(o => expect(o).toEqual({ name: 'test' }));
+        ObjectUtility.getOwnPropertyNames({ name: 'test' });
+        expect(Object.getOwnPropertyNames).toHaveBeenCalledTimes(1);
+    });
     it('changeObjectReferences.return_null_when_value_is_null', () => {
         expect(ObjectUtility.replaceObjectReferences(null, {}, String)).toBeNull();
     });

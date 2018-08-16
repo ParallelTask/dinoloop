@@ -354,6 +354,7 @@ describe('modules.core.dino.container.two.spec', () => {
         spyOn(ObjectUtility, 'create').and.callFake(() => { });
         spyOn(Reflector, 'hasMetadata').and.callFake(() => true);
         spyOn(DinoRouter, 'create').and.callFake(() => dinoRouter);
+        spyOn(DinoUtility, 'getControllerProperties').and.callFake(() => []);
 
         let dinoContainer = new DinoContainer(config);
         spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(() => meta);
@@ -413,6 +414,7 @@ describe('modules.core.dino.container.two.spec', () => {
         spyOn(DinoRouter, 'create').and.callFake(() => dinoRouter);
         spyOn(DIContainer, 'create').and.callFake(() => undefined);
         spyOn(RouteTable, 'create').and.callFake(() => fakeRouteTable);
+        spyOn(DinoUtility, 'getControllerProperties').and.callFake(() => ['test']);
 
         let dinoContainer = new DinoContainer(config);
         spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(() => meta);
@@ -480,6 +482,7 @@ describe('modules.core.dino.container.two.spec', () => {
         spyOn(DinoRouter, 'create').and.callFake(() => dinoRouter);
         spyOn(DIContainer, 'create').and.callFake(() => undefined);
         spyOn(RouteTable, 'create').and.callFake(() => fakeRouteTable);
+        spyOn(DinoUtility, 'getControllerProperties').and.callFake(() => ['test']);
 
         let dinoContainer = new DinoContainer(config);
         spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(() => meta);
@@ -549,6 +552,7 @@ describe('modules.core.dino.container.two.spec', () => {
         });
         spyOn(Reflector, 'hasMetadata').and.callFake(() => true);
         spyOn(DinoRouter, 'create').and.callFake(() => dinoRouter);
+        spyOn(DinoUtility, 'getControllerProperties').and.callFake(() => ['test']);
 
         let dinoContainer = new DinoContainer(config);
         spyOn(dinoContainer, 'populateControllerMiddlewares').and.callFake(() => meta);

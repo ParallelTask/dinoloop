@@ -1,4 +1,4 @@
-import { DinoUtility } from '../../index';
+import { DinoUtility, ApiController } from '../../index';
 import {
     MiddlewareFake,
     MiddlewareAsyncFake,
@@ -26,9 +26,8 @@ describe('modules.utility.dino.utility.spec', () => {
     it('isSyncMiddleWare.throws_TypeError_when_null', () => {
         expect(() => DinoUtility.isSyncMiddleWare(null)).toThrowError(TypeError);
     });
-    it('isSyncMiddleWare.return_false_when_function', () => {
-        let result = DinoUtility.isSyncMiddleWare(() => 45);
-        expect(result).toBeFalsy();
+    it('isSyncMiddleWare.throws_TypeError_when_function', () => {
+        expect(() => DinoUtility.isSyncMiddleWare(() => 45)).toThrowError(TypeError);
     });
     it('isSyncMiddleWare.return_false_when_Func', () => {
         let result = DinoUtility.isSyncMiddleWare(String);
@@ -170,5 +169,23 @@ describe('modules.utility.dino.utility.spec', () => {
     it('isApiController.return_false_when_MiddlewareFake', () => {
         let result = DinoUtility.isApiController(MiddlewareFake);
         expect(result).toBeFalsy();
+    });
+    it('getControllerProperties.return_properties_when_ApiController', () => {
+        class Test extends ApiController {
+            get(): void { }
+        }
+        let result = DinoUtility.getControllerProperties(new Test());
+        expect(result).toEqual(['get']);
+    });
+    it('getControllerProperties.return_[]_when_not_ApiController', () => {
+        class Test {
+            get(): void { }
+        }
+        let result = DinoUtility.getControllerProperties(new Test() as any);
+        expect(result).toEqual([]);
+    });
+    it('getControllerProperties.throws_error_when_null', () => {
+        expect(() => DinoUtility.getControllerProperties(null))
+            .toThrowError(TypeError);
     });
 });

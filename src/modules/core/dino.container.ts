@@ -326,9 +326,11 @@ export class DinoContainer implements IDinoContainer {
             dinoRoute.registerMiddlewares(metadata.middlewares);
             dinoRoute.registerBeginActionFilters(metadata.beforeActionFilters);
 
+            const props = DinoUtility.getControllerProperties(controller);
+
             // loop through all the controller action methods
             // this also includes the inherited base controllers action methods
-            for (let actionName in controller) {
+            for (let actionName of props) {
 
                 // loop through every HttpVerb key i.e. get, post ...
                 ObjectUtility.keys(RouteAttribute).forEach(httpAttribute => {
