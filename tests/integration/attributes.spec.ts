@@ -58,7 +58,7 @@ class TestController extends ApiController {
         setTimeout(() => {
             this.response.status(200)
                 .json({ data: 'SendsResponse' });
-        }, 20);
+        }, 2);
     }
 
     @Async()
@@ -67,7 +67,7 @@ class TestController extends ApiController {
         return await Deferrer.run<any>((res, rej) => {
             setTimeout(() => {
                 res({ data: 'Async' });
-            }, 20);
+            }, 2);
         });
     }
 }

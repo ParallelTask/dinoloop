@@ -12,7 +12,8 @@ import {
     InternalServerErrorException,
     NotImplementedException,
     BadGatewayException,
-    ServiceUnavailableException
+    ServiceUnavailableException,
+    ActionParamExceptionCode
 } from '../../../index';
 
 describe('modules.builtin.exceptions.spec', () => {
@@ -59,20 +60,24 @@ describe('modules.builtin.exceptions.spec', () => {
         expect(o.message).toBe('test');
     });
     it('ActionParamException.verify_properties', () => {
-        let o = new ActionParamException('a', 'b', 'c', 'd');
+        let o = new ActionParamException('a', 'b', 'c', 'd', ActionParamExceptionCode.boolean);
         expect(o.value).toBe('a');
         expect(o.key).toBe('b');
         expect(o.action).toBe('c');
         expect(o.controller).toBe('d');
+        expect(o.exceptionCode).toBe(ActionParamExceptionCode.boolean);
         expect(o.type).toBe(ActionParamException.name);
         expect(o.message).toBe(ActionParamException.name);
     });
     it('ActionParamException.verify_properties_with_msg', () => {
-        let o = new ActionParamException('a', 'b', 'c', 'd', 'test');
+        let o =
+            new ActionParamException('a', 'b', 'c', 'd',
+                ActionParamExceptionCode.boolean, 'test');
         expect(o.value).toBe('a');
         expect(o.key).toBe('b');
         expect(o.action).toBe('c');
         expect(o.controller).toBe('d');
+        expect(o.exceptionCode).toBe(ActionParamExceptionCode.boolean);
         expect(o.type).toBe(ActionParamException.name);
         expect(o.message).toBe('test');
     });

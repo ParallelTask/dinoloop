@@ -62,7 +62,7 @@ class TestController extends ApiController {
     proceedCb(): void {
         setTimeout(() => {
             this.dino.proceed({ data: 'Response_End' });
-        }, 20);
+        }, 2);
     }
 
     @SendsResponse()
@@ -70,7 +70,7 @@ class TestController extends ApiController {
     errCb(): void {
         setTimeout(() => {
             this.dino.throw(new Error('TestError'));
-        }, 20);
+        }, 2);
     }
 
     @SendsResponse()
@@ -78,7 +78,7 @@ class TestController extends ApiController {
     netWithCallback(): void {
         setTimeout(() => {
             return this.next();
-        }, 20);
+        }, 2);
     }
 
     // GET ?id=42

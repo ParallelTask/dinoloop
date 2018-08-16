@@ -6,7 +6,8 @@ import {
     HttpGet,
     HttpResponseMessage,
     HttpStatusCode,
-    RequestEndMiddleware
+    RequestEndMiddleware,
+    Ok
 } from './index';
 import { initializeTests } from './init';
 
@@ -28,6 +29,11 @@ class TestController extends ApiController {
         return new HttpResponseMessage(HttpStatusCode.oK,
             { data: 'JsonResult' });
     }
+
+    @HttpGet('/ok')
+    ok(): any {
+        return Ok({ data: 'OkResult' });
+    }
 }
 
 describe('http.response.e2e.spec', () => {
@@ -47,6 +53,16 @@ describe('http.response.e2e.spec', () => {
             .get(`${baseRoute}/result`)
             .expect('Content-Type', /json/)
             .expect(200, { data: 'JsonResult' }, done);
+    });
+    it('ok.returns_HttpResponseMessage_with_ok', done => {
+        const x = initializeTests();
+        const app = x.app;
+        const dino = x.dino;
+        register(dino);
+        request(app)
+            .get(`${baseRoute}/ok`)
+            .expect('Content-Type', /json/)
+            .expect(200, { data: 'OkResult' }, done);
     });
     it('JsonEnd.custom_request_end_middleware_handles_HttpResponseMessage', done => {
         const x = initializeTests();

@@ -65,7 +65,7 @@ class RequestStartEndAsync extends RequestStartMiddlewareAsync {
                 response.status(200).json({
                     data: reqStartResponseAsyncTxt
                 });
-            }, 20);
+            }, 2);
         });
     }
 }
@@ -85,7 +85,7 @@ class RequestStartOneAsync extends RequestStartMiddlewareAsync {
                 response.locals.data = [];
                 response.locals.data.push(reqStartOneAsyncTxt);
                 next();
-            }, 20);
+            }, 2);
         });
     }
 }
@@ -103,7 +103,7 @@ class RequestStartTwoAsync extends RequestStartMiddlewareAsync {
             setTimeout(() => {
                 response.locals.data.push(reqStartTwoAsyncTxt);
                 next();
-            }, 20);
+            }, 2);
         });
     }
 }
@@ -121,7 +121,7 @@ class RequestEndDoneAsync extends RequestEndMiddlewareAsync {
             setTimeout(() => {
                 result.push(reqEndDoneAsyncTxt);
                 response.status(200).json(result);
-            }, 20);
+            }, 2);
         });
     }
 }
@@ -139,7 +139,7 @@ class RequestEndOneAsync extends RequestEndMiddlewareAsync {
             setTimeout(() => {
                 result.push(reqEndOneAsyncTxt);
                 next();
-            }, 20);
+            }, 2);
         });
     }
 }
@@ -157,7 +157,7 @@ class RequestEndTwoAsync extends RequestEndMiddlewareAsync {
             setTimeout(() => {
                 result.push(reqEndTwoAsyncTxt);
                 response.status(200).json(result);
-            }, 20);
+            }, 2);
         });
     }
 }
@@ -177,7 +177,7 @@ class ServerErrorEndAsync extends ErrorMiddlewareAsync {
                 response.status(500).json({
                     data: errMsgTxt
                 });
-            }, 20);
+            }, 2);
         });
     }
 }
@@ -199,7 +199,7 @@ class ServerErrorOneAsync extends ErrorMiddlewareAsync {
                 response.locals.data.push(serverErrOneAsyncTxt);
                 response.locals.data.push(err.message);
                 next(err);
-            }, 20);
+            }, 2);
         });
     }
 }
@@ -219,7 +219,7 @@ class ServerErrorTwoAsync extends ErrorMiddlewareAsync {
                 response.locals.data.push(serverErrTwoAsyncTxt);
                 response.locals.data.push(err.message);
                 response.status(500).json(response.locals.data);
-            }, 20);
+            }, 2);
         });
     }
 }

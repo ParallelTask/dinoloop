@@ -29,17 +29,12 @@ export class HomeController extends ApiController {
 
     @HttpGet('/httpException')
     httpException(): void {
-        throw new HttpResponseException<string>({
-            statusCode: HttpStatusCode.internalServerError,
-            content: 'TestContent'
-        });
+        throw new HttpResponseException<string>(HttpStatusCode.internalServerError,
+            'TestContent');
     }
 
     @HttpGet('/httpResponse')
     httpResponse(): HttpResponseMessage<string> {
-        return new HttpResponseMessage<string>({
-            statusCode: HttpStatusCode.oK,
-            content: 'TestData'
-        });
+        return new HttpResponseMessage<string>(HttpStatusCode.oK, 'TestData');
     }
 }

@@ -57,7 +57,7 @@ class TestController extends ApiController {
         };
     }
 }
-describe('@QueryParam.e2e.spec', () => {
+describe('query.param.e2e.spec', () => {
     const baseRoute = '/api/test';
 
     function register(dino: Dino): void {

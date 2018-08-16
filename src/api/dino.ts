@@ -1,5 +1,4 @@
 import { IAppContainer, IDino } from '../modules/interfaces';
-import { Express } from '../modules/types';
 import { DataUtility } from '../modules/utility';
 import { Errors } from '../modules/constants';
 import { RouteNotFoundMiddleware } from '../modules/builtin/middlewares';
