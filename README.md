@@ -2,9 +2,15 @@
 [![npm version](https://img.shields.io/npm/v/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
 [![downloads](https://img.shields.io/npm/dm/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
 [![Known Vulnerabilities](https://snyk.io/test/github/ParallelTask/dinoloop/badge.svg)](https://snyk.io/test/github/ParallelTask/dinoloop)
-# Dinoloop
-[![join chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/dinoloop/Lobby)
 
+### Important
+Repository is active and always will be. Please direct the issues and feature requests to [Github](https://github.com/ParallelTask/dinoloop/issues). Do notify us on [![join chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/dinoloop/Lobby) If you are a beginner/user of dinoloop, we would need your support/suggestions to make it successful.
+
+### Why the commit history is not frequent/latest
+We have developed two mid-scale projects using dinoloop, which covered pretty much the most needed parts of an enterprise application.
+We are still working on to improve/add new features. For any feature requests, goto [Feature Request](https://github.com/ParallelTask/dinoloop/issues).
+
+# Dinoloop
 Dinoloop is a REST API library for building scalable Node.js server-side applications powered by TypeScript. Dinoloop uses [Expressjs](https://expressjs.com/) and has been designed with a simple motto - to reuse similar design patterns of C#/JAVA/OOP minded programmers (OOP practices, SOLID principles and MVC architecture) in Node.js. Dinoloop adds syntactic sugar to Expressjs empowering OOP programmers to easily switch to Node.js without the steep learning curve. 
 
 ## Why Dinoloop?
