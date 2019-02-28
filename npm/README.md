@@ -1,6 +1,5 @@
 [![build status](https://api.travis-ci.org/ParallelTask/dinoloop.svg?branch=master)](https://travis-ci.org/ParallelTask/dinoloop/)
 [![npm version](https://img.shields.io/npm/v/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
-[![dependencies](https://img.shields.io/david/paralleltask/dinoloop.svg)](https://david-dm.org/paralleltask/dinoloop)
 [![downloads](https://img.shields.io/npm/dm/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
 [![Known Vulnerabilities](https://snyk.io/test/github/ParallelTask/dinoloop/badge.svg)](https://snyk.io/test/github/ParallelTask/dinoloop)
 # Dinoloop
