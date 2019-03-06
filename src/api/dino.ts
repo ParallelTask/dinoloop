@@ -1,3 +1,5 @@
+// tslint:disable-next-line:no-implicit-dependencies no-require-imports no-var-requires
+require('source-map-support').install();
 import { IAppContainer, IDino } from '../modules/interfaces';
 import { DataUtility } from '../modules/utility';
 import { Errors } from '../modules/constants';

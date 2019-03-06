@@ -1,6 +1,6 @@
 {
     "name": "dinoloop",
-    "version": "2.0.0",
+    "version": "2.2.0",
     "description": "A lightweight REST API Library for building scalable Node.js server-side applications powered by Typescript",
     "main": "index.js",
     "typings": "index.d.ts",

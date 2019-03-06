@@ -2,13 +2,18 @@
 [![npm version](https://img.shields.io/npm/v/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
 [![downloads](https://img.shields.io/npm/dm/dinoloop.svg)](https://www.npmjs.com/package/dinoloop)
 [![Known Vulnerabilities](https://snyk.io/test/github/ParallelTask/dinoloop/badge.svg)](https://snyk.io/test/github/ParallelTask/dinoloop)
-# Dinoloop
-[![join chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/dinoloop/Lobby)
 
-Dinoloop is a REST API library for building scalable Node.js server-side applications powered by TypeScript. Dinoloop uses [Expressjs](https://expressjs.com/) and has been designed with a simple motto - to reuse similar design patterns of C#/JAVA/OOP minded programmers (OOP practices, SOLID principles and MVC architecture) in Node.js. Dinoloop adds syntactic sugar to Expressjs empowering OOP programmers to easily switch to Node.js without the steep learning curve. 
+### Important
+Please direct the issues and feature requests to [Github](https://github.com/ParallelTask/dinoloop/issues). Do notify us on [![join chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/dinoloop/Lobby) for other queries/questions.
+
+### Projects built using dinoloop
+* [dinache](https://github.com/dinoloop/dinache)
+
+# Dinoloop
+Dinoloop is a REST API library for building scalable Node.js server-side applications powered by TypeScript. Dinoloop uses [Expressjs](https://expressjs.com/) and has been designed with a simple motto - to reuse similar design patterns of C#/JAVA (OOP practices, SOLID principles and MVC architecture) in Node.js. Dinoloop adds syntactic sugar to Expressjs empowering OOP programmers to easily switch to Node.js without the steep learning curve. 
 
 ## Why Dinoloop?
-As a contributor, we welcome you to give it a try (see how it scales). In the same way Expressjs does not abstract you from Node.js, Dinoloop does not abstract you from Expressjs (you have complete access to Node.js and Expressjs). You are free to use/mix the Node.js and Expressjs API in your development. Dinoloop is a library more than a framework. You can develop an entire application in Dinoloop, part of an application, or gradually migrate an existing Expressjs application to Dinoloop. The first principle of Dinoloop is to provide an architecture to developers and not to create a complete bundled framework.
+In the same way express.js does not abstract you from Node.js, Dinoloop does not abstract you from express.js (you have complete access to Node.js and express.js). You are free to use/mix the Node.js and express.js API in your development. Dinoloop is a library more than a framework. You can develop an entire application in Dinoloop, part of an application, or gradually migrate an existing express.js application to Dinoloop. The first principle of Dinoloop is to provide an architecture to developers and not to create a complete bundled framework.
 
 ## Prerequisites
 * Node 8.10.x or higher 
@@ -40,7 +45,7 @@ npm start
 Navigate to [http:localhost:8088/api/home/get](http:localhost:8088/api/home/get) in browser
 
 ## Principles
-Dinoloop has been designed from the start to support gradual adoption so you can use as little or as much Dinoloop as you need. Perhaps you only want to develop some REST APIs using Dinoloop and others with Expressjs. In this section, we show how to create a Dinoloop REST API with an existing or newly created Express app.
+Dinoloop has been designed from the start to support gradual adoption so you can use as little or as much you need. Perhaps you only want to develop some REST APIs using Dinoloop and others with Expressjs. In this section, we show how to create a Dinoloop REST API with an existing or newly created Express app.
 
 #### Step 1: Add HomeController (file: home.controller.ts)
 
@@ -102,11 +107,20 @@ Dinoloop is mounted on `/api` and all of its controller routes/endpoints which a
 * UserIdentity principal across requests. Still an experimental feature. 
 
 ## Documentation
-* Visit the [docs](http://dinoloop.com)
-* Visit on [github](https://github.com/ParallelTask/dinoloop)
+* Visit the [docs](http://dinoloop.com/#/docs/intro)
 
 ## Philosophy 
-Dinoloop lets users freely upgrade/downgrade Expressjs. Installing Dinoloop won't install Expressjs. You can install your own version of Express. All you have to provide is the Express app and router instances to Dinoloop.
+Dinoloop lets users freely upgrade/downgrade Expressjs. Installing Dinoloop won't install Expressjs. You can install your own version of 
+Express. All you have to provide is the Express app and router instances to Dinoloop.
+
+#### Why Expressjs is not bundled as dependency? 
+Dinoloop is an Expressjs library with the core principles centered around being a light-weight and pluggable architecture. We use the same principles of libraries to work with targeted versions. Here is a page that describes [version compatibility](http://dinoloop.com/#/docs/versions).
+
+## Motivation
+Typescript (*Javascript now*) supports object oriented programming, these features are great with SOLID design principles. Dinoloop has simple motto, to apply SOLID principles and reuse similar coding skills of Java and C# in Nodejs.
+
+## Contribute
+Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our [CONTRIBUTING.md](https://github.com/ParallelTask/dinoloop/blob/master/CONTRIBUTING.md)
 
 ## Contact
  Send your queries/questions on [Gitter](https://gitter.im/dinoloop/Lobby).
