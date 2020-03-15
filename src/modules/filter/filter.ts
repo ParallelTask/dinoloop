@@ -1,4 +1,9 @@
-import { Request, Response, NextFunction } from '../types';
+import {
+    Request,
+    Response,
+    NextFunction,
+    IDinoRequestEndProps
+} from '../types';
 
 /**
  * Extend this class to create ServerErrorMiddleware
@@ -44,7 +49,7 @@ export abstract class RequestStartMiddlewareAsync {
  */
 export abstract class RequestEndMiddleware {
     abstract invoke(
-        request: Request, response: Response, next: NextFunction, result: any): void;
+        request: Request, response: Response, next: NextFunction, result: any, props?: IDinoRequestEndProps): void;
 }
 
 /**
@@ -52,7 +57,8 @@ export abstract class RequestEndMiddleware {
  */
 export abstract class RequestEndMiddlewareAsync {
     abstract async invoke(
-        request: Request, response: Response, next: NextFunction, result: any): Promise<void>;
+        request: Request, response: Response, next: NextFunction, result: any, props?: IDinoRequestEndProps)
+        : Promise<void>;
 }
 
 /**

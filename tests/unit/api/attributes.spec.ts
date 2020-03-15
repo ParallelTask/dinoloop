@@ -20,7 +20,8 @@ import {
     BindNumber,
     BindBoolean,
     BindInteger,
-    BindRegExp
+    BindRegExp,
+    Returns
 } from '../../index';
 
 describe('api.attributes.spec', () => {
@@ -189,5 +190,12 @@ describe('api.attributes.spec', () => {
             });
         Controller('test', { use: [String] });
         expect(AttributeMetadata.controller).toHaveBeenCalledTimes(1);
+    });
+    it('Returns.invoke_AttributeMetadata.returns_exact_once', () => {
+        let obj = { hello: 'world' };
+        spyOn(AttributeMetadata, 'returns')
+            .and.callFake(type => expect(type).toBe(obj));
+        Returns(obj);
+        expect(AttributeMetadata.returns).toHaveBeenCalledTimes(1);
     });
 });

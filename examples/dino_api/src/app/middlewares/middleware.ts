@@ -9,7 +9,8 @@ import {
     RequestEndMiddleware,
     ErrorMiddleware,
     RouteNotFoundException,
-    ErrorMiddlewareAsync
+    ErrorMiddlewareAsync,
+    IDinoRequestEndProps
 } from '../../../../index';
 
 @Injectable()
@@ -53,8 +54,11 @@ export class StartMiddlewareTwoAsync extends RequestStartMiddlewareAsync {
 
 @Injectable()
 export class ResponseMiddleware extends RequestEndMiddleware {
-    invoke(request: Request, response: Response, next: NextFunction, result: any): void {
-        response.json(result);
+    invoke(request: Request, response: Response, next: NextFunction, result: any, props?: IDinoRequestEndProps): void {
+        response.json({
+            result: result,
+            resultType: props.returns
+        });
     }
 }
 

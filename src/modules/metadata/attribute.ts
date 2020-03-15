@@ -185,4 +185,11 @@ export abstract class AttributeMetadata {
             Reflector.defineMetadata(Attribute.controller, val, target.prototype);
         };
     }
+
+    static returns = (type: Function | object): (target: any, propertyKey: string) => void => {
+        return (target: any, propertyKey: string): void => {
+            Reflector.defineMetadata(Attribute.returns,
+                type, target.constructor.prototype, propertyKey);
+        };
+    }
 }

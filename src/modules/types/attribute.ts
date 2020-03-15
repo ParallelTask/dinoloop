@@ -51,4 +51,5 @@ export interface IActionMethodAttribute {
     isAsync?: boolean;
     sendsResponse?: boolean;
     actionArguments?: IParseAttribute[];
+    returns?: Function | object;
 }

@@ -20,7 +20,7 @@ export class DinoController implements IDinoController {
     private controller: ApiController;
     private controllerAction: ControllerAction;
 
-    constructor(controller: ApiController,
+    constructor (controller: ApiController,
         controllerAction: ControllerAction) {
         this.controller = controller;
         this.controllerAction = controllerAction;
@@ -155,6 +155,9 @@ export class DinoController implements IDinoController {
             dino.result = result;
             this.controller.next();
         };
+
+        let dino: IDinoProperties = this.controller.dino;
+        dino.returns = this.controllerAction.actionAttributes.returns;
     }
 
     invokeSetUp(actionName: string): IKeyValuePair[] {

@@ -584,10 +584,12 @@ describe('modules.core.dino.container.two.spec', () => {
     });
     it('getActionMethodMetadata.when_Attribute.parse_is_undefined', async () => {
 
+        let returns = { hello: 'world' };
         let config: IDinoContainerConfig = { raiseModelError: true } as any;
 
         spyOn(Reflector, 'getMetadata').and.callFake(ob => {
             if (ob === Attribute.httpGet) return '/route';
+            if (ob === Attribute.returns) return returns;
         });
         spyOn(Reflector, 'hasMetadata').and.callFake(ob => {
             if (ob === Attribute.asyncAttr) return true;
@@ -606,6 +608,7 @@ describe('modules.core.dino.container.two.spec', () => {
         expect(obj.route).toBe('/route');
         expect(obj.httpVerb).toBe(RouteAttribute.httpGet_ActionAttribute);
         expect(obj.actionArguments).toEqual([]);
+        expect(obj.returns).toBe(returns);
     });
     it('getActionMethodMetadata.when_Attribute.parse_is_defined', async () => {
         let config: IDinoContainerConfig = { raiseModelError: true } as any;
@@ -633,5 +636,6 @@ describe('modules.core.dino.container.two.spec', () => {
         expect(obj.route).toBe('/route');
         expect(obj.httpVerb).toBe(RouteAttribute.httpGet_ActionAttribute);
         expect(obj.actionArguments).toBe(testData);
+        expect(obj.returns).toBeUndefined();
     });
 });

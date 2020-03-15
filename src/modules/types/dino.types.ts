@@ -2,9 +2,13 @@ import { IRouterCallBack } from './attribute';
 import { IDIContainer } from '../interfaces';
 import { Express } from './express';
 
-export interface IDinoProperties {
-    context?: any;
+export interface IDinoRequestEndProps {
     result?: any;
+    returns?: any;
+}
+
+export interface IDinoProperties extends IDinoRequestEndProps {
+    context?: any;
     proceed?(result: any): void;
     throw?(err: Error): void;
 }

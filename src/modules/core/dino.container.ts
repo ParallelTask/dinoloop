@@ -54,7 +54,7 @@ export class DinoContainer implements IDinoContainer {
     private enableTaskContext: boolean;
     private useRouterCb: IRouterCallBack;
 
-    constructor(config: IDinoContainerConfig) {
+    constructor (config: IDinoContainerConfig) {
         this.app = config.app;
         this.baseUri = config.baseUri;
         this.enableTaskContext = config.enableTaskContext;
@@ -152,7 +152,7 @@ export class DinoContainer implements IDinoContainer {
                 let mw = this.resolve<RequestEndMiddleware>(
                     middleware,
                     res.locals.dino);
-                mw.invoke(req, res, next, res.locals.dino.result);
+                mw.invoke(req, res, next, res.locals.dino.result, res.locals.dino);
             });
         } else if (DinoUtility.isAsyncRequestEndMiddleware(middleware)) {
             this.app.use(this.baseUri, async (req, res, next) => {
@@ -160,7 +160,7 @@ export class DinoContainer implements IDinoContainer {
                     let mw = this.resolve<RequestEndMiddlewareAsync>(
                         middleware,
                         res.locals.dino);
-                    await mw.invoke(req, res, next, res.locals.dino.result);
+                    await mw.invoke(req, res, next, res.locals.dino.result, res.locals.dino);
                 } catch (err) {
                     next(err);
                 }
@@ -283,6 +283,7 @@ export class DinoContainer implements IDinoContainer {
         let httpVerb: string = RouteAttribute[httpAttribute];
         let isAsync = Reflector.hasMetadata(Attribute.asyncAttr, controller, actionName);
         let sendsResponse = Reflector.hasMetadata(Attribute.sendsResponse, controller, actionName);
+        let returnsAttr: Function | object = Reflector.getMetadata(Attribute.returns, controller, actionName);
         let actionArgs: IParseAttribute[] =
             Reflector.getMetadata(Attribute.parse, controller, actionName);
 
@@ -291,9 +292,10 @@ export class DinoContainer implements IDinoContainer {
             httpVerb: httpVerb,
             isAsync: isAsync,
             sendsResponse: sendsResponse,
+            returns: returnsAttr,
             actionArguments:
                 DataUtility.isUndefinedOrNull(actionArgs) ? [] : actionArgs
-        };
+        } as IActionMethodAttribute;
 
         return obj;
     }
@@ -347,7 +349,7 @@ export class DinoContainer implements IDinoContainer {
                                 let ctx =
                                     this.setUpDinoController(type, action, res);
                                 ctx.patch(req, res, next);
-                                ctx.invokeAsync(actionName);
+                                await ctx.invokeAsync(actionName);
                             });
                         } else {
                             router[action.httpVerb](action.route, (req, res, next) => {

@@ -76,7 +76,11 @@ describe('modules.core.dino.controller.spec', () => {
         let throwInvokedNext = false;
         let proceedInvokedNext = false;
         let obj = {} as ApiController;
-        let ca = {} as ControllerAction;
+        let ca = {
+            actionAttributes: {
+                returns: {}
+            }
+        } as ControllerAction;
         let ctrl = new DinoController(obj, ca);
         let req = {} as any;
         let res = { locals: { dino: { id: 111 } } } as any;

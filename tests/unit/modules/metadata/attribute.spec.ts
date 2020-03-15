@@ -441,4 +441,16 @@ describe('modules.metadata.attributes.spec', () => {
         })(Function, 'test');
         expect(Reflector.defineMetadata).toHaveBeenCalledTimes(1);
     });
+    it('returns.verify_metadata', () => {
+        let obj = { hello: 'world' };
+        spyOn(Reflector, 'defineMetadata').and.callFake(
+            (key, value, target, property) => {
+                expect(key).toBe(Attribute.returns);
+                expect(value).toBe(obj);
+                expect(target).toBe(Function.constructor.prototype);
+                expect(property).toBe('test');
+            });
+        AttributeMetadata.returns(obj)(Function, 'test');
+        expect(Reflector.defineMetadata).toHaveBeenCalledTimes(1);
+    });
 });

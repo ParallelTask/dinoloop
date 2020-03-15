@@ -4,7 +4,8 @@ import {
     HttpGet,
     SendsResponse,
     Async,
-    Deferrer
+    Deferrer,
+    Returns
 } from '../../../../index';
 import { IAboutService } from '../services/about.service';
 import { About } from '../model/about.model';
@@ -14,7 +15,7 @@ export class HomeController extends ApiController {
 
     private name: string;
 
-    constructor(private aboutService: IAboutService) {
+    constructor (private aboutService: IAboutService) {
         super();
         this.name = 'HomeController';
     }
@@ -92,5 +93,21 @@ export class HomeController extends ApiController {
     @HttpGet('/promise-error')
     async getViaPromiseError(): Promise<About[]> {
         return await this.aboutService.getViaPromiseError();
+    }
+
+    // verifies returns attribute
+    @Returns({ schema: '$type' })
+    @HttpGet('/returns')
+    getReturnsData(): string {
+        return 'ReturnsData';
+    }
+
+    @Async()
+    @Returns({ schema: '$asyncType' })
+    @HttpGet('/returnsAsync')
+    async getReturnsAsyncData(): Promise<string> {
+        return await Deferrer.run<string>((resolve, reject) => {
+            setTimeout(() => resolve('ReturnsAsyncData'), 10);
+        });
     }
 }

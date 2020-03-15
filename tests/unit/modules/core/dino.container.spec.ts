@@ -126,7 +126,7 @@ describe('modules.core.dino.container.spec', () => {
         const _next = () => null;
 
         class RoutNotFoundMiddlewareFake extends RequestStartMiddleware {
-            constructor(route: IRouteTable) {
+            constructor (route: IRouteTable) {
                 super();
                 expect(route).toBeNull();
             }
@@ -548,7 +548,10 @@ describe('modules.core.dino.container.spec', () => {
                 }
             }
         } as any;
-        let res = { locals: { dino: 45 } };
+        let requestEndProps = {
+            result: 45
+        };
+        let res = { locals: { dino: requestEndProps } };
         spyOn(DinoUtility, 'isSyncRequestEndMiddleware').and.callFake(() => true);
         spyOn(DIContainer, 'create').and.callFake(() => null);
         spyOn(RouteTable, 'create').and.callFake(() => null);
@@ -562,10 +565,12 @@ describe('modules.core.dino.container.spec', () => {
                 expect(dino).toBe(res.locals.dino);
 
                 return {
-                    invoke: (req, resp, next) => {
+                    invoke: (req, resp, next, result, endProps) => {
                         expect(req).toBe(request);
                         expect(resp).toBe(res);
                         expect(next()).toBe('invoked');
+                        expect(result).toBe(requestEndProps.result);
+                        expect(endProps).toBe(res.locals.dino);
                         invoked = true;
                     }
                 };
@@ -589,7 +594,10 @@ describe('modules.core.dino.container.spec', () => {
                 }
             }
         } as any;
-        let res = { locals: { dino: 45 } };
+        let requestEndProps = {
+            result: 45
+        };
+        let res = { locals: { dino: requestEndProps } };
         spyOn(DinoUtility, 'isSyncRequestEndMiddleware').and.callFake(() => false);
         spyOn(DinoUtility, 'isAsyncRequestEndMiddleware').and.callFake(() => true);
         spyOn(DIContainer, 'create').and.callFake(() => null);
@@ -604,10 +612,12 @@ describe('modules.core.dino.container.spec', () => {
                 expect(dino).toBe(res.locals.dino);
 
                 return {
-                    invoke: (req, resp, next) => {
+                    invoke: (req, resp, next, result, endProps) => {
                         expect(req).toBe(request);
                         expect(resp).toBe(res);
                         expect(next()).toBe('invoked');
+                        expect(result).toBe(requestEndProps.result);
+                        expect(endProps).toBe(res.locals.dino);
                         invoked = true;
                     }
                 };

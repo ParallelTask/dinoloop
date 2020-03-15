@@ -143,3 +143,11 @@ export function HttpAll(route: string | RegExp): (target: any, propertyKey: stri
 export function Controller(prefix: string, attr?: IControllerAttribute): any {
     return AttributeMetadata.controller(prefix, attr);
 }
+
+/**
+ * Decorate on API actions.
+ * Specifies the type of the value returned by the action
+ */
+export function Returns(type: Function | object): any {
+    return AttributeMetadata.returns(type);
+}

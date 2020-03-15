@@ -1,5 +1,5 @@
 // Everywhere else we are referring to export by directory level.
-// However, here export only specific types/files 
+// However, here export only specific types/files
 // because these are consumed by end user
 export * from './api/attributes';
 export { Dino } from './api/dino';
@@ -26,3 +26,4 @@ export {
     ModelError,
     IKeyValuePair
 } from './modules/types/types';
+export { IDinoRequestEndProps } from './modules/types/dino.types';
