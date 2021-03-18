@@ -4,7 +4,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/ParallelTask/dinoloop/badge.svg)](https://snyk.io/test/github/ParallelTask/dinoloop)
 
 ### Important
-Please direct the issues and feature requests to [Github](https://github.com/ParallelTask/dinoloop/issues). Do notify us on [![join chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/dinoloop/Lobby) for other queries/questions.
+Please direct the issues and feature requests to [Github](https://github.com/ParallelTask/dinoloop/issues).
 
 ### Projects built using dinoloop
 * [dinache](https://github.com/dinoloop/dinache)
@@ -107,7 +107,7 @@ Dinoloop is mounted on `/api` and all of its controller routes/endpoints which a
 * UserIdentity principal across requests. Still an experimental feature. 
 
 ## Documentation
-* Visit the [docs](http://dinoloop.com/#/docs/intro)
+* Visit the [docs](https://unpkg.com/dinoloop-docs@0.0.6/index.html)
 
 ## Philosophy 
 Dinoloop lets users freely upgrade/downgrade Expressjs. Installing Dinoloop won't install Expressjs. You can install your own version of 
@@ -121,6 +121,3 @@ Typescript (*Javascript now*) supports object oriented programming, these featur
 
 ## Contribute
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our [CONTRIBUTING.md](https://github.com/ParallelTask/dinoloop/blob/master/CONTRIBUTING.md)
-
-## Contact
- Send your queries/questions on [Gitter](https://gitter.im/dinoloop/Lobby).
