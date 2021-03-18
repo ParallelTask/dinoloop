@@ -1,10 +1,10 @@
 {
     "name": "dinoloop",
-    "version": "2.2.0",
+    "version": "2.4.0",
     "description": "A lightweight REST API Library for building scalable Node.js server-side applications powered by Typescript",
     "main": "index.js",
     "typings": "index.d.ts",
-    "homepage": "http://dinoloop.com",
+    "homepage": "https://github.com/ParallelTask/dinoloop/",
     "bugs": "https://github.com/ParallelTask/dinoloop/issues",
     "author": "Dinoloop Team",
     "license": "MIT",
