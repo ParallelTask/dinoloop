@@ -34,7 +34,7 @@
     ],
     "dependencies": {
         "reflect-metadata": "0.1.12",
-        "path-to-regexp": "2.2.1"
+        "path-to-regexp": "3.3.0"
     },
     "engines": {
         "node": ">= 8.10.x",
